@@ -3,6 +3,10 @@
 
 #include <utility>
 
+//////////////////////////////
+//	Entity
+//////////////////////////////
+
 class Entity
 {
 	public:
@@ -23,10 +27,10 @@ class Entity
 };
 
 
-/*
-/	Live Objects 
-*/
-/*
+//////////////////////////////
+//	Live Objects 
+//////////////////////////////
+
 class Live_Object : public Entity
 {
 	public:
@@ -58,11 +62,12 @@ class Projectile : public Live_Object
 		void update();
 		void read_input();
 		void collision(Entity*);
-};*/
+};
 
-/*
-/	Static Objects	
-*/
+
+//////////////////////////////
+//	Static Objects	
+//////////////////////////////
 
 class Wall : public Entity
 {

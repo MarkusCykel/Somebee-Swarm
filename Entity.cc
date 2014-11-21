@@ -1,8 +1,8 @@
 #include "Entity.h"
 
-/*
-/	Entity
-*/
+//////////////////////////////
+//	Entity
+//////////////////////////////
 
 void Entity::render()
 {
@@ -24,11 +24,10 @@ void Entity::set_alive(bool param)
 	alive_ = param;
 }
 
-/*
-/	Live Object
-*/
+//////////////////////////////
+//	Live Object
+//////////////////////////////
 
-/*
 void Player::update()
 {
 	//do stuff
@@ -75,11 +74,10 @@ void Projectile::collision(Entity* param)
 {
 	//do stuff
 }
-*/
 
-/*
-/	Static Object
-*/
+//////////////////////////////
+//	Static object
+//////////////////////////////
 
 void Wall::update()
 {
