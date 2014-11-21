@@ -27,6 +27,8 @@ void Entity::set_alive(bool param)
 /*
 /	Live Object
 */
+
+/*
 void Player::update()
 {
 	//do stuff
@@ -73,6 +75,7 @@ void Projectile::collision(Entity* param)
 {
 	//do stuff
 }
+*/
 
 /*
 /	Static Object

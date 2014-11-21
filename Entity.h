@@ -26,7 +26,7 @@ class Entity
 /*
 /	Live Objects 
 */
-
+/*
 class Live_Object : public Entity
 {
 	public:
@@ -58,17 +58,11 @@ class Projectile : public Live_Object
 		void update();
 		void read_input();
 		void collision(Entity*);
-};
+};*/
 
 /*
 /	Static Objects	
 */
-
-/*class Static_Object : public Entity
-{
-	public:
-		Static_Object() : 
-};*/
 
 class Wall : public Entity
 {
