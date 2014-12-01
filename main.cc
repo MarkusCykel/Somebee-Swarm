@@ -9,7 +9,7 @@
 #include "LTexture.h"
 
 const int SCREEN_FPS = 60;
-const int SCREEN_TICKS_PER_FRAME = 1000 / SCREEN_FPS;
+const int SCREEN_TICKS_PER_FRAME = 1000 / SCREEN_FPS + 1;
 
 
 int main(int argc, char* argv[])
@@ -44,7 +44,7 @@ int main(int argc, char* argv[])
 		}
 		
 		////////////////////////////////////////////////////////
-		// FPS STUFF
+		// TIMERS AND COUNTERS FOR FPS STUFF
 		//The frames per second timer 
 		Timer fpsTimer; 
 		
@@ -54,11 +54,13 @@ int main(int argc, char* argv[])
 		//Start counting frames per second
 		int countedFrames = 0;
 		fpsTimer.start();
-		// END FPS STUFF
+		//
 		////////////////////////////////////////////////////////
 		
 		while(!quit)
-		{		
+		{
+			capTimer.start();
+			
 			while(SDL_PollEvent(&e) != 0)
 			{
 				if(e.type == SDL_QUIT)
@@ -66,20 +68,7 @@ int main(int argc, char* argv[])
 					quit = true;
 				}
 			}
-			
-			////////////////////////////////////////////////////////
-			// FPS STUFF
-			float avgFPS = countedFrames / ( fpsTimer.getTicks() / 1000.f );
-			if( avgFPS > 2000000 )
-			{
-				avgFPS = 0;
-			}
-			
-			std::cout << std::setw(13) << "Avg (w/cap) " << std::setw(12) << avgFPS;
-
-			++countedFrames;	
-			// END FPS STUFF
-			////////////////////////////////////////////////////////
+		
 			
 			// other stuff
 			player.read_input();
@@ -88,13 +77,27 @@ int main(int argc, char* argv[])
 			std::cout << std::setw(25) << std::right << "x: " << pos.first << " y: " << pos.second << std::endl;
 			
 			////////////////////////////////////////////////////////
-			// FPS STUFF
+			// CALCULATING FPS
+			float avgFPS = countedFrames / ( fpsTimer.getTicks() / 1000.f );
+			if( avgFPS > 2000000 )
+			{
+				avgFPS = 0;
+			}
+			
+			std::cout << std::setw(13) << "Avg (w/cap) " << countedFrames << std::setw(12) << avgFPS;
+
+			++countedFrames;	
+			//
+			////////////////////////////////////////////////////////
+			
+			////////////////////////////////////////////////////////
+			// LIMIT FPS
 			int frameTicks = capTimer.getTicks();
 			if( frameTicks < SCREEN_TICKS_PER_FRAME )
 			{
 				SDL_Delay( SCREEN_TICKS_PER_FRAME - frameTicks );
 			}
-			// END FPS STUFF
+			//
 			////////////////////////////////////////////////////////
 		}
 	}
