@@ -2,6 +2,7 @@
 #define ENTITY_H
 
 #include <utility>
+#include <SDL.h>
 
 //////////////////////////////
 //	Entity
@@ -21,7 +22,7 @@ class Entity
 		bool get_alive();
 		void set_alive(bool);
 		
-	private:
+	protected:
 		std::pair<unsigned,unsigned> position_;
 		bool alive_;
 };
@@ -34,8 +35,9 @@ class Entity
 class Live_Object : public Entity
 {
 	public:
+		Live_Object(std::pair<unsigned,unsigned> param) : Entity(param) {};
 		virtual void read_input() = 0;
-	private:
+	protected:
 		unsigned speed_;
 		float facing_angle_;
 };
@@ -43,6 +45,7 @@ class Live_Object : public Entity
 class Player : public Live_Object
 {
 	public:
+		Player(std::pair<unsigned,unsigned> param) : Live_Object(param) {};
 		void update();
 		void read_input();
 		void collision(Entity*);

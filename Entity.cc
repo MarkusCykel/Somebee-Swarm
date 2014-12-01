@@ -35,7 +35,23 @@ void Player::update()
 
 void Player::read_input()
 {
-	//do stuff
+	const Uint8* currentKeyStates = SDL_GetKeyboardState( NULL );
+	
+	if(currentKeyStates[ SDL_SCANCODE_W ])
+		if(position_.first < 2500)
+			position_.first = position_.first+1;
+		
+	if(currentKeyStates[ SDL_SCANCODE_S ])
+		if(position_.first > 0)
+			position_.first = position_.first-1;
+		
+	if(currentKeyStates[ SDL_SCANCODE_D])
+		if(position_.second < 2500)
+			position_.second = position_.second+1;
+		
+	if(currentKeyStates[ SDL_SCANCODE_A ])
+		if(position_.second > 0)
+			position_.second = position_.second-1;
 }
 
 void Player::collision(Entity* param)
