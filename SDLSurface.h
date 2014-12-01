@@ -1,9 +1,6 @@
 #ifndef SDLSURFACE_H
 #define SDLSURFACE_H
 
-#include <SDL.h>
-#include <iostream>
-
 class SDLSurface
 {
 	public:

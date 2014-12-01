@@ -1,3 +1,5 @@
+#include <SDL.h>
+#include <iostream>
 #include "SDLSurface.h"
 
 void SDLSurface::fill(const unsigned & red, const unsigned & green, const unsigned & blue)

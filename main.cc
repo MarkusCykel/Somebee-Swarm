@@ -1,3 +1,4 @@
+#include <SDL.h>
 #include <iostream>
 #include "SDLWindow.h"
 #include "SDLSurface.h"
@@ -10,7 +11,7 @@ int main(int argc, char* argv[])
 	}
 	else
 	{
-		SDLWindow window{"lol", 500, 500};
+		SDLWindow window{"testing", 500, 500};
 		bool quit{false};
 		int test{0};
 		SDL_Event e;

@@ -1,8 +1,6 @@
 #ifndef SDLWINDOW_H
 #define SDLWINDOW_H
 
-#include <SDL.h>
-#include <iostream>
 #include "SDLSurface.h"
 
 class SDLWindow

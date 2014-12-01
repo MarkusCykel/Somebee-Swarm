@@ -1,3 +1,6 @@
+#include <SDL.h>
+#include <iostream>
+#include "SDLSurface.h"
 #include "SDLWindow.h"
 
 SDLWindow::SDLWindow(char* window_title, const unsigned & window_width, const unsigned & window_height)
