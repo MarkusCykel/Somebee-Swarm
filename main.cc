@@ -2,11 +2,13 @@
 #include <iostream>
 #include <sstream>
 #include <iomanip>
+
+#include "classes.h"
 #include "SDLWindow.h"
 #include "SDLSurface.h"
 #include "Entity.h"
 #include "Timer.h"
-#include "LTexture.h"
+#include "Map.h"
 
 const int SCREEN_FPS = 60;
 const int SCREEN_TICKS_PER_FRAME = 1000 / SCREEN_FPS + 1;
@@ -20,18 +22,9 @@ int main(int argc, char* argv[])
 	}
 	else
 	{
-		// The Window
+		////////////////////////////////////////////////////////
+		// The window and a picture
 		SDLWindow window{"testing", 500, 500};
-		
-		// Main loop Flag
-		bool quit{false};
-		
-		// Event Handler
-		SDL_Event e;
-		
-		// Test entity
-		std::pair<unsigned,unsigned> derp = std::make_pair(0,0);
-		Player player{std::make_pair(0,0)};
 		
 		SDLSurface picture;
 		if(picture.loadBMP("../Somebee-Swarm/instruction.bmp", window.get_format()))
@@ -42,6 +35,26 @@ int main(int argc, char* argv[])
 		{
 			window.blitSurface(picture,500,500);
 		}
+		//
+		////////////////////////////////////////////////////////
+		
+		////////////////////////////////////////////////////////
+		// Stuff that is needed
+		// Quit flag
+		bool quit{false};
+		
+		// Event Handler
+		SDL_Event e;
+		//
+		////////////////////////////////////////////////////////
+		
+		////////////////////////////////////////////////////////
+		// Stuff I'm testing
+		Map map{500,500};
+		map.spawnEntity("PLAYER",250,250);
+		Controller controller;
+		//
+		////////////////////////////////////////////////////////
 		
 		////////////////////////////////////////////////////////
 		// TIMERS AND COUNTERS FOR FPS STUFF
@@ -71,8 +84,12 @@ int main(int argc, char* argv[])
 		
 			
 			// other stuff
-			player.read_input();
-			auto pos = player.get_position();
+			//player.readInput();
+			//auto pos = player.getPosition();
+			map.readInput();
+			map.update();
+			controller.update(map);
+			auto pos = map.getPlayer()->getPosition();
 			
 			std::cout << std::setw(25) << std::right << "x: " << pos.first << " y: " << pos.second << std::endl;
 			

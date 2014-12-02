@@ -1,4 +1,5 @@
 #include "Entity.h"
+#include "Controller.h"
 
 //////////////////////////////
 //	Entity
@@ -9,17 +10,17 @@ void Entity::render()
 	//do something
 }
 
-std::pair<unsigned, unsigned> Entity::get_position()
+std::pair<double, double> Entity::getPosition()
 {
-	return position_;
+	return std::make_pair(posX_,posY_);
 }
 
-bool Entity::get_alive()
+bool Entity::getAlive()
 {
 	return alive_;
 }
 
-void Entity::set_alive(bool param)
+void Entity::setAlive(bool param)
 {
 	alive_ = param;
 }
@@ -27,32 +28,79 @@ void Entity::set_alive(bool param)
 //////////////////////////////
 //	Live Object
 //////////////////////////////
-
-void Player::update()
+void Live_Object::setPosition(double x, double y)
 {
-	//do stuff
+	posX_ = x;
+	posY_ = y;
 }
 
-void Player::read_input()
+std::pair<double, double> Live_Object::getTargetPosition()
+{
+	return std::make_pair(targetPosX_, targetPosY_);
+}
+
+
+void Player::readInput()
 {
 	const Uint8* currentKeyStates = SDL_GetKeyboardState( NULL );
 	
-	if(currentKeyStates[ SDL_SCANCODE_W ])
-		if(position_.first < 2500)
-			position_.first = position_.first+1;
+	if( currentKeyStates[ SDL_SCANCODE_W ] ^ currentKeyStates[ SDL_SCANCODE_S ])
+	{
+		if(currentKeyStates[ SDL_SCANCODE_W ])
+			if(speedX_ < maxSpeedX_)
+			{
+				speedX_ += 0.5;
+				if(speedX_ > maxSpeedX_)
+					speedX_ = maxSpeedX_;
+			}
+			
+		if(currentKeyStates[ SDL_SCANCODE_S ])
+			if(speedX_ > -maxSpeedX_)
+			{
+				speedX_ -= 0.5;
+				if(speedX_ < -maxSpeedX_)
+					speedX_ = -maxSpeedX_;
+			}
+	}
+	else if( speedX_ < 0 )
+		speedX_ += 0.5;
+	else if( speedX_ > 0 )
+		speedX_ -= 0.5;
 		
-	if(currentKeyStates[ SDL_SCANCODE_S ])
-		if(position_.first > 0)
-			position_.first = position_.first-1;
-		
-	if(currentKeyStates[ SDL_SCANCODE_D])
-		if(position_.second < 2500)
-			position_.second = position_.second+1;
-		
-	if(currentKeyStates[ SDL_SCANCODE_A ])
-		if(position_.second > 0)
-			position_.second = position_.second-1;
+	
+	if( currentKeyStates[ SDL_SCANCODE_A ] ^ currentKeyStates[ SDL_SCANCODE_D ])
+	{
+		if(currentKeyStates[ SDL_SCANCODE_D ])
+			if(speedY_ < maxSpeedY_)
+			{
+				speedY_ += 0.5;
+				if(speedY_ > maxSpeedY_)
+					speedY_ = maxSpeedY_;
+			}
+			
+		if(currentKeyStates[ SDL_SCANCODE_A ])
+			if(speedY_ > -maxSpeedY_)
+			{
+				speedY_ -= 0.5;
+				if(speedY_ < -maxSpeedY_)
+					speedY_ = -maxSpeedY_;
+			}
+	}
+	else if( speedY_ < 0 )
+		speedY_ += 1;
+	else if( speedY_ > 0 )
+		speedY_ -=1;
 }
+
+void Player::update()
+{
+	if(speedX_ != 0 || speedY_ != 0)
+	{
+		targetPosX_ = posX_ + speedX_;
+		targetPosY_ = posY_ + speedY_;
+	}
+}
+
 
 void Player::collision(Entity* param)
 {
@@ -65,7 +113,7 @@ void NPC::update()
 	//do stuff
 }
 
-void NPC::read_input()
+void NPC::readInput()
 {
 	//do stuff
 }
@@ -81,7 +129,7 @@ void Projectile::update()
 	//do stuff
 }
 
-void Projectile::read_input()
+void Projectile::readInput()
 {
 	//do stuff
 }

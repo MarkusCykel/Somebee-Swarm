@@ -1,8 +1,10 @@
 #ifndef ENTITY_H
 #define ENTITY_H
 
+#include "classes.h"
 #include <utility>
 #include <SDL.h>
+#include "Controller.h"
 
 //////////////////////////////
 //	Entity
@@ -11,19 +13,20 @@
 class Entity
 {
 	public:
-		Entity(std::pair<unsigned,unsigned> param) : position_{param}, alive_{true} {};
+		Entity(double param, double param2) : posX_{param}, posY_{param2}, alive_{true} {};
 	
 		void render();
 		
 		virtual void update() = 0;
 		virtual void collision(Entity*) = 0;
 		
-		std::pair<unsigned, unsigned> get_position();
-		bool get_alive();
-		void set_alive(bool);
+		std::pair<double, double> getPosition();
+		bool getAlive();
+		void setAlive(bool);
 		
 	protected:
-		std::pair<unsigned,unsigned> position_;
+		double posX_;
+		double posY_;
 		bool alive_;
 };
 
@@ -35,35 +38,40 @@ class Entity
 class Live_Object : public Entity
 {
 	public:
-		Live_Object(std::pair<unsigned,unsigned> param) : Entity(param) {};
-		virtual void read_input() = 0;
+		Live_Object(double param, double param2) 
+			: maxSpeedX_{5}, maxSpeedY_{5}, speedX_{0}, speedY_{0}, Entity(param, param2) {};
+		virtual void readInput( ) = 0;
+		void setPosition(double, double);
+		std::pair<double, double> getTargetPosition();
 	protected:
-		unsigned speed_;
-		float facing_angle_;
+		double speedX_, speedY_;
+		double maxSpeedX_, maxSpeedY_;
+		double targetPosX_;
+		double targetPosY_;
 };
 
 class Player : public Live_Object
 {
 	public:
-		Player(std::pair<unsigned,unsigned> param) : Live_Object(param) {};
+		Player(double param, double param2) : Live_Object(param, param2) {};
+		void readInput();
 		void update();
-		void read_input();
 		void collision(Entity*);
 };
 
 class NPC : public Live_Object
 {
 	public:
+		void readInput();
 		void update();
-		void read_input();
 		void collision(Entity*);
 };
 
 class Projectile : public Live_Object
 {
 	public:
+		void readInput();
 		void update();
-		void read_input();
 		void collision(Entity*);
 };
 
@@ -75,7 +83,7 @@ class Projectile : public Live_Object
 class Wall : public Entity
 {
 	public:
-		Wall(std::pair<unsigned,unsigned> param) : Entity{param} {};
+		Wall(double param, double param2) : Entity{param,param2} {};
 		
 		void update();
 		void collision(Entity*);
@@ -84,7 +92,7 @@ class Wall : public Entity
 class Spawner : public Entity
 {
 	public:
-		Spawner(std::pair<unsigned,unsigned> param) : Entity{param} {};
+		Spawner(double param, double param2) : Entity{param,param2} {};
 		
 		void update();
 		void collision(Entity*);
