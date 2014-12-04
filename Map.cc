@@ -72,6 +72,7 @@ void Map::spawnEntity(const std::string& param, double x, double y, double width
 				break;
 			case 2 :
 				npcs_.push_back(new NPC{x,y,width,height});
+				break;
 			default :
 				std::cerr << "Invalid entity\n";
 		}

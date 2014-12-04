@@ -45,12 +45,11 @@ int main(int argc, char* argv[])
 		map.spawnEntity("PLAYER",250,250,15,15);
 		map.spawnEntity("NPC",130,200,15,15);
 		map.spawnEntity("NPC",100, 354, 100, 100);
-		map.spawnEntity("NPC", 200, 50,	200, 10);
-		map.spawnEntity("NPC", 200, 50,	10, 130);
-		map.spawnEntity("NPC", 200, 120, 10, 100);
-		map.spawnEntity("NPC", 340, 50,	200, 10);
-		map.spawnEntity("NPC", 340, 240, 10, 110);
-		map.spawnEntity("NPC", 440, 50,	200, 10);
+		map.spawnEntity("NPC",700, 354, 100, 100);
+		map.spawnEntity("NPC", 900, 354, 100, 100);
+		map.spawnEntity("NPC", 200, 500, 100, 100);
+		map.spawnEntity("NPC", 300, 354, 100, 100);
+		map.spawnEntity("NPC",1100, 700, 100, 100);
 		
 		
 		Controller controller;
