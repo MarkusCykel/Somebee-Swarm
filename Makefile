@@ -28,7 +28,7 @@ all-w : main.cc $(OBJS) Makefile
 	$(CCC) Main.cc $(OBJS) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(NOWINDOW) $(LINKER_FLAGS) -o Main
 
 
-SDLWindow.o: SDLWindow.h SDLSurface.o SDLWindow.cc
+SDLWindow.o: SDLWindow.h SDLWindow.cc
 	$(CCC) SDLWindow.cc $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) -c 
 
 Map.o: Map.h Entity.o Map.cc
