@@ -40,11 +40,19 @@ int main(int argc, char* argv[])
 		
 		////////////////////////////////////////////////////////
 		// Stuff I'm testing
-		Map map{500,500};
+		Map map{1280,960};
 		SDL_Rect camera = { 0, 0, 640, 480 };
 		map.spawnEntity("PLAYER",250,250,15,15);
-		map.spawnEntity("NPC",200,200,15,15);
+		map.spawnEntity("NPC",130,200,15,15);
 		map.spawnEntity("NPC",100, 354, 100, 100);
+		map.spawnEntity("NPC", 200, 50,	200, 10);
+		map.spawnEntity("NPC", 200, 50,	10, 130);
+		map.spawnEntity("NPC", 200, 120, 10, 100);
+		map.spawnEntity("NPC", 340, 50,	200, 10);
+		map.spawnEntity("NPC", 340, 240, 10, 110);
+		map.spawnEntity("NPC", 440, 50,	200, 10);
+		
+		
 		Controller controller;
 		//
 		////////////////////////////////////////////////////////
@@ -86,7 +94,7 @@ int main(int argc, char* argv[])
 			camera.y = (map.getPlayer()->getY()) - 480/ 2;
 			map.render(window.getRenderer(),camera);
 	
-			std::cout << std::setw(25) << std::right << "x: " << map.getPlayer()->getX() << " y: " << map.getPlayer()->getY() << std::endl;
+			//std::cout << std::setw(25) << std::right << "x: " << camera.x << " y: " << camera.y << std::endl;
 			
 			////////////////////////////////////////////////////////
 			// CALCULATING FPS
@@ -96,7 +104,7 @@ int main(int argc, char* argv[])
 				avgFPS = 0;
 			}
 			
-			std::cout << std::setw(13) << "Avg (w/cap) " << countedFrames << std::setw(12) << avgFPS;
+			//std::cout << std::setw(13) << "Avg (w/cap) " << countedFrames << std::setw(12) << avgFPS << std::endl;
 
 			++countedFrames;	
 			//

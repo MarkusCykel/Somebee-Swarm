@@ -5,29 +5,15 @@
 //	Entity
 //////////////////////////////
 
-void Entity::render(SDL_Renderer* renderer, const SDL_Rect &)
-{	
-	//Render red filled quad
-	SDL_Rect fillRect = { posY_ - height_/2, posX_-width_/2, width_, height_};
-	SDL_SetRenderDrawColor( renderer, 0xFF, 0x00, 0x00, 0xFF );		
-	SDL_RenderFillRect( renderer, &fillRect );
-}
-
-/*void Entity::render(SDL_Renderer* renderer, const SDL_Rect & camera)
+void Entity::render(SDL_Renderer* renderer, const SDL_Rect & camera)
 {
 	//Clear screen
-	SDL_SetRenderDrawColor( renderer, 0xFF, 0xFF, 0xFF, 0xFF );
-	SDL_RenderClear( renderer );
 
 	//Render red filled quad
-	SDL_Rect fillRect = { posY_ - camera.y, posX_- camera.x, 10, 10};
+	SDL_Rect fillRect = { posX_ - camera.x, posY_ - camera.y , height_, width_};
 	SDL_SetRenderDrawColor( renderer, 0xFF, 0x00, 0x00, 0xFF );
 	SDL_RenderFillRect( renderer, &fillRect );
-
-
-	//Update screen
-	SDL_RenderPresent( renderer );
-}*/
+}
 
 double Entity::getX()
 {
@@ -75,30 +61,6 @@ void Player::readInput()
 	if( currentKeyStates[ SDL_SCANCODE_W ] ^ currentKeyStates[ SDL_SCANCODE_S ])
 	{
 		if(currentKeyStates[ SDL_SCANCODE_S ])
-			if(speedX_ < maxSpeedX_)
-			{
-				speedX_ += 1;
-				if(speedX_ > maxSpeedX_)
-					speedX_ = maxSpeedX_;
-			}
-			
-		if(currentKeyStates[ SDL_SCANCODE_W ])
-			if(speedX_ > -maxSpeedX_)
-			{
-				speedX_ -= 1;
-				if(speedX_ < -maxSpeedX_)
-					speedX_ = -maxSpeedX_;
-			}
-	}
-	else if( speedX_ < 0 )
-		speedX_ += 1;
-	else if( speedX_ > 0 )
-		speedX_ -= 1;
-		
-	
-	if( currentKeyStates[ SDL_SCANCODE_A ] ^ currentKeyStates[ SDL_SCANCODE_D ])
-	{
-		if(currentKeyStates[ SDL_SCANCODE_D ])
 			if(speedY_ < maxSpeedY_)
 			{
 				speedY_ += 1;
@@ -106,7 +68,7 @@ void Player::readInput()
 					speedY_ = maxSpeedY_;
 			}
 			
-		if(currentKeyStates[ SDL_SCANCODE_A ])
+		if(currentKeyStates[ SDL_SCANCODE_W ])
 			if(speedY_ > -maxSpeedY_)
 			{
 				speedY_ -= 1;
@@ -118,6 +80,30 @@ void Player::readInput()
 		speedY_ += 1;
 	else if( speedY_ > 0 )
 		speedY_ -= 1;
+		
+	
+	if( currentKeyStates[ SDL_SCANCODE_A ] ^ currentKeyStates[ SDL_SCANCODE_D ])
+	{
+		if(currentKeyStates[ SDL_SCANCODE_D ])
+			if(speedX_ < maxSpeedX_)
+			{
+				speedX_ += 1;
+				if(speedX_ > maxSpeedX_)
+					speedX_ = maxSpeedX_;
+			}
+			
+		if(currentKeyStates[ SDL_SCANCODE_A ])
+			if(speedX_ > -maxSpeedX_)
+			{
+				speedX_ -= 1;
+				if(speedX_ < -maxSpeedX_)
+					speedX_ = -maxSpeedX_;
+			}
+	}
+	else if( speedX_ < 0 )
+		speedX_ += 1;
+	else if( speedX_ > 0 )
+		speedX_ -= 1;
 }
 
 void Player::update()
