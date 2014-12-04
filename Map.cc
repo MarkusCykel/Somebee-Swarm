@@ -41,6 +41,11 @@ void Map::update()
 		}
 }
 
+void Map::render(SDL_Renderer* renderer)
+{
+	player_->render(renderer);
+}
+
 void Map::spawnEntity(const std::string& param, double x, double y)
 {
 	static std::map<std::string,int> entity;

@@ -7,7 +7,17 @@
 
 void Entity::render(SDL_Renderer* renderer)
 {
-	//do something
+	//Clear screen
+	SDL_SetRenderDrawColor( renderer, 0xFF, 0xFF, 0xFF, 0xFF );
+	SDL_RenderClear( renderer );
+	
+	//Render red filled quad
+	SDL_Rect fillRect = { posY_ - 5, posX_-5, 10, 10};
+	SDL_SetRenderDrawColor( renderer, 0xFF, 0x00, 0x00, 0xFF );		
+	SDL_RenderFillRect( renderer, &fillRect );
+	
+	//Update screen
+	SDL_RenderPresent( renderer );
 }
 
 double Entity::getX()
@@ -55,26 +65,26 @@ void Player::readInput()
 	
 	if( currentKeyStates[ SDL_SCANCODE_W ] ^ currentKeyStates[ SDL_SCANCODE_S ])
 	{
-		if(currentKeyStates[ SDL_SCANCODE_W ])
+		if(currentKeyStates[ SDL_SCANCODE_S ])
 			if(speedX_ < maxSpeedX_)
 			{
-				speedX_ += 0.5;
+				speedX_ += 1;
 				if(speedX_ > maxSpeedX_)
 					speedX_ = maxSpeedX_;
 			}
 			
-		if(currentKeyStates[ SDL_SCANCODE_S ])
+		if(currentKeyStates[ SDL_SCANCODE_W ])
 			if(speedX_ > -maxSpeedX_)
 			{
-				speedX_ -= 0.5;
+				speedX_ -= 1;
 				if(speedX_ < -maxSpeedX_)
 					speedX_ = -maxSpeedX_;
 			}
 	}
 	else if( speedX_ < 0 )
-		speedX_ += 0.5;
+		speedX_ += 1;
 	else if( speedX_ > 0 )
-		speedX_ -= 0.5;
+		speedX_ -= 1;
 		
 	
 	if( currentKeyStates[ SDL_SCANCODE_A ] ^ currentKeyStates[ SDL_SCANCODE_D ])
@@ -82,7 +92,7 @@ void Player::readInput()
 		if(currentKeyStates[ SDL_SCANCODE_D ])
 			if(speedY_ < maxSpeedY_)
 			{
-				speedY_ += 0.5;
+				speedY_ += 1;
 				if(speedY_ > maxSpeedY_)
 					speedY_ = maxSpeedY_;
 			}
@@ -90,15 +100,15 @@ void Player::readInput()
 		if(currentKeyStates[ SDL_SCANCODE_A ])
 			if(speedY_ > -maxSpeedY_)
 			{
-				speedY_ -= 0.5;
+				speedY_ -= 1;
 				if(speedY_ < -maxSpeedY_)
 					speedY_ = -maxSpeedY_;
 			}
 	}
 	else if( speedY_ < 0 )
-		speedY_ += 0.5;
+		speedY_ += 1;
 	else if( speedY_ > 0 )
-		speedY_ -=0.5;
+		speedY_ -=1;
 }
 
 void Player::update()
