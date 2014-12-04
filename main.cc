@@ -41,7 +41,9 @@ int main(int argc, char* argv[])
 		////////////////////////////////////////////////////////
 		// Stuff I'm testing
 		Map map{500,500};
-		map.spawnEntity("PLAYER",250,250);
+		map.spawnEntity("PLAYER",250,250,15,15);
+		map.spawnEntity("NPC",200,200,15,15);
+		map.spawnEntity("NPC",100, 354, 100, 100);
 		Controller controller;
 		//
 		////////////////////////////////////////////////////////

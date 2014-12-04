@@ -43,10 +43,20 @@ void Map::update()
 
 void Map::render(SDL_Renderer* renderer)
 {
+	//Clear screen
+	SDL_SetRenderDrawColor( renderer, 0xFF, 0xFF, 0xFF, 0xFF );
+	SDL_RenderClear( renderer );
+	
 	player_->render(renderer);
+	
+	for( auto i : npcs_ )
+		i->render(renderer);
+		
+	//Update screen
+	SDL_RenderPresent( renderer );
 }
 
-void Map::spawnEntity(const std::string& param, double x, double y)
+void Map::spawnEntity(const std::string& param, double x, double y, double width, double height)
 {
 	static std::map<std::string,int> entity;
 	entity["PLAYER"] = 1;
@@ -58,8 +68,10 @@ void Map::spawnEntity(const std::string& param, double x, double y)
 		{
 			case 1 :
 				delete player_;
-				player_ = new Player{x,y};
+				player_ = new Player{x,y,width,height};
 				break;
+			case 2 :
+				npcs_.push_back(new NPC{x,y,width,height});
 			default :
 				std::cerr << "Invalid entity\n";
 		}

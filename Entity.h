@@ -13,7 +13,7 @@
 class Entity
 {
 	public:
-		Entity(double param, double param2) : posX_{param}, posY_{param2}, alive_{true} {};
+		Entity(double posX, double posY, double width, double height) : posX_{posX}, posY_{posY}, width_{width}, height_{height}, alive_{true} {};
 	
 		void render(SDL_Renderer*);
 		
@@ -22,12 +22,16 @@ class Entity
 		
 		double getX();
 		double getY();
+		double getWidth() { return width_; }
+		double getHeihgt() { return height_; }
 		bool getAlive();
 		void setAlive(bool);
 		
 	protected:
 		double posX_;
 		double posY_;
+		double width_;
+		double height_;
 		bool alive_;
 };
 
@@ -39,8 +43,8 @@ class Entity
 class Live_Object : public Entity
 {
 	public:
-		Live_Object(double param, double param2) 
-			: maxSpeedX_{5}, maxSpeedY_{5}, speedX_{0}, speedY_{0}, Entity(param, param2) {};
+		Live_Object(double posX, double posY, double width, double height) 
+			: maxSpeedX_{5}, maxSpeedY_{5}, targetPosX_{posX}, targetPosY_{posY}, speedX_{0}, speedY_{0}, Entity{posX, posY, width, height} {};
 		virtual void readInput( ) = 0;
 		void setPosition(double, double);
 		double getTargetX();
@@ -55,7 +59,7 @@ class Live_Object : public Entity
 class Player : public Live_Object
 {
 	public:
-		Player(double param, double param2) : Live_Object(param, param2) {};
+		Player(double posX, double posY, double width, double height) : Live_Object{posX, posY, width, height} {};
 		void readInput();
 		void update();
 		void collision(Entity*);
@@ -64,6 +68,7 @@ class Player : public Live_Object
 class NPC : public Live_Object
 {
 	public:
+		NPC(double posX, double posY, double width, double height) : Live_Object{posX, posY, width, height} {};
 		void readInput();
 		void update();
 		void collision(Entity*);
@@ -85,7 +90,7 @@ class Projectile : public Live_Object
 class Wall : public Entity
 {
 	public:
-		Wall(double param, double param2) : Entity{param,param2} {};
+		Wall(double posX, double posY, double width, double height) : Entity{posX, posY, width, height} {};
 		
 		void update();
 		void collision(Entity*);
@@ -94,7 +99,7 @@ class Wall : public Entity
 class Spawner : public Entity
 {
 	public:
-		Spawner(double param, double param2) : Entity{param,param2} {};
+		Spawner(double posX, double posY, double width, double height) : Entity{posX, posY, width, height} {};
 		
 		void update();
 		void collision(Entity*);
