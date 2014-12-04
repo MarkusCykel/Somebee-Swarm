@@ -5,10 +5,10 @@ OBJS = SDLWindow.o Entity.o Map.o Timer.o Controller.o
 CCC = g++
 
 #INCLUDE_PATHS specifies the additional include paths we'll need 
-INCLUDE_PATHS = -ID:\mingw_dev_lib\include\SDL2
+INCLUDE_PATHS = -IC:\mingw_dev_lib\include\SDL2
 
 #LIBRARY_PATHS specifies the additional library paths we'll need 
-LIBRARY_PATHS = -LD:\mingw_dev_lib\lib
+LIBRARY_PATHS = -LC:\mingw_dev_lib\lib
 
 #COMPILER_FLAGS specifies the additional compilation options we're using 
 # -w suppresses all warnings
