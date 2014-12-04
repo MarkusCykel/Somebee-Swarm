@@ -17,7 +17,7 @@ class Map
 		
 		void readInput();
 		void update();
-		void render() = delete;
+		void render(SDL_Renderer*);
 		void spawnEntity(const std::string&, double, double);
 		Player* getPlayer();
 		std::vector<NPC*> getNpcs();

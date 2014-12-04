@@ -79,7 +79,8 @@ int main(int argc, char* argv[])
 			map.readInput();
 			map.update();
 			controller.update(map);
-			
+			map.render(window.getRenderer());
+	
 			std::cout << std::setw(25) << std::right << "x: " << map.getPlayer()->getX() << " y: " << map.getPlayer()->getY() << std::endl;
 			
 			////////////////////////////////////////////////////////
