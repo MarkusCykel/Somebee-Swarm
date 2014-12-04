@@ -1,6 +1,16 @@
 #include "Map.h"
 #include <map>
 
+double Map::getWidth()
+{
+	return width_;
+}
+
+double Map::getHeight()
+{
+	return height_;
+}
+
 void Map::readInput()
 {
 		player_->readInput();

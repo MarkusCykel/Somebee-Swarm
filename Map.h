@@ -11,6 +11,9 @@ class Map
 	public:
 		Map(unsigned width, unsigned height) 
 			: width_{width}, height_{height} {}
+			
+		double getWidth();
+		double getHeight();
 		void readInput();
 		void update();
 		void render() = delete;
@@ -27,8 +30,8 @@ class Map
 		std::vector<Wall*> walls_;
 		std::vector<Spawner*> spawners_;
 		
-		unsigned width_;
-		unsigned height_;
+		double width_;
+		double height_;
 };
 
 #endif

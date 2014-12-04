@@ -89,9 +89,8 @@ int main(int argc, char* argv[])
 			map.readInput();
 			map.update();
 			controller.update(map);
-			auto pos = map.getPlayer()->getPosition();
 			
-			std::cout << std::setw(25) << std::right << "x: " << pos.first << " y: " << pos.second << std::endl;
+			std::cout << std::setw(25) << std::right << "x: " << map.getPlayer()->getX() << " y: " << map.getPlayer()->getY() << std::endl;
 			
 			////////////////////////////////////////////////////////
 			// CALCULATING FPS

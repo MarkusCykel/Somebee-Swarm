@@ -20,7 +20,8 @@ class Entity
 		virtual void update() = 0;
 		virtual void collision(Entity*) = 0;
 		
-		std::pair<double, double> getPosition();
+		double getX();
+		double getY();
 		bool getAlive();
 		void setAlive(bool);
 		
@@ -42,7 +43,8 @@ class Live_Object : public Entity
 			: maxSpeedX_{5}, maxSpeedY_{5}, speedX_{0}, speedY_{0}, Entity(param, param2) {};
 		virtual void readInput( ) = 0;
 		void setPosition(double, double);
-		std::pair<double, double> getTargetPosition();
+		double getTargetX();
+		double getTargetY();
 	protected:
 		double speedX_, speedY_;
 		double maxSpeedX_, maxSpeedY_;

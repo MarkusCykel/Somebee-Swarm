@@ -10,9 +10,14 @@ void Entity::render()
 	//do something
 }
 
-std::pair<double, double> Entity::getPosition()
+double Entity::getX()
 {
-	return std::make_pair(posX_,posY_);
+	return posX_;
+}
+
+double Entity::getY()
+{
+	return posY_;
 }
 
 bool Entity::getAlive()
@@ -34,9 +39,14 @@ void Live_Object::setPosition(double x, double y)
 	posY_ = y;
 }
 
-std::pair<double, double> Live_Object::getTargetPosition()
+double Live_Object::getTargetX()
 {
-	return std::make_pair(targetPosX_, targetPosY_);
+	return targetPosX_;
+}
+
+double Live_Object::getTargetY()
+{
+	return targetPosY_;
 }
 
 
@@ -87,9 +97,9 @@ void Player::readInput()
 			}
 	}
 	else if( speedY_ < 0 )
-		speedY_ += 1;
+		speedY_ += 0.5;
 	else if( speedY_ > 0 )
-		speedY_ -=1;
+		speedY_ -=0.5;
 }
 
 void Player::update()
