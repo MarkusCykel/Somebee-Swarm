@@ -14,6 +14,7 @@ class Map
 			
 		double getWidth();
 		double getHeight();
+		
 		void readInput();
 		void update();
 		void render() = delete;

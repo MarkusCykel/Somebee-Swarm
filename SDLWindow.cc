@@ -13,11 +13,16 @@ SDLWindow::SDLWindow(char* window_title, const unsigned & window_width, const un
 								SDL_WINDOW_SHOWN );
 	if(window_ == NULL)
 	{
-		throw;
+		std::cout << "Window could not be created! SDL Error: %s\n" << SDL_GetError();
 	}
 	else
 	{
-		surface_ = SDL_GetWindowSurface(window_);
+		renderer_ = SDL_CreateRenderer( window_, -1, SDL_RENDERER_ACCELERATED);
+		
+		if( renderer_ == NULL)
+		{
+			std::cout << "Renderer could not be created! SDL Error: %s\n" << SDL_GetError();
+		}
 	}
 }
 
@@ -28,18 +33,15 @@ void SDLWindow::update()
 
 void SDLWindow::fill(const unsigned & r,const unsigned & g,const unsigned & b)
 {
-	surface_.fill(r,g,b);
 	update();
 }
 
 void SDLWindow::blitSurface(const SDLSurface& surface)
 {
-	surface_.blitSurface(surface);
 	update();
 }
 
 void SDLWindow::blitSurface(const SDLSurface& surface,const unsigned & x,const unsigned & y)
 {
-	surface_.blitSurface(surface,x,y);
 	update();
 }

@@ -13,7 +13,6 @@
 const int SCREEN_FPS = 60;
 const int SCREEN_TICKS_PER_FRAME = 1000 / SCREEN_FPS + 1;
 
-
 int main(int argc, char* argv[])
 {	
 	if(SDL_Init(SDL_INIT_VIDEO)<0)
@@ -27,14 +26,6 @@ int main(int argc, char* argv[])
 		SDLWindow window{"testing", 500, 500};
 		
 		SDLSurface picture;
-		if(picture.loadBMP("../Somebee-Swarm/instruction.bmp", window.get_format()))
-		{
-			std::cout << "Error loading media";
-		}
-		else
-		{
-			window.blitSurface(picture,500,500);
-		}
 		//
 		////////////////////////////////////////////////////////
 		
