@@ -1,8 +1,6 @@
 #ifndef SDLWINDOW_H
 #define SDLWINDOW_H
 
-#include "SDLSurface.h"
-
 class SDLWindow
 {
 	public:
@@ -11,9 +9,6 @@ class SDLWindow
 		
 		
 		SDL_Renderer* getRenderer() { return renderer_; };
-		void fill(const unsigned &,const unsigned &,const unsigned &);
-		void blitSurface(const SDLSurface& surface);
-		void blitSurface(const SDLSurface& surface,const unsigned &,const unsigned &);
 	private:
 		void update();
 		SDL_Window* window_;

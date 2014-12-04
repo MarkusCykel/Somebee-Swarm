@@ -15,7 +15,7 @@ class Entity
 	public:
 		Entity(double param, double param2) : posX_{param}, posY_{param2}, alive_{true} {};
 	
-		void render();
+		void render(SDL_Renderer*);
 		
 		virtual void update() = 0;
 		virtual void collision(Entity*) = 0;

@@ -5,7 +5,7 @@
 //	Entity
 //////////////////////////////
 
-void Entity::render()
+void Entity::render(SDL_Renderer* renderer)
 {
 	//do something
 }
@@ -48,7 +48,6 @@ double Live_Object::getTargetY()
 {
 	return targetPosY_;
 }
-
 
 void Player::readInput()
 {

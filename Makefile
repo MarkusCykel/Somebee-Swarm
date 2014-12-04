@@ -1,5 +1,5 @@
 #OBJS specifies which files to compile as part of the project 
-OBJS = SDLSurface.o SDLWindow.o Entity.o Map.o Timer.o Controller.o
+OBJS = SDLWindow.o Entity.o Map.o Timer.o Controller.o
 
 # Kompilator (gcc) och diagnostikfilter (gccfilter)
 CCC = g++
@@ -30,9 +30,6 @@ all-w : main.cc $(OBJS) Makefile
 
 SDLWindow.o: SDLWindow.h SDLSurface.o SDLWindow.cc
 	$(CCC) SDLWindow.cc $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) -c 
-
-SDLSurface.o: SDLSurface.h SDLSurface.cc
-	$(CCC) SDLSurface.cc $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) -c
 
 Map.o: Map.h Entity.o Map.cc
 	$(CCC) Map.cc $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) -c

@@ -1,6 +1,6 @@
 #include <SDL.h>
 #include <iostream>
-#include "SDLSurface.h"
+
 #include "SDLWindow.h"
 
 SDLWindow::SDLWindow(char* window_title, const unsigned & window_width, const unsigned & window_height)
@@ -29,19 +29,4 @@ SDLWindow::SDLWindow(char* window_title, const unsigned & window_width, const un
 void SDLWindow::update()
 {
 	SDL_UpdateWindowSurface(window_);
-}
-
-void SDLWindow::fill(const unsigned & r,const unsigned & g,const unsigned & b)
-{
-	update();
-}
-
-void SDLWindow::blitSurface(const SDLSurface& surface)
-{
-	update();
-}
-
-void SDLWindow::blitSurface(const SDLSurface& surface,const unsigned & x,const unsigned & y)
-{
-	update();
 }

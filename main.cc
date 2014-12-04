@@ -5,7 +5,6 @@
 
 #include "classes.h"
 #include "SDLWindow.h"
-#include "SDLSurface.h"
 #include "Entity.h"
 #include "Timer.h"
 #include "Map.h"
@@ -25,7 +24,7 @@ int main(int argc, char* argv[])
 		// The window and a picture
 		SDLWindow window{"testing", 500, 500};
 		
-		SDLSurface picture;
+		//SDLSurface picture;
 		//
 		////////////////////////////////////////////////////////
 		
