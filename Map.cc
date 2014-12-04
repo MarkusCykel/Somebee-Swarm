@@ -41,16 +41,16 @@ void Map::update()
 		}
 }
 
-void Map::render(SDL_Renderer* renderer)
+void Map::render(SDL_Renderer* renderer, const SDL_Rect& camera)
 {
 	//Clear screen
 	SDL_SetRenderDrawColor( renderer, 0xFF, 0xFF, 0xFF, 0xFF );
 	SDL_RenderClear( renderer );
 	
-	player_->render(renderer);
+	player_->render(renderer, camera);
 	
 	for( auto i : npcs_ )
-		i->render(renderer);
+		i->render(renderer,camera);
 		
 	//Update screen
 	SDL_RenderPresent( renderer );

@@ -22,7 +22,7 @@ int main(int argc, char* argv[])
 	{
 		////////////////////////////////////////////////////////
 		// The window and a picture
-		SDLWindow window{"testing", 500, 500};
+		SDLWindow window{"testing", 640, 480};
 		
 		//SDLSurface picture;
 		//
@@ -41,6 +41,7 @@ int main(int argc, char* argv[])
 		////////////////////////////////////////////////////////
 		// Stuff I'm testing
 		Map map{500,500};
+		SDL_Rect camera = { 0, 0, 640, 480 };
 		map.spawnEntity("PLAYER",250,250,15,15);
 		map.spawnEntity("NPC",200,200,15,15);
 		map.spawnEntity("NPC",100, 354, 100, 100);
@@ -81,7 +82,9 @@ int main(int argc, char* argv[])
 			map.readInput();
 			map.update();
 			controller.update(map);
-			map.render(window.getRenderer());
+			camera.x = (map.getPlayer()->getX()) - 640/ 2;
+			camera.y = (map.getPlayer()->getY()) - 480/ 2;
+			map.render(window.getRenderer(),camera);
 	
 			std::cout << std::setw(25) << std::right << "x: " << map.getPlayer()->getX() << " y: " << map.getPlayer()->getY() << std::endl;
 			

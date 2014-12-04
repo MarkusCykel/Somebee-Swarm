@@ -5,13 +5,29 @@
 //	Entity
 //////////////////////////////
 
-void Entity::render(SDL_Renderer* renderer)
+void Entity::render(SDL_Renderer* renderer, const SDL_Rect &)
 {	
 	//Render red filled quad
 	SDL_Rect fillRect = { posY_ - height_/2, posX_-width_/2, width_, height_};
 	SDL_SetRenderDrawColor( renderer, 0xFF, 0x00, 0x00, 0xFF );		
 	SDL_RenderFillRect( renderer, &fillRect );
 }
+
+/*void Entity::render(SDL_Renderer* renderer, const SDL_Rect & camera)
+{
+	//Clear screen
+	SDL_SetRenderDrawColor( renderer, 0xFF, 0xFF, 0xFF, 0xFF );
+	SDL_RenderClear( renderer );
+
+	//Render red filled quad
+	SDL_Rect fillRect = { posY_ - camera.y, posX_- camera.x, 10, 10};
+	SDL_SetRenderDrawColor( renderer, 0xFF, 0x00, 0x00, 0xFF );
+	SDL_RenderFillRect( renderer, &fillRect );
+
+
+	//Update screen
+	SDL_RenderPresent( renderer );
+}*/
 
 double Entity::getX()
 {

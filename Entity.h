@@ -15,7 +15,7 @@ class Entity
 	public:
 		Entity(double posX, double posY, double width, double height) : posX_{posX}, posY_{posY}, width_{width}, height_{height}, alive_{true} {};
 	
-		void render(SDL_Renderer*);
+		void render(SDL_Renderer*, const SDL_Rect& camera);
 		
 		virtual void update() = 0;
 		virtual void collision(Entity*) = 0;
@@ -46,7 +46,7 @@ class Live_Object : public Entity
 		Live_Object(double posX, double posY, double width, double height) 
 			: maxSpeedX_{5}, maxSpeedY_{5}, targetPosX_{posX}, targetPosY_{posY}, speedX_{0}, speedY_{0}, Entity{posX, posY, width, height} {};
 		virtual void readInput( ) = 0;
-		void setPosition(double, double);
+		void setPosition(double x, double y);
 		double getTargetX();
 		double getTargetY();
 	protected:
