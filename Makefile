@@ -18,7 +18,7 @@ CCFLAGS = -w -std=c++11 -Wpedantic -Wall -Wextra
 NOWINDOW = -Wl,-subsystem,windows
 
 #LINKER_FLAGS specifies the libraries we're linking against 
-LINKER_FLAGS = -lmingw32 -lSDL2main -lSDL2 -lSDL2_image -static-libstdc++
+LINKER_FLAGS = -lmingw32 -lSDL2main -lSDL2 -lSDL2_image -static-libgcc -static-libstdc++
 
 #This is the target that compiles our executable
 all : main.cc $(OBJS) Makefile

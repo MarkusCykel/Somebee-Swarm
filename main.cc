@@ -42,15 +42,15 @@ int main(int argc, char* argv[])
 		// Stuff I'm testing
 		Map map{1280,960};
 		SDL_Rect camera = { 0, 0, 640, 480 };
-		map.spawnEntity("PLAYER",250,250,15,15);
-		map.spawnEntity("NPC",130,200,15,15);
-		map.spawnEntity("NPC",100, 354, 100, 100);
-		map.spawnEntity("NPC",700, 354, 100, 100);
-		map.spawnEntity("NPC", 900, 354, 100, 100);
-		map.spawnEntity("NPC", 200, 500, 100, 100);
-		map.spawnEntity("NPC", 300, 354, 100, 100);
-		map.spawnEntity("NPC",1100, 700, 100, 100);
-		
+		map.spawnEntity("PLAYER", 250, 250, 10, 10, 10, 1);
+		map.spawnEntity("NPC", 130, 200, 15, 15, 6, 1);
+		map.spawnEntity("NPC",100, 354, 3, 3, 1, 1);
+		map.spawnEntity("NPC",700, 354, 1, 1, 2, 1);
+		map.spawnEntity("NPC", 900, 354, 15, 15, 3, 1);
+		map.spawnEntity("NPC", 200, 500, 13, 13, 4, 1);
+		map.spawnEntity("NPC", 300, 354, 11, 11, 5, 1);
+		map.spawnEntity("NPC",1100, 700, 9, 9, 3, 1);
+		map.spawnEntity("PROJECTILE", 10, 10, 10, 10, 10, 1, 30);
 		
 		Controller controller;
 		//
@@ -92,8 +92,6 @@ int main(int argc, char* argv[])
 			camera.x = (map.getPlayer()->getX()) - 640/ 2;
 			camera.y = (map.getPlayer()->getY()) - 480/ 2;
 			map.render(window.getRenderer(),camera);
-	
-			//std::cout << std::setw(25) << std::right << "x: " << camera.x << " y: " << camera.y << std::endl;
 			
 			////////////////////////////////////////////////////////
 			// CALCULATING FPS

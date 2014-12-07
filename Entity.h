@@ -4,6 +4,8 @@
 #include "classes.h"
 #include <utility>
 #include <SDL.h>
+#include <math.h>
+#include "Map.h"
 #include "Controller.h"
 
 //////////////////////////////
@@ -13,26 +15,23 @@
 class Entity
 {
 	public:
-		Entity(double posX, double posY, double width, double height) : posX_{posX}, posY_{posY}, width_{width}, height_{height}, alive_{true} {};
+		Entity(int posX, int posY, unsigned width, unsigned height) : posX_{posX}, posY_{posY}, width_{width}, height_{height} {};
 	
-		void render(SDL_Renderer*, const SDL_Rect& camera);
-		
 		virtual void update() = 0;
+		virtual void render(SDL_Renderer*, const SDL_Rect& camera) = 0;
+		
 		virtual void collision(Entity*) = 0;
 		
 		double getX();
 		double getY();
 		double getWidth() { return width_; }
-		double getHeihgt() { return height_; }
-		bool getAlive();
-		void setAlive(bool);
+		double getHeight() { return height_; }
 		
 	protected:
 		double posX_;
 		double posY_;
-		double width_;
-		double height_;
-		bool alive_;
+		unsigned width_;
+		unsigned height_;
 };
 
 
@@ -43,42 +42,67 @@ class Entity
 class Live_Object : public Entity
 {
 	public:
-		Live_Object(double posX, double posY, double width, double height) 
-			: maxSpeedX_{10}, maxSpeedY_{10}, targetPosX_{posX}, targetPosY_{posY}, speedX_{0}, speedY_{0}, Entity{posX, posY, width, height} {};
+		Live_Object(int posX, int posY, unsigned width, unsigned height, double maxSpeed, double acceleration, unsigned angle) 
+			:  speed_{0}, speedX_{0}, speedY_{0}, alive_{true}, targetPosX_{posX}, targetPosY_{posY}, maxSpeed_{maxSpeed}, acceleration_{acceleration}, angle_{angle}, Entity{posX, posY, width, height} {};
+		
 		virtual void readInput( ) = 0;
-		void setPosition(double x, double y);
+		
 		double getTargetX();
 		double getTargetY();
+		bool getAlive();
+		
+		void setPosition(double x, double y);
+		void setAlive(bool);
 	protected:
+		double targetPosX_, targetPosY_;
 		double speedX_, speedY_;
-		double maxSpeedX_, maxSpeedY_;
-		double targetPosX_;
-		double targetPosY_;
+		double speed_;
+		double maxSpeed_;
+		double acceleration_;
+		unsigned angle_;
+		bool alive_;
 };
 
+
+//////////////////////////////
+//	Player
+//////////////////////////////
 class Player : public Live_Object
 {
 	public:
-		Player(double posX, double posY, double width, double height) : Live_Object{posX, posY, width, height} {};
+		Player(int posX, int posY, unsigned width, unsigned height, double maxSpeed, double acceleration)
+			: Live_Object{posX, posY, width, height, maxSpeed, acceleration, 0} {};
+		
 		void readInput();
 		void update();
+		void render(SDL_Renderer*, const SDL_Rect& camera);
 		void collision(Entity*);
 };
 
 class NPC : public Live_Object
 {
 	public:
-		NPC(double posX, double posY, double width, double height) : Live_Object{posX, posY, width, height} {};
+		NPC(int posX, int posY, unsigned width, unsigned height, double maxSpeed, double acceleration, Map* map)
+			: map_{map}, Live_Object{posX, posY, width, height, maxSpeed, acceleration, 0} {};
+		
 		void readInput();
 		void update();
+		void render(SDL_Renderer*, const SDL_Rect& camera);
 		void collision(Entity*);
+		
+	private:
+		Map* map_;
 };
 
 class Projectile : public Live_Object
 {
 	public:
+		Projectile(int posX, int posY, unsigned width, unsigned height, double maxSpeed, double acceleration, unsigned angle)
+			: Live_Object{posX, posY, width, height, maxSpeed, acceleration, angle} {}
+		
 		void readInput();
 		void update();
+		void render(SDL_Renderer*, const SDL_Rect& camera);
 		void collision(Entity*);
 };
 
@@ -90,18 +114,20 @@ class Projectile : public Live_Object
 class Wall : public Entity
 {
 	public:
-		Wall(double posX, double posY, double width, double height) : Entity{posX, posY, width, height} {};
+		Wall(int posX, int posY, unsigned width, unsigned height) : Entity{posX, posY, width, height} {};
 		
 		void update();
+		void render(SDL_Renderer*, const SDL_Rect& camera);
 		void collision(Entity*);
 };
 
 class Spawner : public Entity
 {
 	public:
-		Spawner(double posX, double posY, double width, double height) : Entity{posX, posY, width, height} {};
+		Spawner(int posX, int posY, unsigned width, unsigned height) : Entity{posX, posY, width, height} {};
 		
 		void update();
+		void render(SDL_Renderer*, const SDL_Rect& camera);
 		void collision(Entity*);
 };
 
