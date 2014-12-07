@@ -1,5 +1,6 @@
 #include "Entity.h"
 #include "Controller.h"
+#include <math.h>
 
 //////////////////////////////
 //	Entity
@@ -55,7 +56,101 @@ double Live_Object::getTargetY()
 void Player::readInput()
 {
 	const Uint8* currentKeyStates = SDL_GetKeyboardState( NULL );
-	
+	double maxSpeedX_{5}, maxSpeedY_{5};
+	int c = 0;
+
+	if (currentKeyStates [SDL_SCANCODE_W] && (currentKeyStates [SDL_SCANCODE_D] ^ currentKeyStates [SDL_SCANCODE_A]))
+	{
+		c = sqrt(2);
+		//c = sqrt(maxSpeedX_ * maxSpeedX_ + maxSpeedY_ * maxSpeedY_);
+		maxSpeedX_ = c;
+		maxSpeedY_ = c;
+		if (currentKeyStates [SDL_SCANCODE_W] && currentKeyStates[SDL_SCANCODE_D])
+		{
+			if (speedX_ < maxSpeedX_)
+			{
+				speedX_ += 0.5;
+				if (speedX_ > maxSpeedX_)
+				{
+					speedX_ = maxSpeedX_;
+				}
+			}
+			if (speedY_ < maxSpeedY_)
+			{
+				speedY_ += 0.5;
+				if (speedY_ > maxSpeedY_)
+				{
+					speedY_ = maxSpeedY_;
+				}
+			}
+		}
+		if (currentKeyStates [SDL_SCANCODE_W] && currentKeyStates [SDL_SCANCODE_A])
+		{
+			if (speedX_ < maxSpeedX_)
+			{
+				speedX_ += 0.5;
+				if (speedX_ > maxSpeedX_)
+				{
+					speedX_ = maxSpeedX_;
+				}
+			}
+			if (speedY_ > -maxSpeedY_)
+			{
+				speedY_ += 0.5;
+				if (speedY_ < -maxSpeedY_)
+				{
+					speedY_ = -maxSpeedY_;
+				}
+			}
+		}
+	}
+
+	/*if (currentKeyStates [SDL_SCANCODE_S] && (currentKeyStates [SDL_SCANCODE_D] ^ currentKeyStates [SDL_SCANCODE_A]))
+	{
+		c = sqrt(2);
+		//c = sqrt(maxSpeedX_ * maxSpeedX_ + maxSpeedY_ * maxSpeedY_);
+		maxSpeedX_ /= c;
+		maxSpeedY_ /= c;
+		if (currentKeyStates [SDL_SCANCODE_S] && currentKeyStates[SDL_SCANCODE_D])
+		{
+			if (speedX_ < maxSpeedX_)
+			{
+				speedX_ += 0.5;
+				if (speedX_ > maxSpeedX_)
+				{
+					speedX_ = maxSpeedX_;
+				}
+			}
+			if (speedY_ < maxSpeedY_)
+			{
+				speedY_ += 0.5;
+				if (speedY_ > maxSpeedY_)
+				{
+					speedY_ = maxSpeedY_;
+				}
+			}
+		}
+		if (currentKeyStates [SDL_SCANCODE_S] && currentKeyStates [SDL_SCANCODE_A])
+		{
+			if (speedX_ < maxSpeedX_)
+			{
+				speedX_ += 0.5;
+				if (speedX_ > maxSpeedX_)
+				{
+					speedX_ = maxSpeedX_;
+				}
+			}
+			if (speedY_ > -maxSpeedY_)
+			{
+				speedY_ += 0.5;
+				if (speedY_ < -maxSpeedY_)
+				{
+					speedY_ = -maxSpeedY_;
+				}
+			}
+		}
+	}*/
+
 	if( currentKeyStates[ SDL_SCANCODE_W ] ^ currentKeyStates[ SDL_SCANCODE_S ])
 	{
 		if(currentKeyStates[ SDL_SCANCODE_S ])
@@ -101,7 +196,7 @@ void Player::readInput()
 	else if( speedY_ < 0 )
 		speedY_ += 1;
 	else if( speedY_ > 0 )
-		speedY_ -= 1;
+		speedY_ -=1;
 }
 
 void Player::update()

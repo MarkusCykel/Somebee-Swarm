@@ -44,14 +44,14 @@ class Live_Object : public Entity
 {
 	public:
 		Live_Object(double posX, double posY, double width, double height) 
-			: maxSpeedX_{5}, maxSpeedY_{5}, targetPosX_{posX}, targetPosY_{posY}, speedX_{0}, speedY_{0}, Entity{posX, posY, width, height} {};
+			: /*maxSpeedX_{5}, maxSpeedY_{5},*/ targetPosX_{posX}, targetPosY_{posY}, speedX_{0}, speedY_{0}, Entity{posX, posY, width, height} {};
 		virtual void readInput( ) = 0;
 		void setPosition(double, double);
 		double getTargetX();
 		double getTargetY();
 	protected:
 		double speedX_, speedY_;
-		double maxSpeedX_, maxSpeedY_;
+		//double maxSpeedX_, maxSpeedY_;
 		double targetPosX_;
 		double targetPosY_;
 };
