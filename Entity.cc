@@ -230,8 +230,6 @@ void Wall::update()
 
 void Wall::render(SDL_Renderer* renderer, const SDL_Rect & camera)
 {
-	//Clear screen
-
 	//Render red filled quad
 	SDL_Rect fillRect = { posX_ - int(camera.x + height_/2), posY_ - int(camera.y + width_/2) , height_, width_};
 	SDL_SetRenderDrawColor( renderer, 0xFF, 0x00, 0x00, 0xFF );
@@ -250,6 +248,11 @@ void Wall::collision(Entity* param)
 
 void Spawner::update()
 {
+	if(timer_.getTicks() > 10000)
+	{
+		map_->spawnEntity("NPC", posX_, posY_, width_, height_, maxSpeed_, acceleration_);
+		timer_.start();
+	}
 	//do stuff
 }
 

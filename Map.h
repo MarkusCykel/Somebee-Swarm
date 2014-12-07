@@ -18,7 +18,7 @@ class Map
 		void readInput();
 		void update();
 		void render(SDL_Renderer*, const SDL_Rect&);
-		void spawnEntity(const std::string& param, int posX, int posY, unsigned width, unsigned height, double maxSpeed, double acceleration, unsigned angle = 0);
+		void spawnEntity(const std::string& param, int posX, int posY, unsigned width, unsigned height, double maxSpeed, double acceleration, unsigned angle = 0, Uint32 interval = 10000);
 		Player* getPlayer();
 		std::vector<NPC*> getNpcs();
 		std::vector<Wall*> getWalls();

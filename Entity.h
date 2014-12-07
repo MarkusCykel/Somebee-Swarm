@@ -7,6 +7,7 @@
 #include <math.h>
 #include "Map.h"
 #include "Controller.h"
+#include "Timer.h"
 
 //////////////////////////////
 //	Entity
@@ -45,7 +46,7 @@ class Live_Object : public Entity
 		Live_Object(int posX, int posY, unsigned width, unsigned height, double maxSpeed, double acceleration, unsigned angle) 
 			:  speed_{0}, speedX_{0}, speedY_{0}, alive_{true}, targetPosX_{posX}, targetPosY_{posY}, maxSpeed_{maxSpeed}, acceleration_{acceleration}, angle_{angle}, Entity{posX, posY, width, height} {};
 		
-		virtual void readInput( ) = 0;
+		virtual void collision(Entity*) = 0;
 		
 		double getTargetX();
 		double getTargetY();
@@ -106,6 +107,22 @@ class Projectile : public Live_Object
 		void collision(Entity*);
 };
 
+class Spawner : public Live_Object
+{
+	public:
+		Spawner(int posX, int posY, unsigned width, unsigned height, double maxSpeed, double acceleration, Map* map, Uint32 interval) : map_{map}, interval_{interval}, Live_Object{posX, posY, width, height, maxSpeed, acceleration, 0} { timer_.start(); };
+		
+		void readInput();
+		void update();
+		void render(SDL_Renderer*, const SDL_Rect& camera);
+		void collision(Entity*);
+	
+	private:
+		Timer timer_;
+		Uint32 interval_;
+		Map* map_;
+};
+
 
 //////////////////////////////
 //	Static Objects	
@@ -115,16 +132,6 @@ class Wall : public Entity
 {
 	public:
 		Wall(int posX, int posY, unsigned width, unsigned height) : Entity{posX, posY, width, height} {};
-		
-		void update();
-		void render(SDL_Renderer*, const SDL_Rect& camera);
-		void collision(Entity*);
-};
-
-class Spawner : public Entity
-{
-	public:
-		Spawner(int posX, int posY, unsigned width, unsigned height) : Entity{posX, posY, width, height} {};
 		
 		void update();
 		void render(SDL_Renderer*, const SDL_Rect& camera);
