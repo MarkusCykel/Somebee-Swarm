@@ -1,6 +1,39 @@
 #include "Map.h"
 #include <map>
 
+void Map::renderBackground(SDL_Renderer* renderer, const SDL_Rect& camera, double angle, SDL_Point* center, SDL_RendererFlip flip)
+{
+	SDL_Rect renderQuad = { 0, 0, 1280, 960 };
+	
+	renderQuad.w = camera.w;
+	renderQuad.h = camera.h;
+
+	//Render to screen
+	SDL_RenderCopyEx( renderer, background_, &camera, &renderQuad, angle, center, flip );
+}
+
+
+void Map::loadBackground(const std::string& path, SDL_Renderer* renderer)
+{
+	SDL_Surface* loadedSurface = IMG_Load( path.c_str() );
+    if( loadedSurface == NULL )
+    {
+        printf( "Unable to load image %s! SDL_image Error: %s\n", path.c_str(), IMG_GetError() );
+    }
+    else
+    {
+        //Create texture from surface pixels
+        background_ = SDL_CreateTextureFromSurface( renderer, loadedSurface );
+        if( background_ == NULL )
+        {
+            printf( "Unable to create texture from %s! SDL Error: %s\n", path.c_str(), SDL_GetError() );
+        }
+
+        //Get rid of old loaded surface
+        SDL_FreeSurface( loadedSurface );
+    }
+}
+
 double Map::getWidth()
 {
 	return width_;

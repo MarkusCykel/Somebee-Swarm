@@ -5,6 +5,10 @@
 
 SDLWindow::SDLWindow(char* window_title, const unsigned & window_width, const unsigned & window_height)
 {
+	window_title_ = window_title;
+	window_width_ = window_width;
+	window_height_ = window_height;
+	
 	window_ = SDL_CreateWindow(	window_title,
 								SDL_WINDOWPOS_UNDEFINED,
 								SDL_WINDOWPOS_UNDEFINED,

@@ -5,6 +5,9 @@
 #include "Controller.h"
 #include <vector>
 #include <iostream>
+#include <SDL.h>
+#include <SDL_image.h>
+#include <stdio.h>
 
 class Map
 {
@@ -18,6 +21,8 @@ class Map
 		void readInput();
 		void update();
 		void render(SDL_Renderer*, const SDL_Rect&);
+		void renderBackground(SDL_Renderer* renderer, const SDL_Rect& camera, double angle = 0.0, SDL_Point* center = NULL, SDL_RendererFlip flip = SDL_FLIP_NONE);
+		void loadBackground(const std::string&, SDL_Renderer*);
 		void spawnEntity(const std::string& param, int posX, int posY, unsigned width, unsigned height, double maxSpeed, double acceleration, unsigned angle = 0);
 		Player* getPlayer();
 		std::vector<NPC*> getNpcs();
@@ -31,7 +36,7 @@ class Map
 		std::vector<Projectile*> projectiles_{};
 		std::vector<Wall*> walls_{};
 		std::vector<Spawner*> spawners_{};
-		
+		SDL_Texture* background_{};
 		double width_;
 		double height_;
 };
