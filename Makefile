@@ -20,6 +20,8 @@ NOWINDOW = -Wl,-subsystem,windows
 #LINKER_FLAGS specifies the libraries we're linking against 
 LINKER_FLAGS = -lmingw32 -lSDL2main -lSDL2 -lSDL2_image
 
+STATIC = -static-libgcc -static-libstdc++
+
 #This is the target that compiles our executable
 all : main.cc $(OBJS) Makefile
 	$(CCC) Main.cc $(OBJS) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) -o Main
@@ -27,6 +29,11 @@ all : main.cc $(OBJS) Makefile
 all-w : main.cc $(OBJS) Makefile
 	$(CCC) Main.cc $(OBJS) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(NOWINDOW) $(LINKER_FLAGS) -o Main
 
+all-s : main.cc $(OBJS) Makefile
+	$(CCC) Main.cc $(OBJS) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) $(STATIC) -o Main
+	
+all-sw : main.cc $(OBJS) Makefile
+	$(CCC) Main.cc $(OBJS) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(NOWINDOW) $(LINKER_FLAGS) $(STATIC) -o Main
 
 SDLWindow.o: SDLWindow.h SDLWindow.cc
 	$(CCC) SDLWindow.cc $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) -c 

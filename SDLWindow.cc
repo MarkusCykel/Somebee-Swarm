@@ -28,5 +28,5 @@ SDLWindow::SDLWindow(char* window_title, const unsigned & window_width, const un
 
 void SDLWindow::update()
 {
-	SDL_UpdateWindowSurface(window_);
+	SDL_RenderPresent( renderer_ );
 }
