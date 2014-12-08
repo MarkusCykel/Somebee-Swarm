@@ -42,14 +42,14 @@ int main(int argc, char* argv[])
 		// Stuff I'm testing
 		Map map{1280,960};
 		SDL_Rect camera = { 0, 0, 640, 480 };
-		map.spawnEntity("PLAYER", 250, 250, 10, 10, 10, 1);
-		map.spawnEntity("SPAWNER", 130, 200, 15, 15, 6, 1);
-		map.spawnEntity("SPAWNER",100, 354, 3, 3, 1, 1);
+		map.spawnEntity("PLAYER", 250, 250, 100, 100, 1, 1);
+		map.spawnEntity("NPC", 130, 200, 100, 100, 1, 1);
+		/*map.spawnEntity("SPAWNER",100, 354, 3, 3, 1, 1);
 		map.spawnEntity("SPAWNER",700, 354, 1, 1, 2, 1);
 		map.spawnEntity("SPAWNER", 900, 354, 15, 15, 3, 1);
 		map.spawnEntity("SPAWNER", 200, 500, 13, 13, 4, 1);
 		map.spawnEntity("SPAWNER", 300, 354, 11, 11, 5, 1);
-		map.spawnEntity("SPAWNER",1100, 700, 9, 9, 3, 1);
+		map.spawnEntity("SPAWNER",1100, 700, 9, 9, 3, 1);*/
 		map.spawnEntity("PROJECTILE", 10, 10, 10, 10, 10, 1, 30);
 		
 		Controller controller;

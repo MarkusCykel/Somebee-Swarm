@@ -49,6 +49,37 @@ void Live_Object::setAlive(bool param)
 	alive_ = param;
 }
 
+void Live_Object::checkCollision(Map& map)
+{
+	double leftA, leftB;
+	double rightA, rightB;
+	double bottomA, bottomB;
+	double topA, topB;
+	
+	auto Npcs = map.getNpcs();
+	
+	leftA = - (double)width_/2 + posX_;
+	rightA = (double)width_/2 + posX_;
+	topA = - (double)height_/2 + posY_;
+	bottomA = (double)height_/2 + posY_;
+
+	for(auto i: Npcs)
+	{
+		if(i != this)
+		{
+			leftB =  - i -> getWidth()/2 + i-> getX();
+			rightB = i -> getWidth()/2 + i-> getX();
+			topB = - i -> getHeight()/2 + i-> getY();
+			bottomB =  i ->getHeight()/2 + i-> getY();
+
+			if((bottomA >= topB && topB >= topA || bottomB >= topA && topA >= topB) && (rightA >= leftB && rightB >= leftA || leftA <= rightB && rightA >= rightB))
+				std::cout << "COLLISION WOOO" << std::endl;
+			else
+				std::cout << "nope WOOO" << std::endl;
+		}
+	 }
+}
+
 
 //////////////////////////////
 //	Player
