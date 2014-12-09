@@ -21,7 +21,7 @@ class Map
 		void readInput();
 		void update();
 		void render(SDL_Renderer*, const SDL_Rect&);
-		void renderBackground(SDL_Renderer* renderer, const SDL_Rect& camera, double angle = 0.0, SDL_Point* center = NULL, SDL_RendererFlip flip = SDL_FLIP_NONE);
+		void renderBackground(SDL_Renderer*, const SDL_Rect&, const int&, const int&);
 		void loadBackground(const std::string&, SDL_Renderer*);
 		void spawnEntity(const std::string& param, int posX, int posY, unsigned width, unsigned height, double maxSpeed, double acceleration, unsigned angle = 0);
 		Player* getPlayer();

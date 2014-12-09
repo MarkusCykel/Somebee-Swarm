@@ -1,15 +1,95 @@
 #include "Map.h"
 #include <map>
 
-void Map::renderBackground(SDL_Renderer* renderer, const SDL_Rect& camera, double angle, SDL_Point* center, SDL_RendererFlip flip)
-{
-	SDL_Rect renderQuad = { 0, 0, 1280, 960 };
+void Map::render(SDL_Renderer* renderer, const SDL_Rect& camera)
+{	
+	player_->render(renderer, camera);
 	
-	renderQuad.w = camera.w;
-	renderQuad.h = camera.h;
+	for( auto i : npcs_ )
+		i->render(renderer,camera);
+		
+	for( auto i : projectiles_)
+		i->render(renderer,camera);
+		
+	//Update screen
+	SDL_RenderPresent( renderer );
+}
 
-	//Render to screen
-	SDL_RenderCopyEx( renderer, background_, &camera, &renderQuad, angle, center, flip );
+void Map::renderBackground(SDL_Renderer* renderer, const SDL_Rect& camera, const int& window_width, const int& window_height)
+{
+	SDL_Rect renderQuad = { 0, 0, 640, 480 };
+	int widthBackground;
+	int heightBackground;
+	SDL_QueryTexture(background_, NULL, NULL, &widthBackground, &heightBackground);
+	
+	SDL_Rect cameratemp = { camera.x, camera.y, camera.w, camera.h };
+	renderQuad.x = 0;
+	renderQuad.y = 0;
+	SDL_Rect black = {0,0,width_,height_};
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+	SDL_RenderFillRect(renderer, &black);
+	if( camera.y < 1 && camera.x < 1 )
+	{
+		cameratemp.x = 0;
+		cameratemp.y = 0;
+		renderQuad.x -= camera.x;
+		renderQuad.y -= camera.y;
+		SDL_RenderCopy( renderer, background_, &cameratemp, &renderQuad);
+	}
+	else if( camera.x < 1 && camera.y <= window_height && camera.y > 0)
+	{
+		cameratemp.x = 0;
+		renderQuad.x -= camera.x;
+		SDL_RenderCopy( renderer, background_, &cameratemp, &renderQuad);
+	}
+	else if( camera.y < 1 && camera.x <= window_width && camera.x > 0 )
+	{
+		cameratemp.y = 0;
+		renderQuad.y -= camera.y;
+		SDL_RenderCopy( renderer, background_, &cameratemp, &renderQuad);
+	}
+	else if( camera.x > window_width && camera.y <= window_height && camera.y > 0 )
+	{
+		cameratemp.x = window_width;
+		renderQuad.x -= camera.x - window_width;
+		SDL_RenderCopy( renderer, background_, &cameratemp, &renderQuad);
+	}
+	else if( camera.y > window_height && camera.x <= window_width && camera.x > 0 )
+	{
+		cameratemp.y = window_height;
+		renderQuad.y -= camera.y - window_height;
+		SDL_RenderCopy( renderer, background_, &cameratemp, &renderQuad);
+	}
+	else if( camera.x < 1 && camera.y > window_height )
+	{
+		cameratemp.x = 0;
+		cameratemp.y = window_height;
+		renderQuad.x -= camera.x;
+		renderQuad.y -= camera.y - window_height;
+		SDL_RenderCopy( renderer, background_, &cameratemp, &renderQuad);
+	}
+	else if( camera.y < 1 && camera.x > window_width )
+	{
+		cameratemp.y = 0;
+		cameratemp.x = window_width;
+		renderQuad.y -= camera.y;
+		renderQuad.x -= camera.x - window_width;
+		SDL_RenderCopy( renderer, background_, &cameratemp, &renderQuad);
+	}
+	else if( camera.x > window_width && camera.y > window_height )
+	{
+		cameratemp.x = window_width;
+		cameratemp.y = window_height;
+		renderQuad.x += window_width - camera.x;
+		renderQuad.y += window_height - camera.y;
+		SDL_RenderCopy( renderer, background_, &cameratemp, &renderQuad);
+	}
+	else
+	{
+		SDL_RenderCopy( renderer, background_, &cameratemp, &renderQuad);
+	}
+	std::cout<<"Camera x:"<<camera.x<<" Camera y:"<<camera.y<<std::endl;
+	std::cout<<"Cameratemp x:"<<cameratemp.x<<" Cameratemp y:"<<cameratemp.y<<std::endl;
 }
 
 
@@ -72,24 +152,6 @@ void Map::update()
 		{
 			i->update();
 		}
-}
-
-void Map::render(SDL_Renderer* renderer, const SDL_Rect& camera)
-{
-	//Clear screen
-	SDL_SetRenderDrawColor( renderer, 0xFF, 0xFF, 0xFF, 0xFF );
-	SDL_RenderClear( renderer );
-	
-	player_->render(renderer, camera);
-	
-	for( auto i : npcs_ )
-		i->render(renderer,camera);
-		
-	for( auto i : projectiles_)
-		i->render(renderer,camera);
-		
-	//Update screen
-	SDL_RenderPresent( renderer );
 }
 
 void Map::spawnEntity(const std::string& param, int posX, int posY, unsigned width, unsigned height, double maxSpeed, double acceleration, unsigned angle)

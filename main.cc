@@ -42,6 +42,7 @@ int main(int argc, char* argv[])
 		// Stuff I'm testing
 		Map map{1280,960};
 		SDL_Rect camera = { 0, 0, 640, 480 };
+		map.loadBackground("picture.jpg", window.getRenderer());
 		map.spawnEntity("PLAYER", 250, 250, 10, 10, 10, 1);
 		map.spawnEntity("NPC", 130, 200, 15, 15, 6, 1);
 		map.spawnEntity("NPC",100, 354, 3, 3, 1, 1);
@@ -89,8 +90,9 @@ int main(int argc, char* argv[])
 			map.readInput();
 			map.update();
 			controller.update(map);
-			camera.x = (map.getPlayer()->getX()) - 640/ 2;
-			camera.y = (map.getPlayer()->getY()) - 480/ 2;
+			camera.x = (map.getPlayer()->getX()) - window.get_width()/ 2;
+			camera.y = (map.getPlayer()->getY()) - window.get_height()/ 2;
+			map.renderBackground(window.getRenderer(),camera,window.get_width(),window.get_height());
 			map.render(window.getRenderer(),camera);
 			
 			////////////////////////////////////////////////////////
