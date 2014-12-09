@@ -43,7 +43,7 @@ int main(int argc, char* argv[])
 		Map map{1280,960};
 		SDL_Rect camera = { 0, 0, 640, 480 };
 		map.spawnEntity("PLAYER", 250, 250, 10, 10, 10, 1);
-		map.spawnEntity("SPAWNER", 130, 200, 15, 15, 6, 1);
+		//map.spawnEntity("NPC", 130, 200, 15, 15, 10, 1);
 		map.spawnEntity("SPAWNER",100, 354, 3, 3, 1, 1);
 		map.spawnEntity("SPAWNER",700, 354, 1, 1, 2, 1);
 		map.spawnEntity("SPAWNER", 900, 354, 15, 15, 3, 1);

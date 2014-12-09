@@ -16,7 +16,7 @@
 class Entity
 {
 	public:
-		Entity(int posX, int posY, unsigned width, unsigned height) : posX_{posX}, posY_{posY}, width_{width}, height_{height} {};
+		Entity(int posX, int posY, unsigned width, unsigned height) : move_vector_{std::make_pair(0,0)}, posX_{posX}, posY_{posY}, width_{width}, height_{height} {};
 	
 		virtual void update() = 0;
 		virtual void render(SDL_Renderer*, const SDL_Rect& camera) = 0;
@@ -33,6 +33,7 @@ class Entity
 		double posY_;
 		unsigned width_;
 		unsigned height_;
+		std::pair<double,double> move_vector_;
 };
 
 

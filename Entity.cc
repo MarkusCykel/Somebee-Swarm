@@ -60,7 +60,71 @@ void Player::readInput()
 {
 	const Uint8* currentKeyStates = SDL_GetKeyboardState( NULL );
 	
-	if( currentKeyStates[ SDL_SCANCODE_W ] ^ currentKeyStates[ SDL_SCANCODE_S ]) // If exactly one of W and S is held down
+	/*if( ( currentKeyStates[ SDL_SCANCODE_W ] ^ currentKeyStates[ SDL_SCANCODE_S ] ) && ( currentKeyStates[ SDL_SCANCODE_A ] ^ currentKeyStates[ SDL_SCANCODE_D ] ) )
+	{
+		if( currentKeyStates[ SDL_SCANCODE_W ] )
+			speedY_ = -sqrt(maxSpeed_*maxSpeed_ - speedX_);
+		else
+			speedY_ = sqrt(maxSpeed_*maxSpeed_ - speedX_);
+		
+		if( currentKeyStates[ SDL_SCANCODE_D ] )
+			speedX_ = sqrt(maxSpeed_*maxSpeed_ - speedY_);
+		else
+			speedX_ = -sqrt(maxSpeed_*maxSpeed_ - speedY_);
+	
+	}
+	else 
+	{*/
+	
+	if( currentKeyStates[ SDL_SCANCODE_W ] ^ currentKeyStates[ SDL_SCANCODE_S ] )
+	{
+		if(currentKeyStates[ SDL_SCANCODE_W ]) // If it was S, increase speed on x-axis
+			if(speedY_ > -maxSpeed_)
+				speedY_ -= acceleration_;
+			else
+				speedY_ = -maxSpeed_;
+		else if(currentKeyStates[ SDL_SCANCODE_S ])
+			if(speedY_ < maxSpeed_)
+				speedY_ += acceleration_;
+			else
+				speedY_ = maxSpeed_;
+	}
+	else if( speedY_ < 0 ) // If W nor S is held down, deaccelerate
+		speedY_ += acceleration_;
+	else if( speedY_ > 0 )
+		speedY_ -= acceleration_;
+	
+	if( currentKeyStates[ SDL_SCANCODE_A ] ^ currentKeyStates[ SDL_SCANCODE_D ] )
+	{
+		if( currentKeyStates[ SDL_SCANCODE_A ] ) // If it was S, increase speed on x-axis
+			if(speedX_ > -maxSpeed_)
+				speedX_ -= acceleration_;
+			else
+				speedX_ = -maxSpeed_;
+		else if( currentKeyStates[ SDL_SCANCODE_D ] )
+			if(speedX_ < maxSpeed_)
+				speedX_ += acceleration_;
+			else
+				speedX_ = maxSpeed_;
+	}
+	else if( speedX_ < 0 )
+		speedX_ += acceleration_;
+	else if( speedX_ > 0 )
+		speedX_ -= acceleration_;
+	
+	
+	std::pair<double,double> move_vector{ std::make_pair(speedX_, speedY_) };
+	
+	double vector_length = sqrt(pow(move_vector.first,2) + pow(move_vector.second, 2));
+	
+	if(vector_length != 0)
+	{
+		move_vector_.first = move_vector.first/vector_length;
+		move_vector_.second = move_vector.second/vector_length;
+	}
+}
+	
+	/*if( currentKeyStates[ SDL_SCANCODE_W ] ^ currentKeyStates[ SDL_SCANCODE_S ]) // If exactly one of W and S is held down
 	{
 		if(currentKeyStates[ SDL_SCANCODE_S ]) // If it was S, increase speed on x-axis
 			if(speedY_ < maxSpeed_)
@@ -106,14 +170,24 @@ void Player::readInput()
 		speedX_ += acceleration_;
 	else if( speedX_ > 0 )
 		speedX_ -= acceleration_;
-}
+}*/
 
 
 /* Update position depending on speed */
 void Player::update()
 {
-	targetPosX_ = posX_ + speedX_;
-	targetPosY_ = posY_ + speedY_;
+	/*targetPosX_ = posX_ + speedX_;
+	targetPosY_ = posY_ + speedY_;*/
+	if(abs(speedX_) > abs(speedY_))
+	{
+		targetPosX_ = posX_ + move_vector_.first * abs(speedX_);
+		targetPosY_ = posY_ + move_vector_.second * abs(speedX_);
+	}
+	else
+	{
+		targetPosX_ = posX_ + move_vector_.first * abs(speedY_);
+		targetPosY_ = posY_ + move_vector_.second * abs(speedY_);
+	}
 }
 
 void Player::render(SDL_Renderer* renderer, const SDL_Rect & camera)
