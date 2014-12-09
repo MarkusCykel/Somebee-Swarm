@@ -17,11 +17,7 @@ void Map::render(SDL_Renderer* renderer, const SDL_Rect& camera)
 
 void Map::renderBackground(SDL_Renderer* renderer, const SDL_Rect& camera, const int& window_width, const int& window_height)
 {
-	SDL_Rect renderQuad = { 0, 0, 640, 480 };
-	int widthBackground;
-	int heightBackground;
-	SDL_QueryTexture(background_, NULL, NULL, &widthBackground, &heightBackground);
-	
+	SDL_Rect renderQuad = { 0, 0, window_width, window_height };
 	SDL_Rect cameratemp = { camera.x, camera.y, camera.w, camera.h };
 	renderQuad.x = 0;
 	renderQuad.y = 0;
@@ -36,52 +32,52 @@ void Map::renderBackground(SDL_Renderer* renderer, const SDL_Rect& camera, const
 		renderQuad.y -= camera.y;
 		SDL_RenderCopy( renderer, background_, &cameratemp, &renderQuad);
 	}
-	else if( camera.x < 1 && camera.y <= window_height && camera.y > 0)
+	else if( camera.x < 1 && camera.y <= renderQuad.h && camera.y > 0)
 	{
 		cameratemp.x = 0;
 		renderQuad.x -= camera.x;
 		SDL_RenderCopy( renderer, background_, &cameratemp, &renderQuad);
 	}
-	else if( camera.y < 1 && camera.x <= window_width && camera.x > 0 )
+	else if( camera.y < 1 && camera.x <= renderQuad.w && camera.x > 0 )
 	{
 		cameratemp.y = 0;
 		renderQuad.y -= camera.y;
 		SDL_RenderCopy( renderer, background_, &cameratemp, &renderQuad);
 	}
-	else if( camera.x > window_width && camera.y <= window_height && camera.y > 0 )
+	else if( camera.x > renderQuad.w && camera.y <= renderQuad.h && camera.y > 0 )
 	{
-		cameratemp.x = window_width;
-		renderQuad.x -= camera.x - window_width;
+		cameratemp.x = renderQuad.w;
+		renderQuad.x -= camera.x - renderQuad.w;
 		SDL_RenderCopy( renderer, background_, &cameratemp, &renderQuad);
 	}
-	else if( camera.y > window_height && camera.x <= window_width && camera.x > 0 )
+	else if( camera.y > renderQuad.h && camera.x <= renderQuad.w && camera.x > 0 )
 	{
-		cameratemp.y = window_height;
-		renderQuad.y -= camera.y - window_height;
+		cameratemp.y = renderQuad.h;
+		renderQuad.y -= camera.y - renderQuad.h;
 		SDL_RenderCopy( renderer, background_, &cameratemp, &renderQuad);
 	}
-	else if( camera.x < 1 && camera.y > window_height )
+	else if( camera.x < 1 && camera.y > renderQuad.h )
 	{
 		cameratemp.x = 0;
-		cameratemp.y = window_height;
+		cameratemp.y = renderQuad.h;
 		renderQuad.x -= camera.x;
-		renderQuad.y -= camera.y - window_height;
+		renderQuad.y -= camera.y - renderQuad.h;
 		SDL_RenderCopy( renderer, background_, &cameratemp, &renderQuad);
 	}
-	else if( camera.y < 1 && camera.x > window_width )
+	else if( camera.y < 1 && camera.x > renderQuad.w )
 	{
 		cameratemp.y = 0;
-		cameratemp.x = window_width;
+		cameratemp.x = renderQuad.w;
 		renderQuad.y -= camera.y;
-		renderQuad.x -= camera.x - window_width;
+		renderQuad.x -= camera.x - renderQuad.w;
 		SDL_RenderCopy( renderer, background_, &cameratemp, &renderQuad);
 	}
-	else if( camera.x > window_width && camera.y > window_height )
+	else if( camera.x > renderQuad.w && camera.y > renderQuad.h )
 	{
-		cameratemp.x = window_width;
-		cameratemp.y = window_height;
-		renderQuad.x += window_width - camera.x;
-		renderQuad.y += window_height - camera.y;
+		cameratemp.x = renderQuad.w;
+		cameratemp.y = renderQuad.h;
+		renderQuad.x += renderQuad.w - camera.x;
+		renderQuad.y += renderQuad.h - camera.y;
 		SDL_RenderCopy( renderer, background_, &cameratemp, &renderQuad);
 	}
 	else
