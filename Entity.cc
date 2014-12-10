@@ -57,7 +57,7 @@ void Live_Object::checkCollision(Map& map, int& x)
 	double topA, topB;
 	
 	auto Npcs = map.getNpcs();
-	
+	auto Walls = map.getWalls();
 	leftA = - (double)width_/2 + posX_;
 	rightA = (double)width_/2 + posX_;
 	topA = - (double)height_/2 + posY_;
@@ -67,11 +67,33 @@ void Live_Object::checkCollision(Map& map, int& x)
 	{
 		if(i != this)
 		{
+
+
 			leftB =  - i -> getWidth()/2 + i-> getX();
 			rightB = i -> getWidth()/2 + i-> getX();
 			topB = - i -> getHeight()/2 + i-> getY();
 			bottomB =  i ->getHeight()/2 + i-> getY();
 
+			for(auto j: Walls)
+	  		{
+	 	
+	 	
+	 			double leftC =  - j -> getWidth()/2 + j-> getX();
+				double rightC = j -> getWidth()/2 + j-> getX();
+				double topC = - j -> getHeight()/2 + j-> getY();
+				double bottomC =  j ->getHeight()/2 + j-> getY();
+
+				if(topB <= bottomC || bottomB >= topC)
+				{
+					i -> speedY_=0;
+					std::cout << "COLLISION WOOO" << std::endl;
+				}
+				if(rightB >= leftC || leftB <= rightC)
+				{
+					i -> speedX_=0;
+					std::cout << "collision WOOO" << std::endl;		
+			 	}
+			}
 			if((bottomA >= topB && topB >= topA || bottomB >= topA && topA >= topB) && (rightA >= leftB && rightB >= leftA || leftA <= rightB && rightA >= rightB))
 				{
 				std::cout << "COLLISION WOOO" << std::endl;
@@ -87,8 +109,7 @@ void Live_Object::checkCollision(Map& map, int& x)
 				std::cout << "nope WOOO" << std::endl;
 		}
 	 }
-	 auto Walls = map.getWalls();
-
+	
 	 for(auto i: Walls)
 	 {
 	 	
@@ -106,7 +127,7 @@ void Live_Object::checkCollision(Map& map, int& x)
 		if(rightA >= leftB || leftA <= rightB)
 		{
 			speedX_=0;
-			std::cout << "nope WOOO" << std::endl;		
+			std::cout << "collision WOOO" << std::endl;		
 	 	}
 	 } 
 }
@@ -310,7 +331,7 @@ void Wall::collision(Entity* param)
 
 void Spawner::update()
 {
-	if(timer_.getTicks() > 10000)
+	if(timer_.getTicks() > 1000)
 	{
 		map_->spawnEntity("NPC", posX_, posY_, width_, height_, maxSpeed_, acceleration_);
 		timer_.start();
