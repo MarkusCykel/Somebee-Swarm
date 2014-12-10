@@ -10,7 +10,6 @@ class Player;
 class Projectile;
 class Controller;
 class Map;
-class SDLSurface;
 class SDLWindow;
 class Timer;
 

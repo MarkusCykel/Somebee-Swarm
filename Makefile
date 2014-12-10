@@ -1,5 +1,5 @@
 #OBJS specifies which files to compile as part of the project 
-OBJS = SDLSurface.o SDLWindow.o Entity.o Map.o Timer.o Controller.o
+OBJS = SDLWindow.o Entity.o Map.o Timer.o Controller.o
 
 # Kompilator (gcc) och diagnostikfilter (gccfilter)
 CCC = g++
@@ -18,7 +18,9 @@ CCFLAGS = -w -std=c++11 -Wpedantic -Wall -Wextra
 NOWINDOW = -Wl,-subsystem,windows
 
 #LINKER_FLAGS specifies the libraries we're linking against 
-LINKER_FLAGS = -lmingw32 -lSDL2main -lSDL2
+LINKER_FLAGS = -lmingw32 -lSDL2main -lSDL2 -lSDL2_image
+
+STATIC = -static-libgcc -static-libstdc++
 
 #This is the target that compiles our executable
 all : main.cc $(OBJS) Makefile
@@ -27,12 +29,14 @@ all : main.cc $(OBJS) Makefile
 all-w : main.cc $(OBJS) Makefile
 	$(CCC) Main.cc $(OBJS) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(NOWINDOW) $(LINKER_FLAGS) -o Main
 
+all-s : main.cc $(OBJS) Makefile
+	$(CCC) Main.cc $(OBJS) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) $(STATIC) -o Main
+	
+all-sw : main.cc $(OBJS) Makefile
+	$(CCC) Main.cc $(OBJS) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(NOWINDOW) $(LINKER_FLAGS) $(STATIC) -o Main
 
-SDLWindow.o: SDLWindow.h SDLSurface.o SDLWindow.cc
+SDLWindow.o: SDLWindow.h SDLWindow.cc
 	$(CCC) SDLWindow.cc $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) -c 
-
-SDLSurface.o: SDLSurface.h SDLSurface.cc
-	$(CCC) SDLSurface.cc $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) -c
 
 Map.o: Map.h Entity.o Map.cc
 	$(CCC) Map.cc $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) -c

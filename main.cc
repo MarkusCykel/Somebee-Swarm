@@ -5,14 +5,12 @@
 
 #include "classes.h"
 #include "SDLWindow.h"
-#include "SDLSurface.h"
 #include "Entity.h"
 #include "Timer.h"
 #include "Map.h"
 
 const int SCREEN_FPS = 60;
 const int SCREEN_TICKS_PER_FRAME = 1000 / SCREEN_FPS + 1;
-
 
 int main(int argc, char* argv[])
 {	
@@ -24,17 +22,9 @@ int main(int argc, char* argv[])
 	{
 		////////////////////////////////////////////////////////
 		// The window and a picture
-		SDLWindow window{"testing", 500, 500};
+		SDLWindow window{"testing", 640, 480};
 		
-		SDLSurface picture;
-		if(picture.loadBMP("../Somebee-Swarm/instruction.bmp", window.get_format()))
-		{
-			std::cout << "Error loading media";
-		}
-		else
-		{
-			window.blitSurface(picture,500,500);
-		}
+		//SDLSurface picture;
 		//
 		////////////////////////////////////////////////////////
 		
@@ -50,8 +40,18 @@ int main(int argc, char* argv[])
 		
 		////////////////////////////////////////////////////////
 		// Stuff I'm testing
-		Map map{500,500};
-		map.spawnEntity("PLAYER",250,250);
+		Map map{1280,960};
+		SDL_Rect camera = { 0, 0, 640, 480 };
+		map.spawnEntity("PLAYER", 250, 250, 10, 10, 5, 5);
+		map.spawnEntity("NPC", 130, 200, 10, 10, 5, 5);
+		map.spawnEntity("SPAWNER",100, 354, 3, 3, 1, 1);
+		map.spawnEntity("SPAWNER",700, 354, 1, 1, 2, 1);
+		map.spawnEntity("SPAWNER", 900, 354, 15, 15, 3, 1);
+		map.spawnEntity("SPAWNER", 200, 500, 13, 13, 4, 1);
+		map.spawnEntity("SPAWNER", 300, 354, 11, 11, 5, 1);
+		map.spawnEntity("SPAWNER",1100, 700, 9, 9, 3, 1);
+		map.spawnEntity("PROJECTILE", 10, 10, 10, 10, 10, 1, 30);
+		
 		Controller controller;
 		//
 		////////////////////////////////////////////////////////
@@ -90,8 +90,10 @@ int main(int argc, char* argv[])
 			map.update();
 			controller.update(map);
 			
-			std::cout << std::setw(25) << std::right << "x: " << map.getPlayer()->getX() << " y: " << map.getPlayer()->getY() << std::endl;
-			
+			camera.x = (map.getPlayer()->getX()) - 640/ 2;
+			camera.y = (map.getPlayer()->getY()) - 480/ 2;
+			map.render(window.getRenderer(),camera);
+
 			////////////////////////////////////////////////////////
 			// CALCULATING FPS
 			float avgFPS = countedFrames / ( fpsTimer.getTicks() / 1000.f );
@@ -100,7 +102,7 @@ int main(int argc, char* argv[])
 				avgFPS = 0;
 			}
 			
-			std::cout << std::setw(13) << "Avg (w/cap) " << countedFrames << std::setw(12) << avgFPS;
+			//std::cout << std::setw(13) << "Avg (w/cap) " << countedFrames << std::setw(12) << avgFPS << std::endl;
 
 			++countedFrames;	
 			//

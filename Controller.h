@@ -10,9 +10,8 @@ class Controller
 {
 	public:
 		void update(Map& map);
-		void requestPosition(double x, double y, Live_Object*);
 	private:
-		void check_collisions();
+		void check_collisions(Map& map);
 		
 		std::map<Live_Object*,std::pair<double,double>> requestedPositions_;
 };
