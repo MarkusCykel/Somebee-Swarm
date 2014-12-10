@@ -22,6 +22,7 @@ int main(int argc, char* argv[])
 	else
 	{
 		SDL_Event e;
+		
 		Window window{"testing", WINDOW_HEIGHT, WINDOW_WIDTH};
 		GameState gameState{2000,2000,window};
 		

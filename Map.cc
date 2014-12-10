@@ -1,6 +1,115 @@
 #include "Map.h"
 #include <map>
 
+void Map::render(SDL_Renderer* renderer, const SDL_Rect& camera)
+{	
+	player_->render(renderer, camera);
+	
+	for( auto i : npcs_ )
+		i->render(renderer,camera);
+		
+	for( auto i : projectiles_)
+		i->render(renderer,camera);
+		
+	//Update screen
+	SDL_RenderPresent( renderer );
+}
+
+void Map::renderBackground(SDL_Renderer* renderer, const SDL_Rect& camera, const int& window_width, const int& window_height)
+{
+	SDL_Rect renderQuad = { 0, 0, window_width, window_height };
+	SDL_Rect cameratemp = { camera.x, camera.y, camera.w, camera.h };
+	renderQuad.x = 0;
+	renderQuad.y = 0;
+	SDL_Rect black = {0,0,width_,height_};
+	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
+	SDL_RenderFillRect(renderer, &black);
+	if( camera.y < 1 && camera.x < 1 )
+	{
+		cameratemp.x = 0;
+		cameratemp.y = 0;
+		renderQuad.x -= camera.x;
+		renderQuad.y -= camera.y;
+		SDL_RenderCopy( renderer, background_, &cameratemp, &renderQuad);
+	}
+	else if( camera.x < 1 && camera.y <= renderQuad.h && camera.y > 0)
+	{
+		cameratemp.x = 0;
+		renderQuad.x -= camera.x;
+		SDL_RenderCopy( renderer, background_, &cameratemp, &renderQuad);
+	}
+	else if( camera.y < 1 && camera.x <= renderQuad.w && camera.x > 0 )
+	{
+		cameratemp.y = 0;
+		renderQuad.y -= camera.y;
+		SDL_RenderCopy( renderer, background_, &cameratemp, &renderQuad);
+	}
+	else if( camera.x > renderQuad.w && camera.y <= renderQuad.h && camera.y > 0 )
+	{
+		cameratemp.x = renderQuad.w;
+		renderQuad.x -= camera.x - renderQuad.w;
+		SDL_RenderCopy( renderer, background_, &cameratemp, &renderQuad);
+	}
+	else if( camera.y > renderQuad.h && camera.x <= renderQuad.w && camera.x > 0 )
+	{
+		cameratemp.y = renderQuad.h;
+		renderQuad.y -= camera.y - renderQuad.h;
+		SDL_RenderCopy( renderer, background_, &cameratemp, &renderQuad);
+	}
+	else if( camera.x < 1 && camera.y > renderQuad.h )
+	{
+		cameratemp.x = 0;
+		cameratemp.y = renderQuad.h;
+		renderQuad.x -= camera.x;
+		renderQuad.y -= camera.y - renderQuad.h;
+		SDL_RenderCopy( renderer, background_, &cameratemp, &renderQuad);
+	}
+	else if( camera.y < 1 && camera.x > renderQuad.w )
+	{
+		cameratemp.y = 0;
+		cameratemp.x = renderQuad.w;
+		renderQuad.y -= camera.y;
+		renderQuad.x -= camera.x - renderQuad.w;
+		SDL_RenderCopy( renderer, background_, &cameratemp, &renderQuad);
+	}
+	else if( camera.x > renderQuad.w && camera.y > renderQuad.h )
+	{
+		cameratemp.x = renderQuad.w;
+		cameratemp.y = renderQuad.h;
+		renderQuad.x += renderQuad.w - camera.x;
+		renderQuad.y += renderQuad.h - camera.y;
+		SDL_RenderCopy( renderer, background_, &cameratemp, &renderQuad);
+	}
+	else
+	{
+		SDL_RenderCopy( renderer, background_, &cameratemp, &renderQuad);
+	}
+	std::cout<<"Camera x:"<<camera.x<<" Camera y:"<<camera.y<<std::endl;
+	std::cout<<"Cameratemp x:"<<cameratemp.x<<" Cameratemp y:"<<cameratemp.y<<std::endl;
+}
+
+
+void Map::loadBackground(const std::string& path, SDL_Renderer* renderer)
+{
+	SDL_Surface* loadedSurface = IMG_Load( path.c_str() );
+    if( loadedSurface == NULL )
+    {
+        printf( "Unable to load image %s! SDL_image Error: %s\n", path.c_str(), IMG_GetError() );
+    }
+    else
+    {
+        //Create texture from surface pixels
+        background_ = SDL_CreateTextureFromSurface( renderer, loadedSurface );
+        if( background_ == NULL )
+        {
+            printf( "Unable to create texture from %s! SDL Error: %s\n", path.c_str(), SDL_GetError() );
+        }
+
+        //Get rid of old loaded surface
+        SDL_FreeSurface( loadedSurface );
+    }
+}
+
 double Map::getWidth()
 {
 	return width_;
