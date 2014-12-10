@@ -163,17 +163,6 @@ void Player::fire(Map& map, double targetX, double targetY)
 			map.makeProjectile(posX_, posY_, 5, 5, 20, 20, move_vector);
 			timer_.start();
 		}
-		/*if(abs(targetX - posX_) <= abs(move_vector.first * maxSpeed_) && abs(targetY - posY_) <= abs(move_vector.second * maxSpeed_))
-		{
-			targetPosX_ = targetX;
-			targetPosY_ = targetY;
-		}
-		else
-		{
-			targetPosX_ = posX_ + move_vector.first * maxSpeed_;
-			targetPosY_ = posY_ + move_vector.second * maxSpeed_;
-		}*/
-		
 	}
 	
 	//Projectile(int posX, int posY, unsigned width, unsigned height, double maxSpeed, double acceleration, unsigned angle)

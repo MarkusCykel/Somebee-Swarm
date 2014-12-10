@@ -39,6 +39,9 @@ void GameState::readInput(SDL_Event& e)
 {
 	auto player = map_.getPlayer();
 	
+	int x ,y;
+	const Uint32 currentButtonStates = SDL_GetMouseState( &x, &y );
+	
 	while(SDL_PollEvent(&e) != 0)
 	{
 		if(e.type == SDL_QUIT)
@@ -47,15 +50,20 @@ void GameState::readInput(SDL_Event& e)
 		}
 		else if( e.type == SDL_MOUSEBUTTONDOWN)
 		{
-			if( e.button.which = SDL_BUTTON_LEFT )
+			if( e.button.button == SDL_BUTTON_LEFT )
 			{
-				int x ,y;
-				SDL_GetMouseState( &x, &y );
 				x = camera_.x + x;
 				y = camera_.y + y;
 				player->fire(map_,x,y);
 			}
 		}
+	}
+	
+	if( currentButtonStates & SDL_BUTTON(SDL_BUTTON_LEFT) )
+	{
+		x = camera_.x + x;
+		y = camera_.y + y;
+		player->fire(map_,x,y);
 	}
 	
 	map_.getPlayer()->readInput();
@@ -94,6 +102,13 @@ void GameState::update()
 		i->update();
 	}
 	
+	auto spawners = map_.getSpawners();
+	
+	for( const auto &i : spawners )
+	{
+		i->update();
+	}
+	
 	controller_.update(map_);
 	
 	camera_.x = floor(map_.getPlayer()->getX()) - camera_.w/ 2;
@@ -108,16 +123,16 @@ void GameState::render()
 	
 	map_.getPlayer()->render( window_.getRenderer(), camera_);
 	
-	auto npcs = map_.getNpcs();
+	auto projectiles = map_.getProjectiles();
 	
-	for( auto i : npcs )
+	for( auto i : projectiles )
 	{
 		i->render( window_.getRenderer(), camera_);
 	}
 	
-	auto projectiles = map_.getProjectiles();
+	auto npcs = map_.getNpcs();
 	
-	for( auto i : projectiles )
+	for( auto i : npcs )
 	{
 		i->render( window_.getRenderer(), camera_);
 	}
