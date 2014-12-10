@@ -27,9 +27,9 @@ void GameState::run(SDL_Event& e)
 		render();
 
 		int frameTicks = capTimer_.getTicks();
-		if( frameTicks < 17 )
+		if( frameTicks < SCREEN_TICKS_PER_FRAME)
 		{
-			SDL_Delay( 17 - frameTicks );
+			SDL_Delay( SCREEN_TICKS_PER_FRAME - frameTicks );
 		}
 	}
 }
@@ -136,6 +136,8 @@ void GameState::render()
 	{
 		i->render( window_.getRenderer(), camera_);
 	}
+	
+	map_.renderBackground(window.getRenderer(),camera,window.get_width(),window.get_height());
 	
 	SDL_RenderPresent( window_.getRenderer() );
 }
