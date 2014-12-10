@@ -13,7 +13,7 @@ class Controller
 	private:
 		void check_collisions();
 		
-		std::map<Live_Object*,std::pair<double,double>> requestedPositions_;
+		std::map<LiveObject*,std::pair<double,double>> requestedPositions_;
 };
 
 #endif

@@ -63,6 +63,8 @@ void Controller::update(Map& map)
 			
 		i->setPosition(x,y);
 	}
+	
+	player->fire(map,200,200);
 }
 
 

@@ -1,9 +1,9 @@
 #include <SDL.h>
 #include <iostream>
 
-#include "SDLWindow.h"
+#include "Window.h"
 
-SDLWindow::SDLWindow(char* window_title, const unsigned & window_width, const unsigned & window_height)
+Window::Window(char* window_title, const unsigned & window_width, const unsigned & window_height)
 {
 	window_ = SDL_CreateWindow(	window_title,
 								SDL_WINDOWPOS_UNDEFINED,
@@ -26,7 +26,17 @@ SDLWindow::SDLWindow(char* window_title, const unsigned & window_width, const un
 	}
 }
 
-void SDLWindow::update()
+int Window::getWidth()
+{
+	return SDL_GetWindowSurface(window_)->w;
+}
+
+int Window::getHeight()
+{
+	return SDL_GetWindowSurface(window_)->h;
+}
+
+void Window::update()
 {
 	SDL_RenderPresent( renderer_ );
 }

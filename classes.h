@@ -4,13 +4,14 @@
 class Entity;
 class Wall;
 class Spawner;
-class Live_Object;
+class LiveObject;
 class NPC;
 class Player;
 class Projectile;
 class Controller;
 class Map;
-class SDLWindow;
+class Window;
 class Timer;
+class GameState;
 
 #endif

@@ -16,7 +16,7 @@
 class Entity
 {
 	public:
-		Entity(int posX, int posY, unsigned width, unsigned height) : move_vector_{std::make_pair(0,0)}, posX_{posX}, posY_{posY}, width_{width}, height_{height} {};
+		Entity(int posX, int posY, unsigned width, unsigned height) : posX_{posX}, posY_{posY}, width_{width}, height_{height} {};
 	
 		virtual void update() = 0;
 		virtual void render(SDL_Renderer*, const SDL_Rect& camera) = 0;
@@ -33,7 +33,6 @@ class Entity
 		double posY_;
 		unsigned width_;
 		unsigned height_;
-		std::pair<double,double> move_vector_;
 };
 
 
@@ -41,11 +40,11 @@ class Entity
 //	Live Objects 
 //////////////////////////////
 
-class Live_Object : public Entity
+class LiveObject : public Entity
 {
 	public:
-		Live_Object(int posX, int posY, unsigned width, unsigned height, double maxSpeed, double acceleration, unsigned angle) 
-			:  speed_{0}, speedX_{0}, speedY_{0}, alive_{true}, targetPosX_{posX}, targetPosY_{posY}, maxSpeed_{maxSpeed}, acceleration_{acceleration}, angle_{angle}, Entity{posX, posY, width, height} {};
+		LiveObject(int posX, int posY, unsigned width, unsigned height, double maxSpeed, double acceleration) 
+			:  speed_{0}, speedX_{0}, speedY_{0}, alive_{true}, targetPosX_{posX}, targetPosY_{posY}, maxSpeed_{maxSpeed}, acceleration_{acceleration}, Entity{posX, posY, width, height} {};
 		
 		virtual void collision(Entity*) = 0;
 		
@@ -61,7 +60,6 @@ class Live_Object : public Entity
 		double speed_;
 		double maxSpeed_;
 		double acceleration_;
-		unsigned angle_;
 		bool alive_;
 };
 
@@ -69,23 +67,27 @@ class Live_Object : public Entity
 //////////////////////////////
 //	Player
 //////////////////////////////
-class Player : public Live_Object
+class Player : public LiveObject
 {
 	public:
 		Player(int posX, int posY, unsigned width, unsigned height, double maxSpeed, double acceleration)
-			: Live_Object{posX, posY, width, height, maxSpeed, acceleration, 0} {};
+			: move_vector_{std::make_pair(0,0)}, LiveObject{posX, posY, width, height, maxSpeed, acceleration} {};
 		
 		void readInput();
 		void update();
 		void render(SDL_Renderer*, const SDL_Rect& camera);
 		void collision(Entity*);
+		void fire(Map&, double targetX, double targetY);
+	private:
+		std::pair<double,double> move_vector_;
+		Timer timer_;
 };
 
-class NPC : public Live_Object
+class NPC : public LiveObject
 {
 	public:
 		NPC(int posX, int posY, unsigned width, unsigned height, double maxSpeed, double acceleration, Map* map)
-			: map_{map}, Live_Object{posX, posY, width, height, maxSpeed, acceleration, 0} {};
+			: map_{map}, LiveObject{posX, posY, width, height, maxSpeed, acceleration } {};
 		
 		void readInput();
 		void update();
@@ -96,22 +98,24 @@ class NPC : public Live_Object
 		Map* map_;
 };
 
-class Projectile : public Live_Object
+class Projectile : public LiveObject
 {
 	public:
-		Projectile(int posX, int posY, unsigned width, unsigned height, double maxSpeed, double acceleration, unsigned angle)
-			: Live_Object{posX, posY, width, height, maxSpeed, acceleration, angle} {}
+		Projectile(int posX, int posY, unsigned width, unsigned height, double maxSpeed, double acceleration, std::pair<double,double> move_vector)
+			: move_vector_{move_vector}, LiveObject{posX, posY, width, height, maxSpeed, acceleration } {}
 		
 		void readInput();
 		void update();
 		void render(SDL_Renderer*, const SDL_Rect& camera);
 		void collision(Entity*);
+	private:
+		std::pair<double,double> move_vector_;
 };
 
-class Spawner : public Live_Object
+class Spawner : public LiveObject
 {
 	public:
-		Spawner(int posX, int posY, unsigned width, unsigned height, double maxSpeed, double acceleration, Map* map, Uint32 interval) : map_{map}, interval_{interval}, Live_Object{posX, posY, width, height, maxSpeed, acceleration, 0} { timer_.start(); };
+		Spawner(int posX, int posY, unsigned width, unsigned height, double maxSpeed, double acceleration, Map* map, Uint32 interval) : map_{map}, interval_{interval}, LiveObject{posX, posY, width, height, maxSpeed, acceleration} { timer_.start(); };
 		
 		void readInput();
 		void update();

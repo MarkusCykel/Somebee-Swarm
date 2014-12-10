@@ -1,5 +1,5 @@
 #OBJS specifies which files to compile as part of the project 
-OBJS = SDLWindow.o Entity.o Map.o Timer.o Controller.o
+OBJS = Window.o Entity.o Map.o Timer.o Controller.o GameState.o
 
 # Kompilator (gcc) och diagnostikfilter (gccfilter)
 CCC = g++
@@ -35,10 +35,10 @@ all-s : main.cc $(OBJS) Makefile
 all-sw : main.cc $(OBJS) Makefile
 	$(CCC) Main.cc $(OBJS) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(NOWINDOW) $(LINKER_FLAGS) $(STATIC) -o Main
 
-SDLWindow.o: SDLWindow.h SDLWindow.cc
-	$(CCC) SDLWindow.cc $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) -c 
+Window.o: Window.h Window.cc
+	$(CCC) Window.cc $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) -c 
 
-Map.o: Map.h Entity.o Map.cc
+Map.o: Map.h Map.cc
 	$(CCC) Map.cc $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) -c
 	
 Controller.o: Controller.h Entity.o Controller.cc
@@ -49,4 +49,7 @@ Entity.o: Entity.h Entity.cc
 	
 Timer.o: Timer.h Timer.cc
 	$(CCC) Timer.cc $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) -c
+	
+GameState.o: GameState.h GameState.cc
+	$(CCC) Gamestate.cc $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) -c
 	
