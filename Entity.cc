@@ -153,7 +153,7 @@ void Player::fire(Map& map, double targetX, double targetY)
 		move_vector.first = move_vector.first/vector_length;
 		move_vector.second = move_vector.second/vector_length;
 		
-		if(timer_.getTicks() > 1000)
+		if(timer_.getTicks() > 100)
 		{
 			timer_.stop();
 		}

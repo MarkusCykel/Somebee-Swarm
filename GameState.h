@@ -14,10 +14,10 @@ class GameState
 {
 	public:
 		GameState(unsigned height, unsigned width, Window& window);
-		void run();
+		void run(SDL_Event&);
 		void pause() = delete;
 	private:
-		void readInput();
+		void readInput(SDL_Event&);
 		void update();
 		void render();
 		
@@ -27,7 +27,6 @@ class GameState
 		Window window_;
 		
 		Timer capTimer_;
-		SDL_Event e;
 		
 		unsigned score_;
 		bool quit_;

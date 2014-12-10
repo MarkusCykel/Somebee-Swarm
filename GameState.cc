@@ -1,5 +1,7 @@
 #include "GameState.h"
 #include <iostream>
+#define SCREEN_FPS 60;
+#define SCREEN_TICKS_PER_FRAME 1000 / SCREEN_FPS + 1;
 
 GameState::GameState(unsigned height, unsigned width, Window& window)
 	: map_{height,width}, camera_{ 0, 0, window.getWidth(), window.getHeight() }, quit_{ false }, window_{window}
@@ -14,21 +16,13 @@ GameState::GameState(unsigned height, unsigned width, Window& window)
 }
 
 
-void GameState::run()
+void GameState::run(SDL_Event& e)
 {
 	while(!quit_)
 	{
 		capTimer_.start();
-		
-		while(SDL_PollEvent(&e) != 0)
-		{
-			if(e.type == SDL_QUIT)
-			{
-				quit_ = true;
-			}
-		}
-		
-		readInput();
+
+		readInput(e);
 		update();
 		render();
 
@@ -41,8 +35,29 @@ void GameState::run()
 }
 	
 	
-void GameState::readInput()
+void GameState::readInput(SDL_Event& e)
 {
+	auto player = map_.getPlayer();
+	
+	while(SDL_PollEvent(&e) != 0)
+	{
+		if(e.type == SDL_QUIT)
+		{
+			quit_ = true;
+		}
+		else if( e.type == SDL_MOUSEBUTTONDOWN)
+		{
+			if( e.button.which = SDL_BUTTON_LEFT )
+			{
+				int x ,y;
+				SDL_GetMouseState( &x, &y );
+				x = camera_.x + x;
+				y = camera_.y + y;
+				player->fire(map_,x,y);
+			}
+		}
+	}
+	
 	map_.getPlayer()->readInput();
 	
 	auto npcs = map_.getNpcs();
