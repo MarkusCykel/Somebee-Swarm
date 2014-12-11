@@ -4,7 +4,11 @@
 #include <iomanip>
 
 #include "classes.h"
+<<<<<<< HEAD
 #include "Window.h"
+=======
+#include "SDLWindow.h"
+>>>>>>> origin/Börje-branch
 #include "Entity.h"
 #include "Timer.h"
 #include "GameState.h"
@@ -12,6 +16,7 @@
 
 #define WINDOW_HEIGHT 1600
 #define WINDOW_WIDTH 900
+
 
 int main(int argc, char* argv[])
 {	

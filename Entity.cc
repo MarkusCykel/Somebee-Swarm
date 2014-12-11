@@ -40,6 +40,7 @@ double LiveObject::getTargetY()
 	return targetPosY_;
 }
 
+
 bool LiveObject::getAlive()
 {
 	return alive_;
@@ -51,10 +52,90 @@ void LiveObject::setAlive(bool param)
 }
 
 
+void Live_Object::checkCollision(Map& map, int& x)
+{
+	double leftA, leftB;
+	double rightA, rightB;
+	double bottomA, bottomB;
+	double topA, topB;
+	
+	auto Npcs = map.getNpcs();
+	auto Walls = map.getWalls();
+	leftA = - (double)width_/2 + posX_;
+	rightA = (double)width_/2 + posX_;
+	topA = - (double)height_/2 + posY_;
+	bottomA = (double)height_/2 + posY_;
+
+	for(auto i: Npcs)
+	{
+		if(i != this)
+		{
+
+
+			leftB =  - i -> getWidth()/2 + i-> getX();
+			rightB = i -> getWidth()/2 + i-> getX();
+			topB = - i -> getHeight()/2 + i-> getY();
+			bottomB =  i ->getHeight()/2 + i-> getY();
+
+			for(auto j: Walls)
+	  		{
+	 	
+	 	
+	 			double leftC =  - j -> getWidth()/2 + j-> getX();
+				double rightC = j -> getWidth()/2 + j-> getX();
+				double topC = - j -> getHeight()/2 + j-> getY();
+				double bottomC =  j ->getHeight()/2 + j-> getY();
+
+				if(topB <= bottomC || bottomB >= topC)
+				{
+					i -> speedY_=0;
+					std::cout << "COLLISION WOOO" << std::endl;
+				}
+				if(rightB >= leftC || leftB <= rightC)
+				{
+					i -> speedX_=0;
+					std::cout << "collision WOOO" << std::endl;		
+			 	}
+			}
+			if((bottomA >= topB && topB >= topA || bottomB >= topA && topA >= topB) && (rightA >= leftB && rightB >= leftA || leftA <= rightB && rightA >= rightB))
+				{
+				if (x=1)
+					alive_ = false;
+				if (x=2)
+				{
+					alive_ = false;
+					i -> setAlive(false);
+				}
+			}
+		}
+	 }
+	
+	 for(auto i: Walls)
+	 {
+	 	
+	 	
+	 	leftB =  - i -> getWidth()/2 + i-> getX();
+		rightB = i -> getWidth()/2 + i-> getX();
+		topB = - i -> getHeight()/2 + i-> getY();
+		bottomB =  i ->getHeight()/2 + i-> getY();
+
+		if(topA <= bottomB || bottomA >= topB)
+		{
+			speedY_=0;
+			std::cout << "COLLISION WOOO" << std::endl;
+		}
+		if(rightA >= leftB || leftA <= rightB)
+		{
+			speedX_=0;
+			std::cout << "collision WOOO" << std::endl;		
+	 	}
+	 } 
+}
+
+
 //////////////////////////////
 //	Player
 //////////////////////////////
-
 
 /* Read input and change parameters depending on it */
 void Player::readInput()
@@ -141,7 +222,6 @@ void Player::collision(Entity* param)
 	//do stuff
 }
 
-
 void Player::fire(Map& map, double targetX, double targetY)
 {
 	std::pair<double,double> move_vector{ std::make_pair(targetX - posX_, targetY - posY_) };
@@ -226,7 +306,8 @@ void NPC::collision(Entity* param)
 /* It shouldn't have any input? */
 void Projectile::readInput()
 {
-	//do stuff
+	targetPosX_ = posX_ + cos(angle_*PI/180)*maxSpeed_;
+	targetPosY_ = posY_ + sin(angle_*PI/180)*maxSpeed_;
 }
 
 /* Update position depending on speed and  */

@@ -1,4 +1,5 @@
 #OBJS specifies which files to compile as part of the project 
+
 OBJS = Window.o Entity.o Map.o Timer.o Controller.o GameState.o
 
 # Kompilator (gcc) och diagnostikfilter (gccfilter)

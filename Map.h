@@ -43,6 +43,7 @@ class Map
 		std::vector<Wall*> walls_{};
 		std::vector<Spawner*> spawners_{};
 		SDL_Texture* background_{};
+
 		double width_;
 		double height_;
 };

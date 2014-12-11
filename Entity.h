@@ -54,12 +54,16 @@ class LiveObject : public Entity
 		
 		void setPosition(double x, double y);
 		void setAlive(bool);
+		
+		void checkCollision(Map&, int&);
+		
 	protected:
 		double targetPosX_, targetPosY_;
 		double speedX_, speedY_;
 		double speed_;
 		double maxSpeed_;
 		double acceleration_;
+		
 		bool alive_;
 };
 
@@ -67,6 +71,7 @@ class LiveObject : public Entity
 //////////////////////////////
 //	Player
 //////////////////////////////
+
 class Player : public LiveObject
 {
 	public:

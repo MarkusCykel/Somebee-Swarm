@@ -60,13 +60,26 @@ void Controller::update(Map& map)
 			y = 0;
 		else
 			y = i->getTargetY();
-			
+		
 		i->setPosition(x,y);
 	}
+	check_collisions(map);
 }
 
 
-void Controller::check_collisions()
+void Controller::check_collisions(Map& map)
 {
+	 
+	auto Npcs = map.getNpcs();
+	auto Player_ = map.getPlayer();
+	int Nrofnpcs = Npcs.size();
+	int x = 1;
+	Player_->checkCollision(map, x);
+	auto projectiles = map.getProjectiles();
 	
-}
+	for( auto i : projectiles)
+		{
+			x = 2;
+			i->checkCollision(map, x);
+		}
+}			
