@@ -96,7 +96,6 @@ void Live_Object::checkCollision(Map& map, int& x)
 			}
 			if((bottomA >= topB && topB >= topA || bottomB >= topA && topA >= topB) && (rightA >= leftB && rightB >= leftA || leftA <= rightB && rightA >= rightB))
 				{
-				std::cout << "COLLISION WOOO" << std::endl;
 				if (x=1)
 					alive_ = false;
 				if (x=2)
@@ -105,8 +104,6 @@ void Live_Object::checkCollision(Map& map, int& x)
 					i -> setAlive(false);
 				}
 			}
-			else
-				std::cout << "nope WOOO" << std::endl;
 		}
 	 }
 	
@@ -331,7 +328,7 @@ void Wall::collision(Entity* param)
 
 void Spawner::update()
 {
-	if(timer_.getTicks() > 1000)
+	if(timer_.getTicks() > 10000)
 	{
 		map_->spawnEntity("NPC", posX_, posY_, width_, height_, maxSpeed_, acceleration_);
 		timer_.start();
