@@ -1,8 +1,86 @@
 #include "Map.h"
 #include <map>
 
+void Map::loadBackground(const std::string& path, SDL_Renderer* renderer)
+{
+	SDL_Surface* loadedSurface = IMG_Load( path.c_str() );
+	SDL_Surface* stretchedSurface = SDL_CreateRGBSurface(0,width_, height_,32,0,0,0,0);
+	SDL_BlitScaled( loadedSurface, NULL , stretchedSurface, NULL);
+	
+    if( loadedSurface == NULL )
+    {
+        printf( "Unable to load image %s! SDL_image Error: %s\n", path.c_str(), IMG_GetError() );
+    }
+    else
+    {
+        //Create texture from surface pixels
+        background_ = SDL_CreateTextureFromSurface( renderer, stretchedSurface );
+        if( background_ == NULL )
+        {
+            printf( "Unable to create texture from %s! SDL Error: %s\n", path.c_str(), SDL_GetError() );
+        }
+
+        //Get rid of old loaded surface
+		SDL_FreeSurface( loadedSurface );
+        SDL_FreeSurface( stretchedSurface );
+    }
+}
+
+double Map::getWidth()
+{
+	return width_;
+}
+
+
+double Map::getHeight()
+{
+	return height_;
+}
+
+
+void Map::readInput()
+{
+	player_->readInput();
+	
+	for( const auto &i : npcs_ )
+	{
+		i->readInput();
+	}
+	
+	for( const auto &i : projectiles_ )
+	{
+		i->readInput();
+	}
+}
+
+
+void Map::update()
+{
+	player_->update();
+
+	for( const auto &i : npcs_ )
+	{
+		i->update();
+	}
+	
+	for( const auto &i : projectiles_ )
+	{
+		i->update();
+	}
+	
+	for( const auto &i : spawners_ )
+	{
+		i->update();
+	}
+}
+
+
 void Map::render(SDL_Renderer* renderer, const SDL_Rect& camera)
-{	
+{
+	//Clear screen
+	SDL_SetRenderDrawColor( renderer, 0xFF, 0xFF, 0xFF, 0xFF );
+	SDL_RenderClear( renderer );
+	
 	player_->render(renderer, camera);
 	
 	for( auto i : npcs_ )
@@ -24,7 +102,37 @@ void Map::renderBackground(SDL_Renderer* renderer, const SDL_Rect& camera, const
 	SDL_Rect black = {0,0,width_,height_};
 	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
 	SDL_RenderFillRect(renderer, &black);
-	if( camera.y < 1 && camera.x < 1 )
+	
+	if ( camera.y <= 0 )
+	{
+		cameratemp.y = 0;
+		cameratemp.h += camera.y;
+		renderQuad.y -= camera.y;
+		renderQuad.h += camera.y;
+	}
+	else if ( camera.y + renderQuad.h >= height_ )
+	{
+		renderQuad.h -= window_height - (height_ - camera.y);
+		/*cameratemp.y = renderQuad.h;
+		renderQuad.y += renderQuad.h - camera.y;*/
+	}
+	
+	if ( camera.x <= 0 )
+	{
+		cameratemp.x = 0;
+		cameratemp.w += camera.x;
+		renderQuad.x -= camera.x;
+		renderQuad.w += camera.x;
+	}
+	else if ( camera.x + renderQuad.w >= width_)
+	{
+		renderQuad.w -= window_width - (width_ - camera.x);
+		std::cout << renderQuad.x << " " << renderQuad.w << " " << cameratemp.w << std::endl;
+	}
+	
+	SDL_RenderCopy( renderer, background_, &cameratemp, &renderQuad);
+	
+	/*if( camera.y < 1 && camera.x < 1 )
 	{
 		cameratemp.x = 0;
 		cameratemp.y = 0;
@@ -85,96 +193,7 @@ void Map::renderBackground(SDL_Renderer* renderer, const SDL_Rect& camera, const
 		SDL_RenderCopy( renderer, background_, &cameratemp, &renderQuad);
 	}
 	std::cout<<"Camera x:"<<camera.x<<" Camera y:"<<camera.y<<std::endl;
-	std::cout<<"Cameratemp x:"<<cameratemp.x<<" Cameratemp y:"<<cameratemp.y<<std::endl;
-}
-
-
-void Map::loadBackground(const std::string& path, SDL_Renderer* renderer)
-{
-	SDL_Surface* loadedSurface = IMG_Load( path.c_str() );
-    if( loadedSurface == NULL )
-    {
-        printf( "Unable to load image %s! SDL_image Error: %s\n", path.c_str(), IMG_GetError() );
-    }
-    else
-    {
-        //Create texture from surface pixels
-        background_ = SDL_CreateTextureFromSurface( renderer, loadedSurface );
-        if( background_ == NULL )
-        {
-            printf( "Unable to create texture from %s! SDL Error: %s\n", path.c_str(), SDL_GetError() );
-        }
-
-        //Get rid of old loaded surface
-        SDL_FreeSurface( loadedSurface );
-    }
-}
-
-double Map::getWidth()
-{
-	return width_;
-}
-
-
-double Map::getHeight()
-{
-	return height_;
-}
-
-
-void Map::readInput()
-{
-		player_->readInput();
-		
-		for( const auto &i : npcs_ )
-		{
-			i->readInput();
-		}
-		
-		for( const auto &i : projectiles_ )
-		{
-			i->readInput();
-		}
-}
-
-
-void Map::update()
-{
-		player_->update();
-
-		for( const auto &i : npcs_ )
-		{
-			i->update();
-		}
-		
-		for( const auto &i : projectiles_ )
-		{
-			i->update();
-		}
-		
-		for( const auto &i : spawners_ )
-		{
-			i->update();
-		}
-}
-
-
-void Map::render(SDL_Renderer* renderer, const SDL_Rect& camera)
-{
-	//Clear screen
-	SDL_SetRenderDrawColor( renderer, 0xFF, 0xFF, 0xFF, 0xFF );
-	SDL_RenderClear( renderer );
-	
-	player_->render(renderer, camera);
-	
-	for( auto i : npcs_ )
-		i->render(renderer,camera);
-		
-	for( auto i : projectiles_)
-		i->render(renderer,camera);
-		
-	//Update screen
-	SDL_RenderPresent( renderer );
+	std::cout<<"Cameratemp x:"<<cameratemp.x<<" Cameratemp y:"<<cameratemp.y<<std::endl;*/
 }
 
 
