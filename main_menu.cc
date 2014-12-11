@@ -21,7 +21,7 @@ enum LButtonSprite
     BUTTON_SPRITE_TOTAL = 4
 };
 
-Button::Button()
+Button::Button ()
 {
 	mPosition.x = 0;
 	mPosition.y = 0;
@@ -35,6 +35,44 @@ void Button::setPosition (int x, int y)
 
 void Button::handleEvent (SDL_Event* e)
 {
-
+	
 }
 
+void Menu()
+{
+	
+}
+
+void Credits()
+{
+	
+}
+
+void High_Score()
+{
+	
+}
+
+void Quit()
+{
+	
+}
+
+int main (int argc, char* args [])
+{
+	while (!quit)
+	{
+		while (SDL_PollEvent (&e) !=0)
+		{
+			if (e.type == SDL_QUIT)
+			{
+				quit = true;
+			}
+			//Button events
+			for (int i = 0; i < TOTAL_BUTTONS; ++i)
+			{
+				gButton [i].handleEvent (&e);
+			}
+		}
+	}
+}
