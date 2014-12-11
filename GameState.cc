@@ -13,7 +13,7 @@ GameState::GameState(unsigned height, unsigned width, Window& window)
 		map_.makeSpawner( 0, width, 30, 30, 8, 1);
 		map_.makeSpawner( 0, width/2, 30, 30, 8, 1);
 		map_.makeSpawner( height/2, 0, 30, 30, 8, 1);
-		map_.makeWall( height/2, width/2, 50, 50);
+		//map_.makeWall( height/2, width/2, 50, 50);
 		map_.loadBackground("background_tho.jpg", window_.getRenderer());
 }
 
@@ -88,6 +88,7 @@ void GameState::readInput(SDL_Event& e)
 
 void GameState::update()
 {
+	controller_.update(map_);
 	map_.getPlayer()->update();
 	
 	auto npcs = map_.getNpcs();
@@ -111,7 +112,6 @@ void GameState::update()
 		i->update();
 	}
 	
-	controller_.update(map_);
 	
 	camera_.x = floor(map_.getPlayer()->getX()) - camera_.w/ 2;
     camera_.y = floor(map_.getPlayer()->getY())- camera_.h/ 2;

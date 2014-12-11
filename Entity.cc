@@ -274,11 +274,11 @@ void Player::checkCollision(Map& map)
 		topB = - i -> getHeight()/2 + i-> getY();
 		bottomB =  i ->getHeight()/2 + i-> getY();
 
-		if(topA <= bottomB || bottomA >= topB)
+		/*if(topA <= bottomB || bottomA >= topB)
 		{
 			speedY_=0;
-		}
-		if(rightA >= leftB || leftA <= rightB)
+		}*/
+		if((bottomA >= topB && topB >= topA || bottomB >= topA && topA >= topB) && (rightA >= leftB && rightB >= leftA || leftA <= rightB && rightA >= rightB))
 		{
 			speedX_=0;	
 	 	}
