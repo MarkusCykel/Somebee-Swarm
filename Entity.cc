@@ -189,10 +189,29 @@ void Player::readInput()
 
 
 /* Update position depending on speed */
-void Player::update()
+void Player::update(Map& map)
 {
-	/*targetPosX_ = posX_ + speedX_;
-	targetPosY_ = posY_ + speedY_;*/
+	if( targetPosX_ > map.getWidth() - width_/2 )
+	{
+		targetPosX_ = map.getWidth() - width_/2;
+	}
+	else if( targetPosX_ < 0 + width_/2 )
+	{
+		targetPosX_ = width_/2;
+	}
+	
+	if(  targetPosY_ > map.getHeight() - height_/2 )
+	{
+		targetPosY_ = map.getHeight() - height_/2;
+	}
+	else if( targetPosY_ < 0 + height_/2 )
+	{
+		targetPosY_ = height_/2;
+	}
+	
+	checkCollision(map);
+	setPosition(targetPosX_, targetPosY_);
+	
 	if(abs(speedX_) > abs(speedY_))
 	{
 		targetPosX_ = posX_ + move_vector_.first * abs(speedX_);
@@ -248,10 +267,10 @@ void Player::checkCollision(Map& map)
 	auto Npcs = map.getNpcs();
 	auto Walls = map.getWalls();
 
-	leftA = - (double)width_/2 + posX_;
-	rightA = (double)width_/2 + posX_;
-	topA = - (double)height_/2 + posY_;
-	bottomA = (double)height_/2 + posY_;
+	leftA = - (double)width_/2 + targetPosX_;
+	rightA = (double)width_/2 + targetPosX_;
+	topA = - (double)height_/2 + targetPosY_;
+	bottomA = (double)height_/2 + targetPosY_;
 
 	for(auto i: Npcs)
 	{
@@ -278,9 +297,21 @@ void Player::checkCollision(Map& map)
 		{
 			speedY_=0;
 		}*/
+
 		if((bottomA >= topB && topB >= topA || bottomB >= topA && topA >= topB) && (rightA >= leftB && rightB >= leftA || leftA <= rightB && rightA >= rightB))
 		{
-			speedX_=0;	
+			speedX_ = 0;
+			if( posX_ + width_/2 < leftB )
+				targetPosX_ =  targetPosX_ - (rightA - leftB + 1);
+				
+			if( posX_ - width_/2 > rightB )
+				targetPosX_ =  targetPosX_ + (rightB - leftA + 1);
+				
+			if( posY_ + height_/2 < topB )
+				targetPosY_ =  targetPosY_ - (bottomA - topB + 1);
+				
+			if( posY_ - height_/2 > bottomB )
+				targetPosY_ =  targetPosY_ + (bottomB - topA + 1);
 	 	}
 	} 		
 }
@@ -319,9 +350,23 @@ void NPC::readInput()
 	}
 }
 
-void NPC::update()
+void NPC::update(Map& map)
 {
-	//do stuff
+	if( targetPosX_ > map.getWidth() - width_/2 )
+		targetPosX_ = map.getWidth() - width_/2;
+	else if( targetPosX_ < 0 + width_/2 )
+		targetPosX_ = width_/2;
+
+	
+	if(  targetPosY_ > map.getHeight() - height_/2 )
+		targetPosY_ = map.getHeight() - height_/2;
+	else if( targetPosY_ < 0 + height_/2 )
+		targetPosY_ = height_/2;
+
+	
+	checkCollision(map);
+	
+	setPosition(targetPosX_, targetPosY_);
 }
 
 
@@ -349,7 +394,6 @@ void NPC::checkCollision(Map& map)
 	topA = - (double)height_/2 + targetPosY_;
 	bottomA = (double)height_/2 + targetPosY_;
 
-
 	 for(auto i: Walls)
 	 {
 	 	
@@ -358,13 +402,20 @@ void NPC::checkCollision(Map& map)
 		topB = - i -> getHeight()/2 + i-> getY();
 		bottomB =  i ->getHeight()/2 + i-> getY();
 
-		if(topA <= bottomB || bottomA >= topB)
+		if((bottomA >= topB && topB >= topA || bottomB >= topA && topA >= topB) && (rightA >= leftB && rightB >= leftA || leftA <= rightB && rightA >= rightB))
 		{
-			speedY_=0;
-		}
-		if(rightA >= leftB || leftA <= rightB)
-		{
-			speedX_=0;
+			speedX_ = 0;
+			if( posX_ + width_/2 < leftB )
+				targetPosX_ =  targetPosX_ - (rightA - leftB + 1);
+				
+			if( posX_ - width_/2 > rightB )
+				targetPosX_ =  targetPosX_ + (rightB - leftA + 1);
+				
+			if( posY_ + height_/2 < topB )
+				targetPosY_ =  targetPosY_ - (bottomA - topB + 1);
+				
+			if( posY_ - height_/2 > bottomB )
+				targetPosY_ =  targetPosY_ + (bottomB - topA + 1);
 	 	}
 	 } 
 
@@ -373,15 +424,39 @@ void NPC::checkCollision(Map& map)
 /* It shouldn't have any input? */
 void Projectile::readInput()
 {
-	//targetPosX_ = posX_ + cos(angle_*PI/180)*maxSpeed_;
-	//targetPosY_ = posY_ + sin(angle_*PI/180)*maxSpeed_;
+	targetPosX_ = posX_ + move_vector_.first * maxSpeed_;
+	targetPosY_ = posY_ + move_vector_.second * maxSpeed_;
 }
 
 /* Update position depending on speed and  */
-void Projectile::update()
+void Projectile::update(Map& map)
 {
-	targetPosX_ = posX_ + move_vector_.first * maxSpeed_;
-	targetPosY_ = posY_ + move_vector_.second * maxSpeed_;
+	
+	if( targetPosX_ > map.getWidth() - width_/2 )
+	{
+		targetPosX_ = map.getWidth() - width_/2;
+		alive_ = false;
+	}
+	else if( targetPosX_ < 0 + width_/2 )
+	{
+		targetPosX_ = width_/2;
+		alive_ = false;
+	}
+	
+	if(  targetPosY_ > map.getHeight() - height_/2 )
+	{
+		targetPosY_ = map.getHeight() - height_/2;
+		alive_ = false;
+	}
+	else if( targetPosY_ < 0 + height_/2 )
+	{
+		targetPosY_ = height_/2;
+		alive_ = false;
+	}
+	
+	checkCollision(map);
+	
+	setPosition(targetPosX_, targetPosY_);
 }
 
 void Projectile::render(SDL_Renderer* renderer, const SDL_Rect & camera)
@@ -394,7 +469,7 @@ void Projectile::render(SDL_Renderer* renderer, const SDL_Rect & camera)
 
 /* Determines what happens to Projectile when it collides with another Entity */
 void Projectile::checkCollision(Map& map)
-{
+{		
 	double leftA, leftB;
 	double rightA, rightB;
 	double bottomA, bottomB;
@@ -431,13 +506,9 @@ void Projectile::checkCollision(Map& map)
 		topB = - i -> getHeight()/2 + i-> getY();
 		bottomB =  i ->getHeight()/2 + i-> getY();
 
-		if(topA <= bottomB || bottomA >= topB)
+		if((bottomA >= topB && topB >= topA || bottomB >= topA && topA >= topB) && (rightA >= leftB && rightB >= leftA || leftA <= rightB && rightA >= rightB))
 		{
-			speedY_=0;
-		}
-		if(rightA >= leftB || leftA <= rightB)
-		{
-			speedX_=0;
+				alive_ = false;
 	 	}
 	 } 
 
@@ -447,17 +518,11 @@ void Projectile::checkCollision(Map& map)
 //	Wall
 //////////////////////////////
 
-/* Nothing? */
-void Wall::update()
-{
-	//do stuff
-}
-
 void Wall::render(SDL_Renderer* renderer, const SDL_Rect & camera)
 {
 	//Render red filled quad
 	SDL_Rect fillRect = { posX_ - int(camera.x + height_/2), posY_ - int(camera.y + width_/2) , height_, width_};
-	SDL_SetRenderDrawColor( renderer, 0xFF, 0x00, 0x00, 0xFF );
+	SDL_SetRenderDrawColor( renderer, 0x5F, 0x5F, 0x5F, 0xFF );
 	SDL_RenderFillRect( renderer, &fillRect );
 }
 
@@ -466,11 +531,11 @@ void Wall::render(SDL_Renderer* renderer, const SDL_Rect & camera)
 //	Spawner
 //////////////////////////////
 
-void Spawner::update()
+void Spawner::update(Map& map)
 {
 	if(timer_.getTicks() > 1000)
 	{
-		map_->makeNPC(posX_, posY_, width_, height_, maxSpeed_, acceleration_);
+		map.makeNPC(posX_, posY_, width_, height_, maxSpeed_, acceleration_);
 		timer_.start();
 	}
 	//do stuff
@@ -478,10 +543,8 @@ void Spawner::update()
 
 void Spawner::render(SDL_Renderer* renderer, const SDL_Rect & camera)
 {
-	//Clear screen
-
 	//Render red filled quad
 	SDL_Rect fillRect = { posX_ - int(camera.x + height_/2), posY_ - int(camera.y + width_/2) , height_, width_};
-	SDL_SetRenderDrawColor( renderer, 0xFF, 0x00, 0x00, 0xFF );
+	SDL_SetRenderDrawColor( renderer, 0xFF, 0x00, 0xFF, 0xFF );
 	SDL_RenderFillRect( renderer, &fillRect );
 }

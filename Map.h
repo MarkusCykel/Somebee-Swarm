@@ -18,11 +18,7 @@ class Map
 		double getWidth();
 		double getHeight();
 		
-		void readInput();
-		void update();
-		void render(SDL_Renderer*, const SDL_Rect&);
-		
-		bool cleanUp();
+		bool cleanUp(unsigned&);
 		void makePlayer(double posX, double posY, unsigned width, unsigned height, double maxSpeed, double acceleration);
 		void makeSpawner(double posX, double posY, unsigned width, unsigned height, double maxSpeed, double acceleration, Uint32 interval = 10000);
 		void makeNPC(double posX, double posY, unsigned width, unsigned height, double maxSpeed, double acceleration);

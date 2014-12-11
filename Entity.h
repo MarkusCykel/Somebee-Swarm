@@ -18,7 +18,6 @@ class Entity
 	public:
 		Entity(int posX, int posY, unsigned width, unsigned height) : posX_{posX}, posY_{posY}, width_{width}, height_{height} {};
 	
-		virtual void update() = 0;
 		virtual void render(SDL_Renderer*, const SDL_Rect& camera) = 0;
 		
 		
@@ -44,7 +43,6 @@ class LiveObject : public Entity
 	public:
 		LiveObject(int posX, int posY, unsigned width, unsigned height, double maxSpeed, double acceleration) 
 			:  speed_{0}, speedX_{0}, speedY_{0}, alive_{true}, targetPosX_{posX}, targetPosY_{posY}, maxSpeed_{maxSpeed}, acceleration_{acceleration}, Entity{posX, posY, width, height} {};
-		
 		
 		double getTargetX();
 		double getTargetY();
@@ -75,7 +73,7 @@ class Player : public LiveObject
 			: move_vector_{std::make_pair(0,0)}, LiveObject{posX, posY, width, height, maxSpeed, acceleration} {};
 		
 		void readInput();
-		void update();
+		void update(Map&);
 		void render(SDL_Renderer*, const SDL_Rect& camera);
 		
 		void checkCollision(Map& map);
@@ -92,7 +90,7 @@ class NPC : public LiveObject
 			: map_{map}, LiveObject{posX, posY, width, height, maxSpeed, acceleration } {};
 		
 		void readInput();
-		void update();
+		void update(Map&);
 		void render(SDL_Renderer*, const SDL_Rect& camera);
 		
 		void checkCollision(Map& map);
@@ -107,7 +105,7 @@ class Projectile : public LiveObject
 			: move_vector_{move_vector}, LiveObject{posX, posY, width, height, maxSpeed, acceleration } {}
 		
 		void readInput();
-		void update();
+		void update(Map&);
 		void render(SDL_Renderer*, const SDL_Rect& camera);
 		
 		void checkCollision(Map& map);
@@ -121,7 +119,7 @@ class Spawner : public LiveObject
 		Spawner(int posX, int posY, unsigned width, unsigned height, double maxSpeed, double acceleration, Map* map, Uint32 interval) : map_{map}, interval_{interval}, LiveObject{posX, posY, width, height, maxSpeed, acceleration} { timer_.start(); };
 		
 		void readInput();
-		void update();
+		void update(Map&);
 		void render(SDL_Renderer*, const SDL_Rect& camera);
 	
 	private:
@@ -140,7 +138,6 @@ class Wall : public Entity
 	public:
 		Wall(int posX, int posY, unsigned width, unsigned height) : Entity{posX, posY, width, height} {};
 		
-		void update();
 		void render(SDL_Renderer*, const SDL_Rect& camera);
 };
 

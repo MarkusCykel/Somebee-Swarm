@@ -4,16 +4,17 @@
 #define SCREEN_TICKS_PER_FRAME 1000 / SCREEN_FPS + 1
 
 GameState::GameState(unsigned height, unsigned width, Window& window)
-	: map_{height,width}, camera_{ 0, 0, window.getWidth(), window.getHeight() }, quit_{ false }, gameOver_{false}, window_{window}
+	: map_{height,width}, camera_{ 0, 0, window.getWidth(), window.getHeight() }, quit_{ false }, gameOver_{false}, window_{window}, score_{0}
 {
-		map_.makePlayer(250, 250, 20, 20, 10, 10);
-		map_.makeSpawner( 0, 0, 30, 30, 8, 1);
-		map_.makeSpawner( height, width, 30, 30, 8, 1);
-		map_.makeSpawner( height, 0, 30, 30, 8, 1);
-		map_.makeSpawner( 0, width, 30, 30, 8, 1);
-		map_.makeSpawner( 0, width/2, 30, 30, 8, 1);
-		map_.makeSpawner( height/2, 0, 30, 30, 8, 1);
-		//map_.makeWall( height/2, width/2, 50, 50);
+		map_.makePlayer(250, 250, 30, 30, 10, 10);
+		map_.makeSpawner( 15, 15, 30, 30, 8, 1);
+		map_.makeSpawner( height-15, width-15, 30, 30, 8, 1);
+		map_.makeSpawner( height-15, 15, 30, 30, 8, 1);
+		map_.makeSpawner( 15, width-15, 30, 30, 8, 1);
+		map_.makeSpawner( 15, width/2, 30, 30, 8, 1);
+		map_.makeSpawner( height/2, 15, 30, 30, 8, 1);
+		map_.makeWall( 1000, 1000, 50, 50);
+		map_.makeWall( 540, 300, 50, 50);
 		map_.loadBackground("background_tho.jpg", window_.getRenderer());
 }
 
@@ -83,40 +84,41 @@ void GameState::readInput(SDL_Event& e)
 	{
 		i->readInput();
 	}
+	std::cout << score_ << std::endl;
 }
 
 
 void GameState::update()
 {
 	controller_.update(map_);
-	map_.getPlayer()->update();
+	map_.getPlayer()->update(map_);
 	
 	auto npcs = map_.getNpcs();
 	
 	for( auto i : npcs )
 	{
-		i->update();
+		i->update(map_);
 	}
 	
 	auto projectiles = map_.getProjectiles();
 	
 	for( const auto &i : projectiles )
 	{
-		i->update();
+		i->update(map_);
 	}
 	
 	auto spawners = map_.getSpawners();
 	
 	for( const auto &i : spawners )
 	{
-		i->update();
+		i->update(map_);
 	}
 	
 	
 	camera_.x = floor(map_.getPlayer()->getX()) - camera_.w/ 2;
     camera_.y = floor(map_.getPlayer()->getY())- camera_.h/ 2;
 	
-	gameOver_ = map_.cleanUp();
+	gameOver_ = map_.cleanUp(score_);
 }
 
 
@@ -146,6 +148,13 @@ void GameState::render()
 	auto walls = map_.getWalls();
 	
 	for( auto i : walls )
+	{
+		i->render( window_.getRenderer(), camera_);
+	}
+	
+	auto spawners = map_.getSpawners();
+	
+	for( auto i : spawners )
 	{
 		i->render( window_.getRenderer(), camera_);
 	}

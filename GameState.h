@@ -15,8 +15,8 @@ class GameState
 	public:
 		GameState(unsigned height, unsigned width, Window& window);
 		void run(SDL_Event&);
-		void pause() = delete;
 	private:
+		void pause() = delete;
 		void readInput(SDL_Event&);
 		void update();
 		void render();

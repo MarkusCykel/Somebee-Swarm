@@ -38,61 +38,6 @@ double Map::getHeight()
 }
 
 
-void Map::readInput()
-{
-	player_->readInput();
-	
-	for( const auto &i : npcs_ )
-	{
-		i->readInput();
-	}
-	
-	for( const auto &i : projectiles_ )
-	{
-		i->readInput();
-	}
-}
-
-
-void Map::update()
-{
-	player_->update();
-
-	for( const auto &i : npcs_ )
-	{
-		i->update();
-	}
-	
-	for( const auto &i : projectiles_ )
-	{
-		i->update();
-	}
-	
-	for( const auto &i : spawners_ )
-	{
-		i->update();
-	}
-}
-
-
-void Map::render(SDL_Renderer* renderer, const SDL_Rect& camera)
-{
-	//Clear screen
-	SDL_SetRenderDrawColor( renderer, 0xFF, 0xFF, 0xFF, 0xFF );
-	SDL_RenderClear( renderer );
-	
-	player_->render(renderer, camera);
-	
-	for( auto i : npcs_ )
-		i->render(renderer,camera);
-		
-	for( auto i : projectiles_)
-		i->render(renderer,camera);
-		
-	//Update screen
-	SDL_RenderPresent( renderer );
-}
-
 void Map::renderBackground(SDL_Renderer* renderer, const SDL_Rect& camera, const int& window_width, const int& window_height)
 {
 	SDL_Rect renderQuad = { 0, 0, window_width, window_height };
@@ -130,7 +75,7 @@ void Map::renderBackground(SDL_Renderer* renderer, const SDL_Rect& camera, const
 	SDL_RenderCopy( renderer, background_, &cameratemp, &renderQuad);
 }
 
-bool Map::cleanUp()
+bool Map::cleanUp(unsigned& score)
 {
 	if(!player_->getAlive())
 	{
@@ -143,6 +88,7 @@ bool Map::cleanUp()
 		{
 			delete npcs_.at(i);
 			npcs_.erase(npcs_.begin() + i);
+			++score;
 		}
 	}
 	
