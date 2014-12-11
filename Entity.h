@@ -21,7 +21,6 @@ class Entity
 		virtual void update() = 0;
 		virtual void render(SDL_Renderer*, const SDL_Rect& camera) = 0;
 		
-		virtual void collision(Entity*) = 0;
 		
 		double getX();
 		double getY();
@@ -46,7 +45,6 @@ class LiveObject : public Entity
 		LiveObject(int posX, int posY, unsigned width, unsigned height, double maxSpeed, double acceleration) 
 			:  speed_{0}, speedX_{0}, speedY_{0}, alive_{true}, targetPosX_{posX}, targetPosY_{posY}, maxSpeed_{maxSpeed}, acceleration_{acceleration}, Entity{posX, posY, width, height} {};
 		
-		virtual void collision(Entity*) = 0;
 		
 		double getTargetX();
 		double getTargetY();
@@ -55,7 +53,7 @@ class LiveObject : public Entity
 		void setPosition(double x, double y);
 		void setAlive(bool);
 		
-		void checkCollision(Map&, int&);
+		virtual void checkCollision(Map&, int&) = 0;
 		
 	protected:
 		double targetPosX_, targetPosY_;
@@ -81,7 +79,8 @@ class Player : public LiveObject
 		void readInput();
 		void update();
 		void render(SDL_Renderer*, const SDL_Rect& camera);
-		void collision(Entity*);
+		
+		void checkCollision(Map& map);
 		void fire(Map&, double targetX, double targetY);
 	private:
 		std::pair<double,double> move_vector_;
@@ -97,8 +96,8 @@ class NPC : public LiveObject
 		void readInput();
 		void update();
 		void render(SDL_Renderer*, const SDL_Rect& camera);
-		void collision(Entity*);
 		
+		void checkCollision(Map& map);
 	private:
 		Map* map_;
 };
@@ -112,7 +111,8 @@ class Projectile : public LiveObject
 		void readInput();
 		void update();
 		void render(SDL_Renderer*, const SDL_Rect& camera);
-		void collision(Entity*);
+		
+		void checkCollision(Map& map);
 	private:
 		std::pair<double,double> move_vector_;
 };
@@ -125,7 +125,6 @@ class Spawner : public LiveObject
 		void readInput();
 		void update();
 		void render(SDL_Renderer*, const SDL_Rect& camera);
-		void collision(Entity*);
 	
 	private:
 		Timer timer_;
@@ -145,7 +144,6 @@ class Wall : public Entity
 		
 		void update();
 		void render(SDL_Renderer*, const SDL_Rect& camera);
-		void collision(Entity*);
 };
 
 #endif

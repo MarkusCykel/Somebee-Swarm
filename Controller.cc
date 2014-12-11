@@ -1,4 +1,5 @@
 #include "Controller.h"
+#include <vector>
 
 void Controller::update(Map& map)
 {
@@ -22,9 +23,9 @@ void Controller::update(Map& map)
 		
 	player->setPosition(x, y);
 	
-	auto projectiles_ = map.getProjectiles();
+	auto projectiles = map.getProjectiles();
 	
-	for(auto i : projectiles_)
+	for(auto i : projectiles)
 	{
 		if( i->getTargetX() > map.getWidth() )
 			x = map.getWidth();
@@ -43,9 +44,9 @@ void Controller::update(Map& map)
 		i->setPosition(x,y);
 	}
 	
-	auto npcs_ = map.getNpcs();
+	auto npcs = map.getNpcs();
 	
-	for(auto i : npcs_)
+	for(auto i : npcs)
 	{
 		if( i->getTargetX() > map.getWidth() )
 			x = map.getWidth();
@@ -63,23 +64,22 @@ void Controller::update(Map& map)
 		
 		i->setPosition(x,y);
 	}
-	check_collisions(map);
+	
+	checkCollisions(map);
 }
 
 
-void Controller::check_collisions(Map& map)
+void Controller::checkCollisions(Map& map)
 {
 	 
-	auto Npcs = map.getNpcs();
-	auto Player_ = map.getPlayer();
-	int Nrofnpcs = Npcs.size();
-	int x = 1;
-	Player_->checkCollision(map, x);
-	auto projectiles = map.getProjectiles();
+	auto Npcs = &map.getNpcs();
+	auto Player = map.getPlayer();
+	int Nrofnpcs = Npcs->size();
+	Player->checkCollision(map);
+	auto projectiles = &map.getProjectiles();
 	
-	for( auto i : projectiles)
-		{
-			x = 2;
-			i->checkCollision(map, x);
-		}
-}			
+	for(int i{0}; i<projectiles->size(); ++i)
+	{
+		projectiles->at(i)->checkCollision(map);
+	}
+}

@@ -21,7 +21,8 @@ class Map
 		void readInput();
 		void update();
 		void render(SDL_Renderer*, const SDL_Rect&);
-
+		
+		bool cleanUp();
 		void makePlayer(double posX, double posY, unsigned width, unsigned height, double maxSpeed, double acceleration);
 		void makeSpawner(double posX, double posY, unsigned width, unsigned height, double maxSpeed, double acceleration, Uint32 interval = 10000);
 		void makeNPC(double posX, double posY, unsigned width, unsigned height, double maxSpeed, double acceleration);
@@ -31,10 +32,10 @@ class Map
 		void loadBackground(const std::string&, SDL_Renderer*);
 		
 		Player* getPlayer();
-		std::vector<NPC*> getNpcs();
-		std::vector<Wall*> getWalls();
-		std::vector<Spawner*> getSpawners();
-		std::vector<Projectile*> getProjectiles();
+		std::vector<NPC*>& getNpcs();
+		std::vector<Wall*>& getWalls();
+		std::vector<Spawner*>& getSpawners();
+		std::vector<Projectile*>& getProjectiles();
 		
 	private:
 		Player* player_{};

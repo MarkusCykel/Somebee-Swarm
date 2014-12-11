@@ -130,6 +130,33 @@ void Map::renderBackground(SDL_Renderer* renderer, const SDL_Rect& camera, const
 	SDL_RenderCopy( renderer, background_, &cameratemp, &renderQuad);
 }
 
+bool Map::cleanUp()
+{
+	if(!player_->getAlive())
+	{
+		return true;
+	}
+
+	for(int i{0}; i < npcs_.size(); ++i)
+	{
+		if(!npcs_.at(i)->getAlive())
+		{
+			delete npcs_.at(i);
+			npcs_.erase(npcs_.begin() + i);
+		}
+	}
+	
+	for(int i{0}; i<projectiles_.size(); ++i)
+	{
+		if(!projectiles_.at(i)->getAlive())
+		{
+			delete projectiles_.at(i);
+			projectiles_.erase(projectiles_.begin() + i);
+		}
+	}
+	
+	return false;
+}
 
 void Map::makePlayer(double posX, double posY, unsigned width, unsigned height, double maxSpeed, double acceleration)
 {
@@ -163,25 +190,25 @@ Player* Map::getPlayer()
 }
 
 
-std::vector<NPC*> Map::getNpcs()
+std::vector<NPC*>& Map::getNpcs()
 {
 	return npcs_;
 }
 
 
-std::vector<Wall*> Map::getWalls()
+std::vector<Wall*>& Map::getWalls()
 {
 	return walls_;
 }
 
 
-std::vector<Spawner*> Map::getSpawners()
+std::vector<Spawner*>& Map::getSpawners()
 {
 	return spawners_;
 }
 
 
-std::vector<Projectile*> Map::getProjectiles()
+std::vector<Projectile*>& Map::getProjectiles()
 {
 	return projectiles_;
 }

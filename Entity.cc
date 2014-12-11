@@ -46,13 +46,13 @@ bool LiveObject::getAlive()
 	return alive_;
 }
 
-void LiveObject::setAlive(bool param)
+void LiveObject::setAlive(bool alive)
 {
-	alive_ = param;
+	alive_ = alive;
 }
 
 
-void Live_Object::checkCollision(Map& map, int& x)
+void LiveObject::checkCollision(Map& map, int& x)
 {
 	double leftA, leftB;
 	double rightA, rightB;
@@ -89,20 +89,19 @@ void Live_Object::checkCollision(Map& map, int& x)
 				if(topB <= bottomC || bottomB >= topC)
 				{
 					i -> speedY_=0;
-					std::cout << "COLLISION WOOO" << std::endl;
 				}
 				if(rightB >= leftC || leftB <= rightC)
 				{
-					i -> speedX_=0;
-					std::cout << "collision WOOO" << std::endl;		
+					i -> speedX_=0;	
 			 	}
 			}
 			if((bottomA >= topB && topB >= topA || bottomB >= topA && topA >= topB) && (rightA >= leftB && rightB >= leftA || leftA <= rightB && rightA >= rightB))
 				{
-				if (x=1)
+				if (x==1)
 					alive_ = false;
-				if (x=2)
+				if (x==2)
 				{
+					std::cout << "debug" << std::endl;
 					alive_ = false;
 					i -> setAlive(false);
 				}
@@ -122,12 +121,10 @@ void Live_Object::checkCollision(Map& map, int& x)
 		if(topA <= bottomB || bottomA >= topB)
 		{
 			speedY_=0;
-			std::cout << "COLLISION WOOO" << std::endl;
 		}
 		if(rightA >= leftB || leftA <= rightB)
 		{
-			speedX_=0;
-			std::cout << "collision WOOO" << std::endl;		
+			speedX_=0;	
 	 	}
 	 } 
 }
@@ -216,12 +213,6 @@ void Player::render(SDL_Renderer* renderer, const SDL_Rect & camera)
 	SDL_RenderFillRect( renderer, &fillRect );
 }
 
-/* Declares what happens when Player collides with another Entity */
-void Player::collision(Entity* param)
-{
-	//do stuff
-}
-
 void Player::fire(Map& map, double targetX, double targetY)
 {
 	std::pair<double,double> move_vector{ std::make_pair(targetX - posX_, targetY - posY_) };
@@ -244,10 +235,55 @@ void Player::fire(Map& map, double targetX, double targetY)
 			timer_.start();
 		}
 	}
-	
-	//Projectile(int posX, int posY, unsigned width, unsigned height, double maxSpeed, double acceleration, unsigned angle)
 }
 
+/* Declares what happens when Player collides with another Entity */
+void Player::checkCollision(Map& map)
+{
+	double leftA, leftB;
+	double rightA, rightB;
+	double bottomA, bottomB;
+	double topA, topB;
+	
+	auto Npcs = map.getNpcs();
+	auto Walls = map.getWalls();
+
+	leftA = - (double)width_/2 + posX_;
+	rightA = (double)width_/2 + posX_;
+	topA = - (double)height_/2 + posY_;
+	bottomA = (double)height_/2 + posY_;
+
+	for(auto i: Npcs)
+	{
+		leftB =  - i -> getWidth()/2 + i-> getX();
+		rightB = i -> getWidth()/2 + i-> getX();
+		topB = - i -> getHeight()/2 + i-> getY();
+		bottomB =  i ->getHeight()/2 + i-> getY();
+
+		if((bottomA >= topB && topB >= topA || bottomB >= topA && topA >= topB) && (rightA >= leftB && rightB >= leftA || leftA <= rightB && rightA >= rightB))
+		{
+			alive_ = false;
+		}
+	}
+	
+	for(auto i: Walls)
+	{
+		
+		leftB =  - i -> getWidth()/2 + i-> getX();
+		rightB = i -> getWidth()/2 + i-> getX();
+		topB = - i -> getHeight()/2 + i-> getY();
+		bottomB =  i ->getHeight()/2 + i-> getY();
+
+		if(topA <= bottomB || bottomA >= topB)
+		{
+			speedY_=0;
+		}
+		if(rightA >= leftB || leftA <= rightB)
+		{
+			speedX_=0;	
+	 	}
+	} 		
+}
 
 //////////////////////////////
 //	NPC
@@ -297,17 +333,48 @@ void NPC::render(SDL_Renderer* renderer, const SDL_Rect & camera)
 	SDL_RenderFillRect( renderer, &fillRect );
 }
 
-void NPC::collision(Entity* param)
-{
-	//do stuff
-}
 
+void NPC::checkCollision(Map& map)
+{
+ //bara walls
+	double leftA, leftB;
+	double rightA, rightB;
+	double bottomA, bottomB;
+	double topA, topB;
+	
+	auto Walls = map.getWalls();
+
+	leftA = - (double)width_/2 + targetPosX_;
+	rightA = (double)width_/2 + targetPosX_;
+	topA = - (double)height_/2 + targetPosY_;
+	bottomA = (double)height_/2 + targetPosY_;
+
+
+	 for(auto i: Walls)
+	 {
+	 	
+	 	leftB =  - i -> getWidth()/2 + i-> getX();
+		rightB = i -> getWidth()/2 + i-> getX();
+		topB = - i -> getHeight()/2 + i-> getY();
+		bottomB =  i ->getHeight()/2 + i-> getY();
+
+		if(topA <= bottomB || bottomA >= topB)
+		{
+			speedY_=0;
+		}
+		if(rightA >= leftB || leftA <= rightB)
+		{
+			speedX_=0;
+	 	}
+	 } 
+
+}
 
 /* It shouldn't have any input? */
 void Projectile::readInput()
 {
-	targetPosX_ = posX_ + cos(angle_*PI/180)*maxSpeed_;
-	targetPosY_ = posY_ + sin(angle_*PI/180)*maxSpeed_;
+	//targetPosX_ = posX_ + cos(angle_*PI/180)*maxSpeed_;
+	//targetPosY_ = posY_ + sin(angle_*PI/180)*maxSpeed_;
 }
 
 /* Update position depending on speed and  */
@@ -326,11 +393,55 @@ void Projectile::render(SDL_Renderer* renderer, const SDL_Rect & camera)
 }
 
 /* Determines what happens to Projectile when it collides with another Entity */
-void Projectile::collision(Entity* param)
+void Projectile::checkCollision(Map& map)
 {
-	//do stuff
-}
+	double leftA, leftB;
+	double rightA, rightB;
+	double bottomA, bottomB;
+	double topA, topB;
+	
+	auto Npcs = map.getNpcs();
+	auto Walls = map.getWalls();
 
+	leftA = - (double)width_/2 + posX_;
+	rightA = (double)width_/2 + posX_;
+	topA = - (double)height_/2 + posY_;
+	bottomA = (double)height_/2 + posY_;
+
+	for(auto i: Npcs)
+	{
+		
+		leftB =  - i -> getWidth()/2 + i-> getX();
+		rightB = i -> getWidth()/2 + i-> getX();
+		topB = - i -> getHeight()/2 + i-> getY();
+		bottomB =  i ->getHeight()/2 + i-> getY();
+
+		if((bottomA >= topB && topB >= topA || bottomB >= topA && topA >= topB) && (rightA >= leftB && rightB >= leftA || leftA <= rightB && rightA >= rightB))
+		{
+			alive_ = false;
+			i -> setAlive(false);
+		}
+	
+	}
+	for(auto i: Walls)
+	{
+		
+		leftB =  - i -> getWidth()/2 + i-> getX();
+		rightB = i -> getWidth()/2 + i-> getX();
+		topB = - i -> getHeight()/2 + i-> getY();
+		bottomB =  i ->getHeight()/2 + i-> getY();
+
+		if(topA <= bottomB || bottomA >= topB)
+		{
+			speedY_=0;
+		}
+		if(rightA >= leftB || leftA <= rightB)
+		{
+			speedX_=0;
+	 	}
+	 } 
+
+}
 
 //////////////////////////////
 //	Wall
@@ -350,11 +461,6 @@ void Wall::render(SDL_Renderer* renderer, const SDL_Rect & camera)
 	SDL_RenderFillRect( renderer, &fillRect );
 }
 
-void Wall::collision(Entity* param)
-{
-	//do stuff
-}
-
 
 //////////////////////////////
 //	Spawner
@@ -362,7 +468,7 @@ void Wall::collision(Entity* param)
 
 void Spawner::update()
 {
-	if(timer_.getTicks() > 10000)
+	if(timer_.getTicks() > 1000)
 	{
 		map_->makeNPC(posX_, posY_, width_, height_, maxSpeed_, acceleration_);
 		timer_.start();
@@ -378,9 +484,4 @@ void Spawner::render(SDL_Renderer* renderer, const SDL_Rect & camera)
 	SDL_Rect fillRect = { posX_ - int(camera.x + height_/2), posY_ - int(camera.y + width_/2) , height_, width_};
 	SDL_SetRenderDrawColor( renderer, 0xFF, 0x00, 0x00, 0xFF );
 	SDL_RenderFillRect( renderer, &fillRect );
-}
-
-void Spawner::collision(Entity* param)
-{
-	//do stuff
 }

@@ -29,6 +29,7 @@ class GameState
 		Timer capTimer_;
 		
 		unsigned score_;
+		bool gameOver_;
 		bool quit_;
 };
 
