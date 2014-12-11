@@ -52,7 +52,7 @@ void LiveObject::setAlive(bool alive)
 }
 
 
-void LiveObject::checkCollision(Map& map, int& x)
+/*void LiveObject::checkCollision(Map& map, int& x)
 {
 	double leftA, leftB;
 	double rightA, rightB;
@@ -127,7 +127,7 @@ void LiveObject::checkCollision(Map& map, int& x)
 			speedX_=0;	
 	 	}
 	 } 
-}
+}*/
 
 
 //////////////////////////////

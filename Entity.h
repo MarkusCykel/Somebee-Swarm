@@ -53,8 +53,6 @@ class LiveObject : public Entity
 		void setPosition(double x, double y);
 		void setAlive(bool);
 		
-		virtual void checkCollision(Map&, int&) = 0;
-		
 	protected:
 		double targetPosX_, targetPosY_;
 		double speedX_, speedY_;

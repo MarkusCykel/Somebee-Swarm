@@ -7,12 +7,13 @@ GameState::GameState(unsigned height, unsigned width, Window& window)
 	: map_{height,width}, camera_{ 0, 0, window.getWidth(), window.getHeight() }, quit_{ false }, gameOver_{false}, window_{window}
 {
 		map_.makePlayer(250, 250, 20, 20, 10, 10);
-		map_.makeSpawner( 100, 354, 30, 30, 8, 1);
-		map_.makeSpawner( 700, 354, 30, 30, 8, 1);
-		map_.makeSpawner( 900, 354, 30, 30, 8, 1);
-		map_.makeSpawner( 200, 500, 30, 30, 8, 1);
-		map_.makeSpawner( 300, 354, 30, 30, 8, 1);
-		map_.makeSpawner( 1100, 700, 30, 30, 8, 1);
+		map_.makeSpawner( 0, 0, 30, 30, 8, 1);
+		map_.makeSpawner( height, width, 30, 30, 8, 1);
+		map_.makeSpawner( height, 0, 30, 30, 8, 1);
+		map_.makeSpawner( 0, width, 30, 30, 8, 1);
+		map_.makeSpawner( 0, width/2, 30, 30, 8, 1);
+		map_.makeSpawner( height/2, 0, 30, 30, 8, 1);
+		map_.makeWall( height/2, width/2, 50, 50);
 		map_.loadBackground("background_tho.jpg", window_.getRenderer());
 }
 
@@ -138,6 +139,13 @@ void GameState::render()
 	auto npcs = map_.getNpcs();
 	
 	for( auto i : npcs )
+	{
+		i->render( window_.getRenderer(), camera_);
+	}
+	
+	auto walls = map_.getWalls();
+	
+	for( auto i : walls )
 	{
 		i->render( window_.getRenderer(), camera_);
 	}

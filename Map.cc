@@ -183,6 +183,10 @@ void Map::makeProjectile(double posX, double posY, unsigned width, unsigned heig
 	projectiles_.push_back(new Projectile{ posX, posY, width, height, maxSpeed, acceleration, move_vector });
 }
 
+void Map::makeWall(double posX, double posY, unsigned width, unsigned height)
+{
+	walls_.push_back(new Wall{ posX, posY, width, height});
+}
 
 Player* Map::getPlayer()
 {

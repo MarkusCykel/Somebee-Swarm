@@ -26,6 +26,7 @@ class Map
 		void makePlayer(double posX, double posY, unsigned width, unsigned height, double maxSpeed, double acceleration);
 		void makeSpawner(double posX, double posY, unsigned width, unsigned height, double maxSpeed, double acceleration, Uint32 interval = 10000);
 		void makeNPC(double posX, double posY, unsigned width, unsigned height, double maxSpeed, double acceleration);
+		void makeWall(double posX, double posY, unsigned width, unsigned height);
 		void makeProjectile(double posX, double posY, unsigned width, unsigned height, double maxSpeed, double acceleration, std::pair<double,double> move_vector);
 		
 		void renderBackground(SDL_Renderer*, const SDL_Rect&, const int&, const int&);
