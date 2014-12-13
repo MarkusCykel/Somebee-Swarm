@@ -4,20 +4,31 @@
 #define SCREEN_TICKS_PER_FRAME 1000 / SCREEN_FPS + 1
 
 GameState::GameState(unsigned height, unsigned width, Window& window)
-	: map_{height,width}, camera_{ 0, 0, window.getWidth(), window.getHeight() }, quit_{ false }, gameOver_{false}, window_{window}, score_{0}
+	: map_{height,width}, camera_{ 0, 0, window.getWidth(), window.getHeight() }, quit_{ false }, gameOver_{false}, window_{window}
 {
-		map_.makePlayer(250, 250, 30, 30, 10, 10);
-		map_.makeSpawner( 15, 15, 30, 30, 8, 1);
-		map_.makeSpawner( height-15, width-15, 30, 30, 8, 1);
-		map_.makeSpawner( height-15, 15, 30, 30, 8, 1);
-		map_.makeSpawner( 15, width-15, 30, 30, 8, 1);
-		map_.makeSpawner( 15, width/2, 30, 30, 8, 1);
-		map_.makeSpawner( height/2, 15, 30, 30, 8, 1);
+		map_.makeCameraController(10, 10);
 		map_.makeWall( 1000, 1000, 50, 50);
 		map_.makeWall( 540, 300, 50, 50);
 		map_.loadBackground("background_tho.jpg", window_.getRenderer());
 }
 
+bool GameState::menu()
+{
+	if( mouseposX >= window_.getWidth()-window_.getWidth()*1/4 ) 
+		return true;
+	else 
+		return false;
+}
+
+bool GameState::outofbounds()
+{
+	if(mouseposX + camera_.x > map_.getWidth() || mouseposX + camera_.x < 0 || mouseposY + camera_.y > map_.getHeight() || mouseposY + camera_.y < 0)
+	{
+		return true;
+	}
+	else 
+		return false;
+}
 
 void GameState::run(SDL_Event& e)
 {
@@ -40,11 +51,9 @@ void GameState::run(SDL_Event& e)
 	
 void GameState::readInput(SDL_Event& e)
 {
-	auto player = map_.getPlayer();
+	auto CameraController = map_.getCameraController();
 	
-	int x ,y;
-	static bool LMBDown{false};
-	SDL_GetMouseState( &x, &y );
+	SDL_GetMouseState( &mouseposX, &mouseposY );
 	
 	while(SDL_PollEvent(&e) != 0)
 	{
@@ -54,96 +63,37 @@ void GameState::readInput(SDL_Event& e)
 		}
 		else if( e.type == SDL_MOUSEBUTTONDOWN  && e.button.button == SDL_BUTTON_LEFT )
 		{
-			LMBDown = true;
+			if(!menu() && !outofbounds())
+				map_.makeWall(mouseposX + camera_.x, mouseposY + camera_.y, 30, 30);
 		}
 		else if( e.type == SDL_MOUSEBUTTONUP  && e.button.button == SDL_BUTTON_LEFT )
 		{
-			LMBDown = false;
+			
 		}
 	}
+
 	
-	if( LMBDown )
-	{
-		x = camera_.x + x;
-		y = camera_.y + y;
-		player->fire(map_,x,y);
-	}
-	
-	map_.getPlayer()->readInput();
-	
-	auto npcs = map_.getNpcs();
-	
-	for( auto i : npcs )
-	{
-		i->readInput();
-	}
-	
-	auto projectiles = map_.getProjectiles();
-	
-	for( auto i : projectiles )
-	{
-		i->readInput();
-	}
-	std::cout << score_ << std::endl;
+	map_.getCameraController()->readInput();
 }
 
 
 void GameState::update()
 {
-	controller_.update(map_);
-	map_.getPlayer()->update(map_);
+	map_.getCameraController()->update(map_);
 	
-	auto npcs = map_.getNpcs();
-	
-	for( auto i : npcs )
-	{
-		i->update(map_);
-	}
-	
-	auto projectiles = map_.getProjectiles();
-	
-	for( const auto &i : projectiles )
-	{
-		i->update(map_);
-	}
-	
-	auto spawners = map_.getSpawners();
-	
-	for( const auto &i : spawners )
-	{
-		i->update(map_);
-	}
-	
-	
-	camera_.x = floor(map_.getPlayer()->getX()) - camera_.w/ 2;
-    camera_.y = floor(map_.getPlayer()->getY())- camera_.h/ 2;
-	
-	gameOver_ = map_.cleanUp(score_);
-}
+	camera_.x = floor(map_.getCameraController()->getX()) - camera_.w/ 2;
+    camera_.y = floor(map_.getCameraController()->getY())- camera_.h/ 2;
 
+}
 
 void GameState::render()
 {
 	SDL_SetRenderDrawColor( window_.getRenderer(), 0xFF, 0xFF, 0xFF, 0xFF );
 	SDL_RenderClear( window_.getRenderer() );
 	
+	//Render in the correct viewport
+    SDL_RenderSetViewport( window_.getRenderer(), &mapViewport );
 	map_.renderBackground(window_.getRenderer(), camera_, window_.getWidth(), window_.getHeight());
-	
-	auto projectiles = map_.getProjectiles();
-	
-	for( auto i : projectiles )
-	{
-		i->render( window_.getRenderer(), camera_);
-	}
-	
-	map_.getPlayer()->render( window_.getRenderer(), camera_);
-	
-	auto npcs = map_.getNpcs();
-	
-	for( auto i : npcs )
-	{
-		i->render( window_.getRenderer(), camera_);
-	}
 	
 	auto walls = map_.getWalls();
 	
@@ -152,12 +102,8 @@ void GameState::render()
 		i->render( window_.getRenderer(), camera_);
 	}
 	
-	auto spawners = map_.getSpawners();
-	
-	for( auto i : spawners )
-	{
-		i->render( window_.getRenderer(), camera_);
-	}
-	
 	SDL_RenderPresent( window_.getRenderer() );
+	
+	//Render menu
+	//SDL_RenderSetViewport( window_.getRenderer(), &menuViewport );
 }

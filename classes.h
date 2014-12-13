@@ -8,10 +8,10 @@ class LiveObject;
 class NPC;
 class Player;
 class Projectile;
-class Controller;
 class Map;
 class Window;
 class Timer;
 class GameState;
+class CameraController;
 
 #endif

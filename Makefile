@@ -1,15 +1,15 @@
 #OBJS specifies which files to compile as part of the project 
 
-OBJS = Window.o Entity.o Map.o Timer.o Controller.o GameState.o
+OBJS = Window.o Entity.o Map.o Timer.o GameState.o CameraController.o
 
 # Kompilator (gcc) och diagnostikfilter (gccfilter)
 CCC = g++
 
 #INCLUDE_PATHS specifies the additional include paths we'll need 
-INCLUDE_PATHS = -IC:\mingw_dev_lib\include\SDL2
+INCLUDE_PATHS = -ID:\mingw_dev_lib\include\SDL2
 
 #LIBRARY_PATHS specifies the additional library paths we'll need 
-LIBRARY_PATHS = -LC:\mingw_dev_lib\lib
+LIBRARY_PATHS = -LD:\mingw_dev_lib\lib
 
 #COMPILER_FLAGS specifies the additional compilation options we're using 
 # -w suppresses all warnings
@@ -42,9 +42,6 @@ Window.o: Window.h Window.cc
 
 Map.o: Map.h Map.cc
 	$(CCC) Map.cc $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) -c
-	
-Controller.o: Controller.h Entity.o Controller.cc
-	$(CCC) Controller.cc $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) -c
 
 Entity.o: Entity.h Entity.cc
 	$(CCC) Entity.cc $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) -c
@@ -54,4 +51,7 @@ Timer.o: Timer.h Timer.cc
 	
 GameState.o: GameState.h GameState.cc
 	$(CCC) Gamestate.cc $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) -c
+	
+CameraController.o: CameraController.h CameraController.cc
+	$(CCC) CameraController.cc $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) -c
 	

@@ -6,10 +6,9 @@
 #include "classes.h"
 #include "Window.h"
 #include "Map.h"
-#include "Controller.h"
 #include "Timer.h"
 #include "Entity.h"
-
+#include "CameraController.h"
 class GameState
 {
 	public:
@@ -20,15 +19,18 @@ class GameState
 		void readInput(SDL_Event&);
 		void update();
 		void render();
+		bool menu();
+		bool outofbounds();
 		
-		Controller controller_;
 		Map map_;
 		SDL_Rect camera_;
 		Window window_;
-		
+		SDL_Rect mapViewport{0, 0, window_.getWidth() * 3/4, window_.getHeight()};
+		SDL_Rect menuViewport{window_.getWidth()-window_.getWidth()*1/4, 0, window_.getWidth() * 1/4, window_.getHeight()};
+		int mouseposX;
+		int mouseposY;
 		Timer capTimer_;
 		
-		unsigned score_;
 		bool gameOver_;
 		bool quit_;
 };

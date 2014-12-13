@@ -10,8 +10,8 @@
 #include "GameState.h"
 #include "Map.h"
 
-#define WINDOW_HEIGHT 1600
-#define WINDOW_WIDTH 900
+#define WINDOW_HEIGHT 1280
+#define WINDOW_WIDTH 720
 
 int main(int argc, char* argv[])
 {	

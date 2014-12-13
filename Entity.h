@@ -6,7 +6,6 @@
 #include <SDL.h>
 #include <math.h>
 #include "Map.h"
-#include "Controller.h"
 #include "Timer.h"
 
 //////////////////////////////
@@ -32,102 +31,6 @@ class Entity
 		unsigned width_;
 		unsigned height_;
 };
-
-
-//////////////////////////////
-//	Live Objects 
-//////////////////////////////
-
-class LiveObject : public Entity
-{
-	public:
-		LiveObject(int posX, int posY, unsigned width, unsigned height, double maxSpeed, double acceleration) 
-			:  speed_{0}, speedX_{0}, speedY_{0}, alive_{true}, targetPosX_{posX}, targetPosY_{posY}, maxSpeed_{maxSpeed}, acceleration_{acceleration}, Entity{posX, posY, width, height} {};
-		
-		double getTargetX();
-		double getTargetY();
-		bool getAlive();
-		
-		void setPosition(double x, double y);
-		void setAlive(bool);
-		
-	protected:
-		double targetPosX_, targetPosY_;
-		double speedX_, speedY_;
-		double speed_;
-		double maxSpeed_;
-		double acceleration_;
-		
-		bool alive_;
-};
-
-
-//////////////////////////////
-//	Player
-//////////////////////////////
-
-class Player : public LiveObject
-{
-	public:
-		Player(int posX, int posY, unsigned width, unsigned height, double maxSpeed, double acceleration)
-			: move_vector_{std::make_pair(0,0)}, LiveObject{posX, posY, width, height, maxSpeed, acceleration} {};
-		
-		void readInput();
-		void update(Map&);
-		void render(SDL_Renderer*, const SDL_Rect& camera);
-		
-		void checkCollision(Map& map);
-		void fire(Map&, double targetX, double targetY);
-	private:
-		std::pair<double,double> move_vector_;
-		Timer timer_;
-};
-
-class NPC : public LiveObject
-{
-	public:
-		NPC(int posX, int posY, unsigned width, unsigned height, double maxSpeed, double acceleration, Map* map)
-			: map_{map}, LiveObject{posX, posY, width, height, maxSpeed, acceleration } {};
-		
-		void readInput();
-		void update(Map&);
-		void render(SDL_Renderer*, const SDL_Rect& camera);
-		
-		void checkCollision(Map& map);
-	private:
-		Map* map_;
-};
-
-class Projectile : public LiveObject
-{
-	public:
-		Projectile(int posX, int posY, unsigned width, unsigned height, double maxSpeed, double acceleration, std::pair<double,double> move_vector)
-			: move_vector_{move_vector}, LiveObject{posX, posY, width, height, maxSpeed, acceleration } {}
-		
-		void readInput();
-		void update(Map&);
-		void render(SDL_Renderer*, const SDL_Rect& camera);
-		
-		void checkCollision(Map& map);
-	private:
-		std::pair<double,double> move_vector_;
-};
-
-class Spawner : public LiveObject
-{
-	public:
-		Spawner(int posX, int posY, unsigned width, unsigned height, double maxSpeed, double acceleration, Map* map, Uint32 interval) : map_{map}, interval_{interval}, LiveObject{posX, posY, width, height, maxSpeed, acceleration} { timer_.start(); };
-		
-		void readInput();
-		void update(Map&);
-		void render(SDL_Renderer*, const SDL_Rect& camera);
-	
-	private:
-		Timer timer_;
-		Uint32 interval_;
-		Map* map_;
-};
-
 
 //////////////////////////////
 //	Static Objects	

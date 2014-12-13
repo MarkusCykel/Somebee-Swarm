@@ -75,58 +75,11 @@ void Map::renderBackground(SDL_Renderer* renderer, const SDL_Rect& camera, const
 	SDL_RenderCopy( renderer, background_, &cameratemp, &renderQuad);
 }
 
-bool Map::cleanUp(unsigned& score)
+void Map::makeCameraController(double maxSpeed, double acceleration)
 {
-	if(!player_->getAlive())
-	{
-		return true;
-	}
-
-	for(int i{0}; i < npcs_.size(); ++i)
-	{
-		if(!npcs_.at(i)->getAlive())
-		{
-			delete npcs_.at(i);
-			npcs_.erase(npcs_.begin() + i);
-			++score;
-		}
-	}
-	
-	for(int i{0}; i<projectiles_.size(); ++i)
-	{
-		if(!projectiles_.at(i)->getAlive())
-		{
-			delete projectiles_.at(i);
-			projectiles_.erase(projectiles_.begin() + i);
-		}
-	}
-	
-	return false;
-}
-
-void Map::makePlayer(double posX, double posY, unsigned width, unsigned height, double maxSpeed, double acceleration)
-{
-	if( player_ != nullptr)
-		delete player_;
-	player_ = new Player{ posX, posY, width, height, maxSpeed, acceleration };
-}
-
-
-void Map::makeSpawner(double posX, double posY, unsigned width, unsigned height, double maxSpeed, double acceleration, Uint32 interval)
-{
-	spawners_.push_back(new Spawner{ posX, posY, width, height, maxSpeed, acceleration, this, interval });
-}
-
-
-void Map::makeNPC(double posX, double posY, unsigned width, unsigned height, double maxSpeed, double acceleration)
-{
-	npcs_.push_back(new NPC{ posX, posY, width, height, maxSpeed, acceleration, this});
-}
-
-
-void Map::makeProjectile(double posX, double posY, unsigned width, unsigned height, double maxSpeed, double acceleration, std::pair<double,double> move_vector)
-{
-	projectiles_.push_back(new Projectile{ posX, posY, width, height, maxSpeed, acceleration, move_vector });
+	if( CameraController_ != nullptr)
+		delete CameraController_;
+	CameraController_ = new CameraController{maxSpeed, acceleration };
 }
 
 void Map::makeWall(double posX, double posY, unsigned width, unsigned height)
@@ -134,31 +87,12 @@ void Map::makeWall(double posX, double posY, unsigned width, unsigned height)
 	walls_.push_back(new Wall{ posX, posY, width, height});
 }
 
-Player* Map::getPlayer()
+CameraController* Map::getCameraController()
 {
-	return player_;
+	return CameraController_;
 }
-
-
-std::vector<NPC*>& Map::getNpcs()
-{
-	return npcs_;
-}
-
 
 std::vector<Wall*>& Map::getWalls()
 {
 	return walls_;
-}
-
-
-std::vector<Spawner*>& Map::getSpawners()
-{
-	return spawners_;
-}
-
-
-std::vector<Projectile*>& Map::getProjectiles()
-{
-	return projectiles_;
 }
