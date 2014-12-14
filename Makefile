@@ -1,6 +1,6 @@
 #OBJS specifies which files to compile as part of the project 
 
-OBJS = Window.o Entity.o Map.o Timer.o Controller.o GameState.o
+OBJS = Window.o Entity.o Map.o Timer.o GameState.o
 
 # Kompilator (gcc) och diagnostikfilter (gccfilter)
 CCC = g++
@@ -42,9 +42,6 @@ Window.o: Window.h Window.cc
 
 Map.o: Map.h Map.cc
 	$(CCC) Map.cc $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) -c
-	
-Controller.o: Controller.h Entity.o Controller.cc
-	$(CCC) Controller.cc $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) -c
 
 Entity.o: Entity.h Entity.cc
 	$(CCC) Entity.cc $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) -c

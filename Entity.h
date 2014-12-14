@@ -73,6 +73,7 @@ class Character : public LiveObject
 	
 	protected:
 		bool wallCollision(Wall*);
+		bool boundryBoxCollision(const Map&);
 	
 		double moveCapacityX_, moveCapacityY_;
 		double acceleration_;

@@ -7,12 +7,12 @@ GameState::GameState(unsigned height, unsigned width, Window& window)
 	: map_{height,width}, camera_{ 0, 0, window.getWidth(), window.getHeight() }, quit_{ false }, gameOver_{false}, window_{window}, score_{0}
 {
 		map_.makePlayer(250, 250, 30, 30, 10, 1, 15);
-		map_.makeSpawner( 0, 0, 30, 30, 8, 1, 3000);
-		map_.makeSpawner( height-30, width-30, 30, 30, 8, 1, 3000);
-		map_.makeSpawner( height-30, 0, 30, 30, 8, 1, 3000);
-		map_.makeSpawner( 0, width-30, 30, 30, 8, 1, 3000);
-		map_.makeSpawner( 0, width/2, 30, 30, 8, 1, 3000);
-		map_.makeSpawner( height/2, 0, 30, 30, 8, 1, 3000);
+		map_.makeSpawner( 0, 0, 30, 30, 8, 1);
+		map_.makeSpawner( height-30, width-30, 30, 30, 8, 1);
+		map_.makeSpawner( height-30, 0, 30, 30, 8, 1);
+		map_.makeSpawner( 0, width-30, 30, 30, 8, 1);
+		map_.makeSpawner( 0, width/2, 30, 30, 8, 1);
+		map_.makeSpawner( height/2, 0, 30, 30, 8, 1);
 		map_.makeWall( 1000, 1000, 50, 50);
 		map_.makeWall( 1040, 300, 1, 500);
 		map_.makeWall( 840, 300, 1, 500);
@@ -62,10 +62,8 @@ void GameState::run(SDL_Event& e)
 void GameState::readInput(SDL_Event& e)
 {
 	auto player = map_.getPlayer();
-	
 	int x ,y;
 	static bool LMBDown{false};
-	SDL_GetMouseState( &x, &y );
 	
 	while(SDL_PollEvent(&e) != 0)
 	{
@@ -76,6 +74,10 @@ void GameState::readInput(SDL_Event& e)
 		else if( e.type == SDL_MOUSEBUTTONDOWN  && e.button.button == SDL_BUTTON_LEFT )
 		{
 			LMBDown = true;
+			SDL_GetMouseState( &x, &y );
+			x = camera_.x + x;
+			y = camera_.y + y;
+			player->fire(map_,x,y);
 		}
 		else if( e.type == SDL_MOUSEBUTTONUP  && e.button.button == SDL_BUTTON_LEFT )
 		{
@@ -85,6 +87,7 @@ void GameState::readInput(SDL_Event& e)
 	
 	if( LMBDown )
 	{
+		SDL_GetMouseState( &x, &y );
 		x = camera_.x + x;
 		y = camera_.y + y;
 		player->fire(map_,x,y);

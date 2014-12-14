@@ -5,6 +5,7 @@ class Entity;
 class Wall;
 class Spawner;
 class LiveObject;
+class Character;
 class NPC;
 class Player;
 class Projectile;

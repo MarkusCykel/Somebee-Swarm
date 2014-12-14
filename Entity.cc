@@ -107,7 +107,7 @@ bool Character::wallCollision(Wall* wall)
 				targetPosX_ =  leftB - getWidth();
 				moveCapacityX_ = 0;
 			}
-			else if( moveCapacityX > moveCapacityY )
+			else
 			{
 				targetPosY_ = topB - getHeight();
 				moveCapacityY_ = 0;
@@ -120,7 +120,7 @@ bool Character::wallCollision(Wall* wall)
 				targetPosX_ =  rightB;
 				moveCapacityX_ = 0;
 			}
-			else if( moveCapacityX > moveCapacityY )
+			else
 			{
 				targetPosY_ = topB - getHeight();
 				moveCapacityY_ = 0;
@@ -133,7 +133,7 @@ bool Character::wallCollision(Wall* wall)
 				targetPosX_ =  leftB - getWidth();
 				moveCapacityX_ = 0;
 			}
-			else if( moveCapacityX > moveCapacityY )
+			else
 			{
 				targetPosY_ = bottomB;
 				moveCapacityY_ = 0;
@@ -146,7 +146,7 @@ bool Character::wallCollision(Wall* wall)
 				targetPosX_ =  rightB;
 				moveCapacityX_ = 0;
 			}
-			else if( moveCapacityX > moveCapacityY )
+			else
 			{
 				targetPosY_ = bottomB;
 				moveCapacityY_ = 0;
@@ -167,7 +167,7 @@ bool Character::wallCollision(Wall* wall)
 			targetPosX_ =  leftB - getWidth();
 			moveCapacityX_ = 0;
 		}	
-		if( prevLeftA  >= rightB ) // from the right
+		else if( prevLeftA  >= rightB ) // from the right
 		{
 			targetPosX_ = rightB;
 			moveCapacityX_ = 0;
@@ -184,6 +184,30 @@ bool Character::wallCollision(Wall* wall)
 	return collided;
 }
 
+bool Character::boundryBoxCollision(const Map& map)
+{
+	if( targetPosX_ + getWidth() > map.getWidth())
+	{
+		targetPosX_ = map.getWidth() - getWidth();
+		moveCapacityX_ = 0;
+	}
+	else if( targetPosX_ < 0  )
+	{
+		targetPosX_ = 0;
+		moveCapacityX_ = 0;
+	}
+	
+	if(  targetPosY_ > map.getHeight() - getHeight() )
+	{
+		targetPosY_ = map.getHeight() - getHeight();
+		moveCapacityY_ = 0;
+	}
+	else if( targetPosY_ < 0)
+	{
+		targetPosY_ = 0;
+		moveCapacityY_ = 0;
+	}
+}
 //////////////////////////////
 //	Player
 //////////////////////////////
@@ -195,15 +219,19 @@ void Player::readInput()
 	if( currentKeyStates[ SDL_SCANCODE_W ] ^ currentKeyStates[ SDL_SCANCODE_S ] )
 	{
 		if(currentKeyStates[ SDL_SCANCODE_W ]) // If it was S, increase speed on x-axis
+		{
 			if(moveCapacityY_ > -speed_)
 				moveCapacityY_ -= acceleration_;
 			else
 				moveCapacityY_ = -speed_;
+		}
 		else if(currentKeyStates[ SDL_SCANCODE_S ])
+		{
 			if(moveCapacityY_ < speed_)
 				moveCapacityY_ += acceleration_;
 			else
 				moveCapacityY_ = speed_;
+		}
 	}
 	else if( moveCapacityY_ < 0 ) // If W nor S is held down (or both), deaccelerate
 		moveCapacityY_ += acceleration_;
@@ -213,15 +241,19 @@ void Player::readInput()
 	if( currentKeyStates[ SDL_SCANCODE_A ] ^ currentKeyStates[ SDL_SCANCODE_D ] )
 	{
 		if( currentKeyStates[ SDL_SCANCODE_A ] ) // If it was S, increase speed on x-axis
+		{
 			if(moveCapacityX_ > -speed_)
 				moveCapacityX_ -= acceleration_;
 			else
 				moveCapacityX_ = -speed_;
+		}
 		else if( currentKeyStates[ SDL_SCANCODE_D ] )
+		{
 			if(moveCapacityX_ < speed_)
 				moveCapacityX_ += acceleration_;
 			else
 				moveCapacityX_ = speed_;
+		}
 	}
 	else if( moveCapacityX_ < 0 )
 		moveCapacityX_ += acceleration_;
@@ -253,28 +285,6 @@ void Player::update(Map& map)
 		targetPosY_ = getY() + move_vector_.second * abs(moveCapacityY_);
 	}
 	
-	if( targetPosX_ + getWidth() > map.getWidth())
-	{
-		targetPosX_ = map.getWidth() - getWidth();
-		moveCapacityX_ = 0;
-	}
-	else if( targetPosX_ < 0  )
-	{
-		targetPosX_ = 0;
-		moveCapacityX_ = 0;
-	}
-	
-	if(  targetPosY_ > map.getHeight() - getHeight() )
-	{
-		targetPosY_ = map.getHeight() - getHeight();
-		moveCapacityY_ = 0;
-	}
-	else if( targetPosY_ < 0)
-	{
-		targetPosY_ = 0;
-		moveCapacityX_ = 0;
-	}
-	
 	checkCollisions(map);
 	setPosition(targetPosX_, targetPosY_);
 }
@@ -289,6 +299,8 @@ void Player::render(SDL_Renderer* renderer, const SDL_Rect & camera)
 /* Declares what happens when Player collides with another Entity */
 void Player::checkCollisions(Map& map)
 {
+	boundryBoxCollision(map);
+
 	auto walls = map.getWalls();
 	for(auto i : walls)
 	{
@@ -363,28 +375,6 @@ void NPC::readInput()
 
 void NPC::update(Map& map)
 {
-	if( targetPosX_ + getWidth() > map.getWidth())
-	{
-		targetPosX_ = map.getWidth() - getWidth();
-		moveCapacityX_ = 0;
-	}
-	else if( targetPosX_ < 0  )
-	{
-		targetPosX_ = 0;
-		moveCapacityX_ = 0;
-	}
-	
-	if(  targetPosY_ > map.getHeight() - getHeight() )
-	{
-		targetPosY_ = map.getHeight() - getHeight();
-		moveCapacityY_ = 0;
-	}
-	else if( targetPosY_ < 0)
-	{
-		targetPosY_ = 0;
-		moveCapacityX_ = 0;
-	}
-	
 	checkCollisions(map);
 	
 	setPosition(targetPosX_, targetPosY_);
@@ -402,7 +392,8 @@ void NPC::render(SDL_Renderer* renderer, const SDL_Rect & camera)
 
 void NPC::checkCollisions(Map& map)
 {
- //bara walls
+	boundryBoxCollision(map);
+	
  	auto walls = map.getWalls();
 	for(auto i : walls)
 		wallCollision(i);
@@ -423,20 +414,9 @@ void Projectile::update(Map& map)
 		setAlive(false);
 	}
 	
-	for(int i{1}; i <= speed_; ++i)
-	{
-		targetPosX_ = getX() + move_vector_.first*i;
-		targetPosY_ = getY() + move_vector_.second*i;
-		
-		checkCollisions(map);
-	}
-	
-	targetPosX_ = getX() + move_vector_.first*speed_;
-	targetPosY_ = getY() + move_vector_.second*speed_;
+	checkCollisions(map);
 	
 	setPosition(targetPosX_, targetPosY_);
-	
-	checkCollisions(map);
 }
 
 void Projectile::render(SDL_Renderer* renderer, const SDL_Rect & camera)
@@ -453,20 +433,26 @@ void Projectile::checkCollisions(Map& map)
 	auto npcs  = map.getNpcs ();
 	auto walls = map.getWalls();
 	
+	for(int i{1}; i <= speed_; ++i)
+	{
+		targetPosX_ = getX() + move_vector_.first*i;
+		targetPosY_ = getY() + move_vector_.second*i;
+		
+		for( auto i: walls )
+		{
+			if(getAlive() && wallCollision(i))
+			{
+				setAlive(false);
+			}
+		}
+	}
+	
 	for( auto i: npcs )
 	{
 		if(getAlive() && npcCollision(i))
 		{
 			setAlive(false);
 			i->setAlive(false);
-		}
-	}
-
-	for( auto i: walls )
-	{
-		if(getAlive() && wallCollision(i))
-		{
-			setAlive(false);
 		}
 	}
 }

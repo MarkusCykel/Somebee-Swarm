@@ -15,12 +15,12 @@ class Map
 		Map(unsigned width, unsigned height) 
 			: width_{width}, height_{height} {}
 			
-		double getWidth();
-		double getHeight();
+		double getWidth() const { return width_; }
+		double getHeight() const { return height_; }
 		
 		bool cleanUp(unsigned&);
 		void makePlayer(double posX, double posY, unsigned width, unsigned height, double maxSpeed, double acceleration, Uint32 rate_of_fire = 100);
-		void makeSpawner(double posX, double posY, unsigned width, unsigned height, double maxSpeed, double acceleration, Uint32 interval = 10000);
+		void makeSpawner(double posX, double posY, unsigned width, unsigned height, double maxSpeed, double acceleration, Uint32 interval = 5000);
 		void makeNPC(double posX, double posY, unsigned width, unsigned height, double maxSpeed, double acceleration);
 		void makeWall(double posX, double posY, unsigned width, unsigned height);
 		void makeProjectile(double posX, double posY, unsigned width, unsigned height, double maxSpeed, double acceleration, std::pair<double,double> move_vector);

@@ -26,17 +26,6 @@ void Map::loadBackground(const std::string& path, SDL_Renderer* renderer)
     }
 }
 
-double Map::getWidth()
-{
-	return width_;
-}
-
-
-double Map::getHeight()
-{
-	return height_;
-}
-
 
 void Map::renderBackground(SDL_Renderer* renderer, const SDL_Rect& camera, const int& window_width, const int& window_height)
 {
