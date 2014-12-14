@@ -13,5 +13,6 @@ class Window;
 class Timer;
 class GameState;
 class CameraController;
+class EditMenu;
 
 #endif

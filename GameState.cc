@@ -4,11 +4,9 @@
 #define SCREEN_TICKS_PER_FRAME 1000 / SCREEN_FPS + 1
 
 GameState::GameState(unsigned height, unsigned width, Window& window)
-	: map_{height,width}, camera_{ 0, 0, window.getWidth(), window.getHeight() }, quit_{ false }, gameOver_{false}, window_{window}
+	: map_{height,width}, camera_{ 0, 0, window.getWidth() *3/4, window.getHeight() }, quit_{ false }, gameOver_{false}, window_{window}
 {
 		map_.makeCameraController(10, 10);
-		map_.makeWall( 1000, 1000, 50, 50);
-		map_.makeWall( 540, 300, 50, 50);
 		map_.loadBackground("background_tho.jpg", window_.getRenderer());
 }
 
@@ -93,7 +91,7 @@ void GameState::render()
 	
 	//Render in the correct viewport
     SDL_RenderSetViewport( window_.getRenderer(), &mapViewport );
-	map_.renderBackground(window_.getRenderer(), camera_, window_.getWidth(), window_.getHeight());
+	map_.renderBackground(window_.getRenderer(), camera_, camera_.w, camera_.h);
 	
 	auto walls = map_.getWalls();
 	
