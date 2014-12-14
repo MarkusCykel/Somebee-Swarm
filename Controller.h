@@ -11,7 +11,7 @@ class Controller
 	public:
 		void update(Map& map);
 	private:
-		void checkCollisions(Map& map);
+		void checkCollisionss(Map& map);
 		
 		std::map<LiveObject*,std::pair<double,double>> requestedPositions_;
 };

@@ -3,26 +3,26 @@
 
 void Controller::update(Map& map)
 {
-	checkCollisions(map);
+	checkCollisionss(map);
 }
 
 
-void Controller::checkCollisions(Map& map)
+void Controller::checkCollisionss(Map& map)
 {
 	 
 	auto npcs = &map.getNpcs();
 	auto player = map.getPlayer();
 	auto projectiles = &map.getProjectiles();
 	
-	player->checkCollision(map);
+	player->checkCollisions(map);
 	
 	/*for(int i{0}; i<projectiles->size(); ++i)
 	{
-		projectiles->at(i)->checkCollision(map);
+		projectiles->at(i)->checkCollisions(map);
 	}*/
 	
 	/*for(int i{0}; i < npcs->size(); ++i)
 	{
-		npcs->at(i)->checkCollision(map);
+		npcs->at(i)->checkCollisions(map);
 	}*/
 }

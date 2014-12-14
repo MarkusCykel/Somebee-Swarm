@@ -19,7 +19,7 @@ class Map
 		double getHeight();
 		
 		bool cleanUp(unsigned&);
-		void makePlayer(double posX, double posY, unsigned width, unsigned height, double maxSpeed, double acceleration);
+		void makePlayer(double posX, double posY, unsigned width, unsigned height, double maxSpeed, double acceleration, Uint32 rate_of_fire = 100);
 		void makeSpawner(double posX, double posY, unsigned width, unsigned height, double maxSpeed, double acceleration, Uint32 interval = 10000);
 		void makeNPC(double posX, double posY, unsigned width, unsigned height, double maxSpeed, double acceleration);
 		void makeWall(double posX, double posY, unsigned width, unsigned height);

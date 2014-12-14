@@ -54,4 +54,3 @@ Timer.o: Timer.h Timer.cc
 	
 GameState.o: GameState.h GameState.cc
 	$(CCC) Gamestate.cc $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) -c
-	

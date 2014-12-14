@@ -104,17 +104,17 @@ bool Map::cleanUp(unsigned& score)
 	return false;
 }
 
-void Map::makePlayer(double posX, double posY, unsigned width, unsigned height, double maxSpeed, double acceleration)
+void Map::makePlayer(double posX, double posY, unsigned width, unsigned height, double maxSpeed, double acceleration, Uint32 rate_of_fire)
 {
 	if( player_ != nullptr)
 		delete player_;
-	player_ = new Player{ posX, posY, width, height, maxSpeed, acceleration };
+	player_ = new Player{ posX, posY, width, height, maxSpeed, acceleration, rate_of_fire };
 }
 
 
 void Map::makeSpawner(double posX, double posY, unsigned width, unsigned height, double maxSpeed, double acceleration, Uint32 interval)
-{
-	spawners_.push_back(new Spawner{ posX, posY, width, height, maxSpeed, acceleration, this, interval });
+{ 
+	spawners_.push_back(new Spawner{ posX, posY, width, height, maxSpeed, acceleration, this, interval }); 
 }
 
 
@@ -126,7 +126,7 @@ void Map::makeNPC(double posX, double posY, unsigned width, unsigned height, dou
 
 void Map::makeProjectile(double posX, double posY, unsigned width, unsigned height, double maxSpeed, double acceleration, std::pair<double,double> move_vector)
 {
-	projectiles_.push_back(new Projectile{ posX, posY, width, height, maxSpeed, acceleration, move_vector });
+	projectiles_.push_back(new Projectile{ posX, posY, width, height, maxSpeed, move_vector });
 }
 
 void Map::makeWall(double posX, double posY, unsigned width, unsigned height)
