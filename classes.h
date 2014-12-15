@@ -9,7 +9,6 @@ class Character;
 class NPC;
 class Player;
 class Projectile;
-class Controller;
 class Map;
 class Window;
 class Timer;

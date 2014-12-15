@@ -6,7 +6,6 @@
 #include "classes.h"
 #include "Window.h"
 #include "Map.h"
-#include "Controller.h"
 #include "Timer.h"
 #include "Entity.h"
 
@@ -14,6 +13,7 @@ class GameState
 {
 	public:
 		GameState(unsigned height, unsigned width, Window& window);
+		
 		void run(SDL_Event&);
 	private:
 		void pause() = delete;
@@ -21,7 +21,6 @@ class GameState
 		void update();
 		void render();
 		
-		Controller controller_;
 		Map map_;
 		SDL_Rect camera_;
 		Window window_;

@@ -2,7 +2,6 @@
 #define MAP_H
 
 #include "Entity.h"
-#include "Controller.h"
 #include <vector>
 #include <iostream>
 #include <SDL.h>
@@ -14,13 +13,14 @@ class Map
 	public:
 		Map(unsigned width, unsigned height) 
 			: width_{width}, height_{height} {}
+		~Map();
 			
 		double getWidth() const { return width_; }
 		double getHeight() const { return height_; }
 		
 		bool cleanUp(unsigned&);
 		void makePlayer(double posX, double posY, unsigned width, unsigned height, double maxSpeed, double acceleration, Uint32 rate_of_fire = 100);
-		void makeSpawner(double posX, double posY, unsigned width, unsigned height, double maxSpeed, double acceleration, Uint32 interval = 5000);
+		void makeSpawner(double posX, double posY, unsigned width, unsigned height, double maxSpeed, double acceleration, Uint32 interval = 1000);
 		void makeNPC(double posX, double posY, unsigned width, unsigned height, double maxSpeed, double acceleration);
 		void makeWall(double posX, double posY, unsigned width, unsigned height);
 		void makeProjectile(double posX, double posY, unsigned width, unsigned height, double maxSpeed, double acceleration, std::pair<double,double> move_vector);
@@ -41,6 +41,7 @@ class Map
 		std::vector<Wall*> walls_{};
 		std::vector<Spawner*> spawners_{};
 		SDL_Texture* background_{};
+		
 
 		double width_;
 		double height_;

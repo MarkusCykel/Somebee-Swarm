@@ -5,7 +5,7 @@ class Window
 {
 	public:
 		Window(char* window_title, const unsigned & window_width, const unsigned & window_height);
-		~Window() {	SDL_DestroyWindow(window_); };
+		~Window();
 		
 		int getWidth();
 		int getHeight();

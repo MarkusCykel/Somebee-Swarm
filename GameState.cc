@@ -1,37 +1,24 @@
 #include "GameState.h"
 #include <iostream>
-#define SCREEN_FPS 60
+#define SCREEN_FPS 61
 #define SCREEN_TICKS_PER_FRAME 1000 / SCREEN_FPS + 1
 
 GameState::GameState(unsigned height, unsigned width, Window& window)
 	: map_{height,width}, camera_{ 0, 0, window.getWidth(), window.getHeight() }, quit_{ false }, gameOver_{false}, window_{window}, score_{0}
 {
 		map_.makePlayer(250, 250, 30, 30, 10, 1, 15);
-		map_.makeSpawner( 0, 0, 30, 30, 8, 1);
+		/*map_.makeSpawner( 0, 0, 30, 30, 8, 1);
 		map_.makeSpawner( height-30, width-30, 30, 30, 8, 1);
 		map_.makeSpawner( height-30, 0, 30, 30, 8, 1);
 		map_.makeSpawner( 0, width-30, 30, 30, 8, 1);
 		map_.makeSpawner( 0, width/2, 30, 30, 8, 1);
-		map_.makeSpawner( height/2, 0, 30, 30, 8, 1);
-		map_.makeWall( 1000, 1000, 50, 50);
+		map_.makeSpawner( height/2, 0, 30, 30, 8, 1);*/
 		map_.makeWall( 1040, 300, 1, 500);
-		map_.makeWall( 840, 300, 1, 500);
+		map_.makeWall( 840, 300, 1, 490);
 		map_.makeWall( 540, 300, 500, 1);
-		map_.makeWall( 540, 800, 200, 1);
-		map_.makeWall( 740, 800, 1, 50);
-		map_.makeWall( 840, 800, 1, 50);
-
-		map_.makeWall( 1020, 800, 30, 10);
-		map_.makeWall( 1040, 770, 10, 30);
-		
-		map_.makeWall( 1020+100+20, 800, 30, 10);
-		map_.makeWall( 1040+100, 770, 10, 30);
-		
-		map_.makeWall( 1040+200, 770, 10, 30);
-		map_.makeWall( 1020+200+20, 800, 30, 10);
-		
-		map_.makeWall( 1040+300, 770, 10, 30);
-		map_.makeWall( 1040+300, 800, 10, 40);
+		map_.makeWall( 540, 800, 290, 1);
+	//	map_.makeWall( 740, 800, 1, 50);
+		//map_.makeWall( 840, 800, 1, 50);
 		
 		//map_.makeWall( 840, 800, 210, 10);
 		//map_.makeWall( 1040, 300, 10, 500);
@@ -51,6 +38,7 @@ void GameState::run(SDL_Event& e)
 		render();
 		
 		int frameTicks = capTimer_.getTicks();
+		std::cout << SCREEN_TICKS_PER_FRAME - frameTicks << std::endl;
 		if( frameTicks < SCREEN_TICKS_PER_FRAME )
 		{
 			SDL_Delay( SCREEN_TICKS_PER_FRAME - frameTicks );

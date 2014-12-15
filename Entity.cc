@@ -1,5 +1,4 @@
 #include "Entity.h"
-#include "Controller.h"
 #include <iostream>
 #include <iomanip>
 
@@ -40,7 +39,7 @@ void LiveObject::setAlive(bool alive)
 	alive_ = alive;
 }
 
-bool LiveObject::npcCollision(NPC* npc)
+bool LiveObject::entityCollisionCheck(Entity* npc)
 {
 	double leftA, leftB;
 	double rightA, rightB;
@@ -65,11 +64,8 @@ bool LiveObject::npcCollision(NPC* npc)
 	return false;
 }
 
-//////////////////////////////
-//	Character
-//////////////////////////////
 
-bool Character::wallCollision(Wall* wall)
+bool LiveObject::entityCollision(Entity* character)
 {
 	bool collided{false};
 	
@@ -90,10 +86,10 @@ bool Character::wallCollision(Wall* wall)
 	bottomA = getTargetY() + getHeight();
 	
 		
-	leftB = wall->getX();
-	rightB = wall->getX() + wall->getWidth() ;
-	topB = wall->getY();
-	bottomB = wall->getY() + wall->getHeight() ;
+	leftB = character->getX();
+	rightB = character->getX() + character->getWidth() ;
+	topB = character->getY();
+	bottomB = character->getY() + character->getHeight() ;
 
 	if(!(topA >= bottomB || bottomA <= topB || leftA >= rightB || rightA <= leftB)) // if it collided
 	{
@@ -184,7 +180,7 @@ bool Character::wallCollision(Wall* wall)
 	return collided;
 }
 
-bool Character::boundryBoxCollision(const Map& map)
+bool LiveObject::boundryBoxCollision(const Map& map)
 {
 	if( targetPosX_ + getWidth() > map.getWidth())
 	{
@@ -208,6 +204,33 @@ bool Character::boundryBoxCollision(const Map& map)
 		moveCapacityY_ = 0;
 	}
 }
+
+bool LiveObject::boundryBoxCollisionCheck(const Map& map)
+{
+	if( targetPosX_ + getWidth() > map.getWidth())
+	{
+		return true;
+	}
+	
+	if( targetPosX_ < 0  )
+	{
+		return true;
+	}
+	
+	if(  targetPosY_ > map.getHeight() - getHeight() )
+	{
+		return true;
+	}
+	
+	if( targetPosY_ < 0)
+	{
+		return true;
+	}
+	
+	return false;
+}
+
+
 //////////////////////////////
 //	Player
 //////////////////////////////
@@ -304,13 +327,13 @@ void Player::checkCollisions(Map& map)
 	auto walls = map.getWalls();
 	for(auto i : walls)
 	{
-		wallCollision(i);
+		entityCollision(i);
 	}
 	
 	auto npcs  = map.getNpcs();
 	for(auto i : npcs)
 	{
-		if(npcCollision(i))
+		if(entityCollisionCheck(i))
 			setAlive(false);
 	}
 }
@@ -394,9 +417,12 @@ void NPC::checkCollisions(Map& map)
 {
 	boundryBoxCollision(map);
 	
+	auto npcs = map.getNpcs();
+	for(auto i : npcs)
+		entityCollision(i);
  	auto walls = map.getWalls();
 	for(auto i : walls)
-		wallCollision(i);
+		entityCollision(i);
 }
 
 /* It shouldn't have any input? */
@@ -440,7 +466,7 @@ void Projectile::checkCollisions(Map& map)
 		
 		for( auto i: walls )
 		{
-			if(getAlive() && wallCollision(i))
+			if(getAlive() && entityCollision(i))
 			{
 				setAlive(false);
 			}
@@ -449,38 +475,12 @@ void Projectile::checkCollisions(Map& map)
 	
 	for( auto i: npcs )
 	{
-		if(getAlive() && npcCollision(i))
+		if(getAlive() && i->getAlive() && entityCollisionCheck(i))
 		{
 			setAlive(false);
 			i->setAlive(false);
 		}
 	}
-}
-
-bool Projectile::wallCollision(Wall* wall)
-{
-	double leftA, leftB;
-	double rightA, rightB;
-	double bottomA, bottomB;
-	double topA, topB;
-	
-	leftA = getTargetX();
-	rightA = getTargetX() + getWidth();
-	topA = getTargetY();
-	bottomA = getTargetY() + getHeight();
-	
-		
-	leftB = wall->getX();
-	rightB = wall->getX() + wall->getWidth() ;
-	topB = wall->getY();
-	bottomB = wall->getY() + wall->getHeight() ;
-
-	if(!(topA >= bottomB || bottomA <= topB || leftA >= rightB || rightA <= leftB))
-	{
-		return true;
-	}
-	
-	return false;
 }
 
 //////////////////////////////

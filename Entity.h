@@ -6,7 +6,6 @@
 #include <SDL.h>
 #include <math.h>
 #include "Map.h"
-#include "Controller.h"
 #include "Timer.h"
 #include <iostream>
 
@@ -47,8 +46,8 @@ class Entity
 class LiveObject : public Entity
 {
 	public:
-		LiveObject(int posX, int posY, unsigned width, unsigned height, double speed) 
-			: targetPosX_{posX}, targetPosY_{posY}, speed_{speed}, alive_{true}, Entity{posX, posY, width, height} {}
+		LiveObject(int posX, int posY, unsigned width, unsigned height, double speed, double acceleration) 
+			: targetPosX_{posX}, targetPosY_{posY}, speed_{speed}, acceleration_{acceleration}, alive_{true}, Entity{posX, posY, width, height} {}
 		
 		int getTargetX() { return targetPosX_; }
 		int getTargetY() { return targetPosY_; }
@@ -57,26 +56,17 @@ class LiveObject : public Entity
 		void setAlive(bool);
 		
 	protected:
-		bool npcCollision(NPC*);
-		
+		bool entityCollision(Entity*);
+		bool entityCollisionCheck(Entity*);
+		bool boundryBoxCollision(const Map&);
+		bool boundryBoxCollisionCheck(const Map&);
+	
+		double moveCapacityX_{0}, moveCapacityY_{0};
+		double acceleration_;
 		double targetPosX_, targetPosY_;
 		double speed_;
 		
 		bool alive_;
-};
-
-class Character : public LiveObject
-{
-	public:
-		Character(int posX, int posY, unsigned width, unsigned height, double speed, double acceleration)
-			: acceleration_{acceleration}, LiveObject{posX, posY, width, height, speed} {}
-	
-	protected:
-		bool wallCollision(Wall*);
-		bool boundryBoxCollision(const Map&);
-	
-		double moveCapacityX_, moveCapacityY_;
-		double acceleration_;
 };
 
 
@@ -84,11 +74,11 @@ class Character : public LiveObject
 //	Player
 //////////////////////////////
 
-class Player : public Character
+class Player : public LiveObject
 {
 	public:
 		Player(int posX, int posY, unsigned width, unsigned height, double maxSpeed, double acceleration, Uint32 rate_of_fire)
-			: move_vector_{std::make_pair(0,0)}, rate_of_fire_{rate_of_fire}, Character{posX, posY, width, height, maxSpeed, acceleration} {};
+			: move_vector_{std::make_pair(0,0)}, rate_of_fire_{rate_of_fire}, LiveObject{posX, posY, width, height, maxSpeed, acceleration} {};
 		
 		void readInput();
 		void update(Map&);
@@ -102,11 +92,11 @@ class Player : public Character
 		Timer timer_;
 };
 
-class NPC : public Character
+class NPC : public LiveObject
 {
 	public:
 		NPC(int posX, int posY, unsigned width, unsigned height, double maxSpeed, double acceleration, Map* map)
-			: map_{map}, Character{posX, posY, width, height, maxSpeed, acceleration } {};
+			: map_{map}, LiveObject{posX, posY, width, height, maxSpeed, acceleration } {};
 		
 		void readInput();
 		void update(Map&);
@@ -121,7 +111,7 @@ class Projectile : public LiveObject
 {
 	public:
 		Projectile(int posX, int posY, unsigned width, unsigned height, double speed, std::pair<double,double> move_vector)
-			: move_vector_{move_vector}, LiveObject{posX, posY, width, height, speed} {}
+			: move_vector_{move_vector}, LiveObject{posX, posY, width, height, speed, speed} {}
 		
 		void readInput();
 		void update(Map&);
@@ -137,14 +127,13 @@ class Projectile : public LiveObject
 class Spawner : public LiveObject
 {
 	public:
-		Spawner(int posX, int posY, unsigned width, unsigned height, double speed, double acceleration, Map* map, Uint32 interval) : acceleration_{acceleration}, map_{map}, interval_{interval}, LiveObject{posX, posY, width, height, speed} { timer_.start(); };
+		Spawner(int posX, int posY, unsigned width, unsigned height, double speed, double acceleration, Map* map, Uint32 interval) : map_{map}, interval_{interval}, LiveObject{posX, posY, width, height, speed, acceleration} { timer_.start(); };
 		
 		void readInput();
 		void update(Map&);
 		void render(SDL_Renderer*, const SDL_Rect& camera);
 	
 	private:
-		double acceleration_;
 		Timer timer_;
 		Uint32 interval_;
 		Map* map_;

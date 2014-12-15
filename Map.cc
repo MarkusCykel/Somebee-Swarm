@@ -1,6 +1,33 @@
 #include "Map.h"
 #include <map>
 
+Map::~Map()
+{
+	delete player_;
+	
+	for(auto& i : npcs_)
+	{
+		delete i;
+	}
+	
+	for(auto& i : projectiles_)
+	{
+		delete i;
+	}
+	
+	for(auto& i : walls_)
+	{
+		delete i;
+	}
+	
+	for(auto& i : spawners_)
+	{
+		delete i;
+	}
+	
+	SDL_DestroyTexture( background_ );
+}
+
 void Map::loadBackground(const std::string& path, SDL_Renderer* renderer)
 {
 	SDL_Surface* loadedSurface = IMG_Load( path.c_str() );

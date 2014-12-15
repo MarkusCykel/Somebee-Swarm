@@ -1,4 +1,5 @@
 #include <SDL.h>
+#include <SDL_image.h>
 #include <iostream>
 
 #include "Window.h"
@@ -17,13 +18,24 @@ Window::Window(char* window_title, const unsigned & window_width, const unsigned
 	}
 	else
 	{
-		renderer_ = SDL_CreateRenderer( window_, -1, SDL_RENDERER_ACCELERATED);
+		renderer_ = SDL_CreateRenderer( window_, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 		
 		if( renderer_ == NULL)
 		{
 			std::cout << "Renderer could not be created! SDL Error: %s\n" << SDL_GetError();
 		}
 	}
+}
+
+Window::~Window()
+{
+	//Destroy window	
+	SDL_DestroyRenderer( renderer_ );
+	SDL_DestroyWindow( window_ );
+	
+	//Quit SDL subsystems
+	IMG_Quit();
+	SDL_Quit();
 }
 
 int Window::getWidth()
