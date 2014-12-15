@@ -9,6 +9,8 @@
 #include "Timer.h"
 #include "Entity.h"
 #include "CameraController.h"
+#include "EditMenu.h"
+
 class GameState
 {
 	public:
@@ -30,6 +32,7 @@ class GameState
 		int mouseposX;
 		int mouseposY;
 		Timer capTimer_;
+		EditMenu menu_;
 		
 		bool gameOver_;
 		bool quit_;

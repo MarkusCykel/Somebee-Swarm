@@ -19,7 +19,7 @@ CCFLAGS = -w -std=c++11 -Wpedantic -Wall -Wextra
 NOWINDOW = -Wl,-subsystem,windows
 
 #LINKER_FLAGS specifies the libraries we're linking against 
-LINKER_FLAGS = -lmingw32 -lSDL2main -lSDL2 -lSDL2_image
+LINKER_FLAGS = -lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf
 
 STATIC = -static-libgcc -static-libstdc++
 

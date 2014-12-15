@@ -61,8 +61,10 @@ void GameState::readInput(SDL_Event& e)
 		}
 		else if( e.type == SDL_MOUSEBUTTONDOWN  && e.button.button == SDL_BUTTON_LEFT )
 		{
-			if(!menu() && !outofbounds())
+			if(!menu() && !outofbounds() && menu_.buttonpressed())
 				map_.makeWall(mouseposX + camera_.x, mouseposY + camera_.y, 30, 30);
+			if(!outofbounds() && menu())
+				menu_.check_input(mouseposX, mouseposY, menuViewport);
 		}
 		else if( e.type == SDL_MOUSEBUTTONUP  && e.button.button == SDL_BUTTON_LEFT )
 		{
@@ -100,8 +102,9 @@ void GameState::render()
 		i->render( window_.getRenderer(), camera_);
 	}
 	
-	SDL_RenderPresent( window_.getRenderer() );
-	
 	//Render menu
-	//SDL_RenderSetViewport( window_.getRenderer(), &menuViewport );
+	SDL_RenderSetViewport( window_.getRenderer(), &menuViewport );
+	menu_.render( window_.getRenderer(), menuViewport );
+	
+	SDL_RenderPresent( window_.getRenderer() );
 }
