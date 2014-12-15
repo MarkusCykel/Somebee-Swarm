@@ -63,7 +63,7 @@ void GameState::readInput(SDL_Event& e)
 		{
 			if(!menu() && !outofbounds() && menu_.buttonpressed())
 				map_.makeWall(mouseposX + camera_.x, mouseposY + camera_.y, 30, 30);
-			if(!outofbounds() && menu())
+			if(menu())
 				menu_.check_input(mouseposX, mouseposY, menuViewport);
 		}
 		else if( e.type == SDL_MOUSEBUTTONUP  && e.button.button == SDL_BUTTON_LEFT )

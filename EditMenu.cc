@@ -5,7 +5,10 @@ void EditMenu::render(SDL_Renderer* renderer, const SDL_Rect & viewport)
 	//SDL_SetRenderDrawColor( renderer, 0xFF, 0xFF, 0xFF, 0xFF );
 	//SDL_RenderClear( renderer );
 	SDL_Rect fillRect = { 50, 50, 50, 50};
-	SDL_SetRenderDrawColor( renderer, 0x00, 0xFF, 0x00, 0xFF );
+	if(buttonpressed_ == true)
+		SDL_SetRenderDrawColor( renderer, 0x00, 0xFF, 0x00, 0xFF );
+	else
+		SDL_SetRenderDrawColor( renderer, 0xFF, 0x00, 0x00, 0xFF );
 	SDL_RenderFillRect( renderer, &fillRect );
 }
 
