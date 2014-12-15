@@ -24,8 +24,11 @@ int main(int argc, char* argv[])
 		SDL_Event e;
 		
 		Window window{"testing", WINDOW_HEIGHT, WINDOW_WIDTH};
-		GameState gameState{2000,2000,window};
 		
+		GameState gameState{2000,2000,window};
+			
 		gameState.run(e);
 	}
+	
+
 }

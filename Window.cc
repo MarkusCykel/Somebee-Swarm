@@ -27,7 +27,7 @@ Window::Window(char* window_title, const unsigned & window_width, const unsigned
 	}
 }
 
-Window::~Window()
+void Window::free()
 {
 	//Destroy window	
 	SDL_DestroyRenderer( renderer_ );
