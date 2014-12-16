@@ -16,6 +16,7 @@ class EditMenu
 		EditMenu(){};
 		void check_input(int, int, const SDL_Rect &);
 		void render(SDL_Renderer* renderer, const SDL_Rect &);
+		Button get_button(){return a;}; 
 	private:
 		Button a;
 };
