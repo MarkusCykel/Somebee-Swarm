@@ -7,18 +7,21 @@
 #include <stdio.h>
 #include <string>
 #include <cmath>
+#include <vector>
+#include <iostream>
 #include "classes.h"
 #include "Button.h"
 
 class EditMenu
 {
 	public:
-		EditMenu(){};
+		EditMenu();
 		void check_input(int, int, const SDL_Rect &);
 		void render(SDL_Renderer* renderer, const SDL_Rect &);
-		Button get_button(){return a;}; 
+		Button get_button(){return buttons_.at(currentpressed);}; 
 	private:
-		Button a;
+		int currentpressed;
+		std::vector<Button>buttons_;
 };
 
 #endif
