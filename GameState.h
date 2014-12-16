@@ -30,7 +30,7 @@ class GameState
 		
 		TTF_Font* font_;
 		Texture text_;
-		SDL_Rect textBox_;
+		SDL_Rect textBox_ {0,0,0,0};
 		
 		unsigned score_;
 		bool gameOver_;

@@ -4,11 +4,11 @@
 #include <iomanip>
 
 #include "classes.h"
+#include "GameState.h"
+#include "MenuState.h"
 #include "Window.h"
 #include "Entity.h"
 #include "Timer.h"
-#include "GameState.h"
-#include "MenuState.h"
 #include "Map.h"
 
 #define WINDOW_HEIGHT 1600
@@ -32,9 +32,12 @@ int main(int argc, char* argv[])
 		bool done{false};
 		while(!done)
 		{
-			GameState gameState{2000,2000,window};
+			MenuState menuState{window};
 			
-			done = gameState.run(e);
+			done = menuState.run(e);
+			//GameState gameState{10000,10000,window};
+			
+			//done = gameState.run(e);
 		}
 	}
 	

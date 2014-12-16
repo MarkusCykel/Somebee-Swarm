@@ -3,6 +3,10 @@
 
 class GameState;
 class MenuState;
+class Button;
+class Window;
+class Timer;
+class Texture;
 class Map;
 class Entity;
 class Wall;
@@ -12,8 +16,5 @@ class Character;
 class NPC;
 class Player;
 class Projectile;
-class Window;
-class Timer;
-class Texture;
 
 #endif

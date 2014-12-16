@@ -9,23 +9,16 @@ GameState::GameState(unsigned height, unsigned width, Window& window)
 	: map_{height,width}, camera_{ 0, 0, window.getWidth(), window.getHeight() }, quit_{ false }, gameOver_{false}, window_{window}, score_{0}
 {
 		map_.makePlayer(250, 250, 30, 30, 10, 1, 15);
-		map_.makeSpawner( 0, 0, 70, 70, 8, 1);
+		/*map_.makeSpawner( 0, 0, 70, 70, 8, 1);
 		map_.makeSpawner( height-35, width-35, 70, 70, 8, 1);
 		map_.makeSpawner( height-35, 0, 70, 70, 8, 1);
 		map_.makeSpawner( 0, width-35, 70, 70, 8, 1);
 		map_.makeSpawner( 0, width/2, 70, 70, 8, 1);
-		map_.makeSpawner( height/2, 0, 70, 70, 8, 1);
+		map_.makeSpawner( height/2, 0, 70, 70, 8, 1);*/
 		map_.makeWall( 1040, 300, 1, 500);
 		map_.makeWall( 840, 300, 1, 490);
 		map_.makeWall( 540, 300, 500, 1);
 		map_.makeWall( 540, 800, 290, 1);
-	//	map_.makeWall( 740, 800, 1, 50);
-		//map_.makeWall( 840, 800, 1, 50);
-		
-		//map_.makeWall( 840, 800, 210, 10);
-		//map_.makeWall( 1040, 300, 10, 500);
-		textBox_.x = window_.getWidth()/2-150;
-		textBox_.y = 0;
 		font_ = TTF_OpenFont("CoolFont.ttf", 18);
 		map_.loadBackground("background_tho.jpg", window_.getRenderer());
 		NPC::loadTexture("BeeCool.png", window_.getRenderer());
@@ -44,7 +37,6 @@ bool GameState::run(SDL_Event& e)
 		render();
 		
 		int frameTicks = capTimer_.getTicks();
-		std::cout << SCREEN_TICKS_PER_FRAME - frameTicks << std::endl;
 		if( frameTicks < SCREEN_TICKS_PER_FRAME )
 		{
 			SDL_Delay( SCREEN_TICKS_PER_FRAME - frameTicks );
@@ -179,9 +171,9 @@ void GameState::render()
 	
 	//render score
 	std::ostringstream ss;
-	ss << "Score: " << score_ << score_ << score_ << score_;
+	ss << "Score: " << score_;
 	std::string text = ss.str();
-	SDL_Color textColor = { 255, 255, 255};
+	SDL_Color textColor = { 0xFF, 0xFF, 0xFF};
 	
 	textBox_.w = text_.getWidth();
 	textBox_.h = text_.getHeight();

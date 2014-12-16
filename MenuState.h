@@ -1,26 +1,26 @@
-#ifndef GAMESTATE_H
-#define GAMESTATE_H
+#ifndef MENUSTATE_H
+#define MENUSTATE_H
 
 #include <SDL.h>
+#include <vector>
 
 #include "classes.h"
 #include "Window.h"
-#include "Map.h"
-#include "Timer.h"
-#include "Entity.h"
+#include "Button.h"
 
 class MenuState
 {
 	public:
-		MenuState(unsigned height, unsigned width, Window& window);
+		MenuState(Window& window);
 		
-		void run(SDL_Event&);
+		bool run(SDL_Event&);
 	private:
 		void readInput(SDL_Event&);
 		void update();
 		void render(); 
 		
 		Window window_;
+		std::vector<Button*> buttons_;
 		
 		bool quit_;
 };

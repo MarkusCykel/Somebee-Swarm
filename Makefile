@@ -1,6 +1,6 @@
 #OBJS specifies which files to compile as part of the project 
 
-OBJS = Window.o Entity.o Map.o Timer.o GameState.o MenuState.o Texture.o
+OBJS = GameState.o MenuState.o Window.o Entity.o Map.o Timer.o Texture.o Button.o
 
 # Kompilator (gcc) och diagnostikfilter (gccfilter)
 CCC = g++
@@ -57,3 +57,6 @@ MenuState.o: MenuState.h MenuState.cc
 
 Texture.o: Texture.h Texture.cc
 	$(CCC) Texture.cc $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) -c
+	
+Button.o: Button.h Button.cc
+	$(CCC) Button.cc $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) -c
