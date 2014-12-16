@@ -9,12 +9,12 @@ GameState::GameState(unsigned height, unsigned width, Window& window)
 	: map_{height,width}, camera_{ 0, 0, window.getWidth(), window.getHeight() }, quit_{ false }, gameOver_{false}, window_{window}, score_{0}
 {
 		map_.makePlayer(250, 250, 30, 30, 10, 1, 15);
-		/*map_.makeSpawner( 0, 0, 70, 70, 8, 1);
+		map_.makeSpawner( 0, 0, 70, 70, 8, 1);
 		map_.makeSpawner( height-35, width-35, 70, 70, 8, 1);
 		map_.makeSpawner( height-35, 0, 70, 70, 8, 1);
 		map_.makeSpawner( 0, width-35, 70, 70, 8, 1);
 		map_.makeSpawner( 0, width/2, 70, 70, 8, 1);
-		map_.makeSpawner( height/2, 0, 70, 70, 8, 1);*/
+		map_.makeSpawner( height/2, 0, 70, 70, 8, 1);
 		map_.makeWall( 1040, 300, 1, 500);
 		map_.makeWall( 840, 300, 1, 490);
 		map_.makeWall( 540, 300, 500, 1);

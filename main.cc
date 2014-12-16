@@ -32,12 +32,12 @@ int main(int argc, char* argv[])
 		bool done{false};
 		while(!done)
 		{
-			MenuState menuState{window};
+			//MenuState menuState{window};
 			
-			done = menuState.run(e);
-			//GameState gameState{10000,10000,window};
+			//done = menuState.run(e);
+			GameState gameState{2000,2000,window};
 			
-			//done = gameState.run(e);
+			done = gameState.run(e);
 		}
 	}
 	

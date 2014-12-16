@@ -1,8 +1,8 @@
 #include "Button.h"
 
 //Just a very long constructor
-Button::Button(const SDL_Rect & button, const Uint8 & R , const Uint8 & G, const Uint8 & B, const Uint8 & A, const bool & press)
-	: button_{button.x, button.y, button.w, button.h}, R_{R},G_{G},B_{B},A_{A},buttonPressed_{press} {};
+Button::Button(const SDL_Rect & button, std::string function, const Uint8 & R , const Uint8 & G, const Uint8 & B, const Uint8 & A, const bool & press)
+	: button_{button.x, button.y, button.w, button.h}, R_{R},G_{G},B_{B},A_{A},buttonPressed_{press}, function_{function} {};
 
 Button::Button():R_{0xFF},G_{0x00},B_{0x00},A_{0xFF},buttonPressed_{false}
 {
@@ -10,8 +10,9 @@ Button::Button():R_{0xFF},G_{0x00},B_{0x00},A_{0xFF},buttonPressed_{false}
 	button_ = temp;
 }
 
-void handleEvent(SDL_Event& e)
+void Button::handleEvent(SDL_Event& e)
 {
+	std::cout << function_ << std::endl;
 }
 
 void Button::render(SDL_Renderer* renderer)
