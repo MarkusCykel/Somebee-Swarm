@@ -8,6 +8,7 @@
 #include "Entity.h"
 #include "Timer.h"
 #include "GameState.h"
+#include "MenuState.h"
 #include "Map.h"
 
 #define WINDOW_HEIGHT 1600
@@ -19,15 +20,22 @@ int main(int argc, char* argv[])
 	{
 		std::cerr << "Initialization of SDL failed.";
 	}
+	else if( TTF_Init() == -1 )
+	{
+		std::cerr << "SDL_ttf could not initialize! SDL_ttf Error: %s\n" << TTF_GetError() << std::endl;
+	}
 	else
 	{
 		SDL_Event e;
 		
 		Window window{"testing", WINDOW_HEIGHT, WINDOW_WIDTH};
-		
-		GameState gameState{2000,2000,window};
+		bool done{false};
+		while(!done)
+		{
+			GameState gameState{2000,2000,window};
 			
-		gameState.run(e);
+			done = gameState.run(e);
+		}
 	}
 	
 

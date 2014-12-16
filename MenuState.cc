@@ -1,6 +1,8 @@
 #ifndef MENUSTATE_H
 #define MENUSTATE_H
 
+#include "MenuState.h"
+
 void MenuState::run(SDL_Event&)
 {
 	

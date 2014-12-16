@@ -14,5 +14,6 @@ class Player;
 class Projectile;
 class Window;
 class Timer;
+class Texture;
 
 #endif

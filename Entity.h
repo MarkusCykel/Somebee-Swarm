@@ -7,6 +7,7 @@
 #include <math.h>
 #include "Map.h"
 #include "Timer.h"
+#include "Texture.h"
 #include <iostream>
 
 //////////////////////////////
@@ -16,26 +17,24 @@
 class Entity
 {
 	public:
-		Entity(int posX, int posY, unsigned width, unsigned height) : posX_{posX}, posY_{posY}, width_{width}, height_{height} {};
+		Entity(int posX, int posY, unsigned width, unsigned height);
 		
 		virtual void render(SDL_Renderer*, const SDL_Rect& camera) = 0;
-		
 		
 		const int& getX() const;
 		const int& getY() const;
 		
 		void setPosition(const double& x, const double& y);
 		
-		double getWidth() { return width_; }
-		double getHeight() { return height_; }
+		double getWidth() { return collisionBox_.w; }
+		double getHeight() { return collisionBox_.h; }
+		
+		SDL_Rect getCollisionbox() { return collisionBox_; }
 		
 		SDL_Rect getBox() = delete;
 		
 	private:
-		double posX_;
-		double posY_;
-		unsigned width_;
-		unsigned height_;
+		SDL_Rect collisionBox_;
 };
 
 
@@ -97,13 +96,16 @@ class NPC : public LiveObject
 	public:
 		NPC(int posX, int posY, unsigned width, unsigned height, double maxSpeed, double acceleration, Map* map)
 			: map_{map}, LiveObject{posX, posY, width, height, maxSpeed, acceleration } {};
-		
+			
 		void readInput();
 		void update(Map&);
 		void render(SDL_Renderer*, const SDL_Rect& camera);
 		
+		static void loadTexture(const std::string&, SDL_Renderer*);
+		
 		void checkCollisions(Map& map);
 	private:
+		static Texture texture_;
 		Map* map_;
 };
 
@@ -129,6 +131,8 @@ class Spawner : public LiveObject
 	public:
 		Spawner(int posX, int posY, unsigned width, unsigned height, double speed, double acceleration, Map* map, Uint32 interval) : map_{map}, interval_{interval}, LiveObject{posX, posY, width, height, speed, acceleration} { timer_.start(); };
 		
+		static void loadTexture(const std::string& path, SDL_Renderer* renderer);
+		
 		void readInput();
 		void update(Map&);
 		void render(SDL_Renderer*, const SDL_Rect& camera);
@@ -136,6 +140,8 @@ class Spawner : public LiveObject
 	private:
 		Timer timer_;
 		Uint32 interval_;
+		
+		static Texture texture_;
 		Map* map_;
 };
 

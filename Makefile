@@ -1,6 +1,6 @@
 #OBJS specifies which files to compile as part of the project 
 
-OBJS = Window.o Entity.o Map.o Timer.o GameState.o
+OBJS = Window.o Entity.o Map.o Timer.o GameState.o MenuState.o Texture.o
 
 # Kompilator (gcc) och diagnostikfilter (gccfilter)
 CCC = g++
@@ -19,7 +19,7 @@ CCFLAGS = -w -std=c++11 -Wpedantic -Wall -Wextra
 NOWINDOW = -Wl,-subsystem,windows
 
 #LINKER_FLAGS specifies the libraries we're linking against 
-LINKER_FLAGS = -lmingw32 -lSDL2main -lSDL2 -lSDL2_image
+LINKER_FLAGS = -lmingw32 -lSDL2main -lSDL2 -lSDL2_image -lSDL2_ttf
 
 STATIC = -static-libgcc -static-libstdc++
 
@@ -51,3 +51,9 @@ Timer.o: Timer.h Timer.cc
 	
 GameState.o: GameState.h GameState.cc
 	$(CCC) Gamestate.cc $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) -c
+	
+MenuState.o: MenuState.h MenuState.cc
+	$(CCC) MenuState.cc $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) -c
+
+Texture.o: Texture.h Texture.cc
+	$(CCC) Texture.cc $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) -c

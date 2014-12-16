@@ -2,6 +2,7 @@
 #define GAMESTATE_H
 
 #include <SDL.h>
+#include <SDL_ttf.h>
 
 #include "classes.h"
 #include "Window.h"
@@ -14,7 +15,7 @@ class GameState
 	public:
 		GameState(unsigned height, unsigned width, Window& window);
 		
-		void run(SDL_Event&);
+		bool run(SDL_Event&);
 	private:
 		void pause() = delete;
 		void readInput(SDL_Event&);
@@ -26,6 +27,10 @@ class GameState
 		Window window_;
 		
 		Timer capTimer_;
+		
+		TTF_Font* font_;
+		Texture text_;
+		SDL_Rect textBox_;
 		
 		unsigned score_;
 		bool gameOver_;

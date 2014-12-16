@@ -1,18 +1,20 @@
 #include "GameState.h"
 #include <iostream>
-#define SCREEN_FPS 61
+#include <sstream>
+#include <iomanip>
+#define SCREEN_FPS 60
 #define SCREEN_TICKS_PER_FRAME 1000 / SCREEN_FPS + 1
 
 GameState::GameState(unsigned height, unsigned width, Window& window)
 	: map_{height,width}, camera_{ 0, 0, window.getWidth(), window.getHeight() }, quit_{ false }, gameOver_{false}, window_{window}, score_{0}
 {
 		map_.makePlayer(250, 250, 30, 30, 10, 1, 15);
-		map_.makeSpawner( 0, 0, 30, 30, 8, 1);
-		map_.makeSpawner( height-30, width-30, 30, 30, 8, 1);
-		map_.makeSpawner( height-30, 0, 30, 30, 8, 1);
-		map_.makeSpawner( 0, width-30, 30, 30, 8, 1);
-		map_.makeSpawner( 0, width/2, 30, 30, 8, 1);
-		map_.makeSpawner( height/2, 0, 30, 30, 8, 1);
+		map_.makeSpawner( 0, 0, 70, 70, 8, 1);
+		map_.makeSpawner( height-35, width-35, 70, 70, 8, 1);
+		map_.makeSpawner( height-35, 0, 70, 70, 8, 1);
+		map_.makeSpawner( 0, width-35, 70, 70, 8, 1);
+		map_.makeSpawner( 0, width/2, 70, 70, 8, 1);
+		map_.makeSpawner( height/2, 0, 70, 70, 8, 1);
 		map_.makeWall( 1040, 300, 1, 500);
 		map_.makeWall( 840, 300, 1, 490);
 		map_.makeWall( 540, 300, 500, 1);
@@ -22,12 +24,16 @@ GameState::GameState(unsigned height, unsigned width, Window& window)
 		
 		//map_.makeWall( 840, 800, 210, 10);
 		//map_.makeWall( 1040, 300, 10, 500);
-		
+		textBox_.x = window_.getWidth()/2-150;
+		textBox_.y = 0;
+		font_ = TTF_OpenFont("CoolFont.ttf", 18);
 		map_.loadBackground("background_tho.jpg", window_.getRenderer());
+		NPC::loadTexture("BeeCool.png", window_.getRenderer());
+		Spawner::loadTexture("OhBeeHive.png", window_.getRenderer());
 }
 
 
-void GameState::run(SDL_Event& e)
+bool GameState::run(SDL_Event& e)
 {
 	while(!quit_ && !gameOver_)
 	{
@@ -44,6 +50,8 @@ void GameState::run(SDL_Event& e)
 			SDL_Delay( SCREEN_TICKS_PER_FRAME - frameTicks );
 		}
 	}
+	
+	return quit_;
 }
 	
 	
@@ -96,7 +104,6 @@ void GameState::readInput(SDL_Event& e)
 	{
 		i->readInput();
 	}
-	//std::cout << score_ << std::endl;
 }
 
 
@@ -134,10 +141,12 @@ void GameState::update()
 
 void GameState::render()
 {
-	SDL_SetRenderDrawColor( window_.getRenderer(), 0xFF, 0xFF, 0xFF, 0xFF );
+	//clear and render background
+	SDL_SetRenderDrawColor( window_.getRenderer(), 0x00, 0x00, 0x00, 0x00 );
 	SDL_RenderClear( window_.getRenderer() );
 	map_.renderBackground(window_.getRenderer(), camera_, window_.getWidth(), window_.getHeight());
 	
+	//render entites
 	auto projectiles = map_.getProjectiles();
 	
 	for( auto i : projectiles )
@@ -167,6 +176,20 @@ void GameState::render()
 	{
 		i->render( window_.getRenderer(), camera_);
 	}
+	
+	//render score
+	std::ostringstream ss;
+	ss << "Score: " << score_ << score_ << score_ << score_;
+	std::string text = ss.str();
+	SDL_Color textColor = { 255, 255, 255};
+	
+	textBox_.w = text_.getWidth();
+	textBox_.h = text_.getHeight();
+	SDL_Rect temp  = textBox_; 
+	temp.x = 0;
+	temp.y = 0;
+	text_.loadFromRenderedText( text, textColor, font_, window_.getRenderer());
+	text_.render(window_.getRenderer(), &temp, &textBox_);
 	
 	SDL_RenderPresent( window_.getRenderer() );
 }

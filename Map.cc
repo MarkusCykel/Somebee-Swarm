@@ -30,27 +30,7 @@ Map::~Map()
 
 void Map::loadBackground(const std::string& path, SDL_Renderer* renderer)
 {
-	SDL_Surface* loadedSurface = IMG_Load( path.c_str() );
-	SDL_Surface* stretchedSurface = SDL_CreateRGBSurface(0,width_, height_,32,0,0,0,0);
-	SDL_BlitScaled( loadedSurface, NULL , stretchedSurface, NULL);
-	
-    if( loadedSurface == NULL )
-    {
-        printf( "Unable to load image %s! SDL_image Error: %s\n", path.c_str(), IMG_GetError() );
-    }
-    else
-    {
-        //Create texture from surface pixels
-        background_ = SDL_CreateTextureFromSurface( renderer, stretchedSurface );
-        if( background_ == NULL )
-        {
-            printf( "Unable to create texture from %s! SDL Error: %s\n", path.c_str(), SDL_GetError() );
-        }
-
-        //Get rid of old loaded surface
-		SDL_FreeSurface( loadedSurface );
-        SDL_FreeSurface( stretchedSurface );
-    }
+	background__.loadFromFileStretched( renderer, path, width_, height_ );
 }
 
 
@@ -60,9 +40,6 @@ void Map::renderBackground(SDL_Renderer* renderer, const SDL_Rect& camera, const
 	SDL_Rect cameratemp = { camera.x, camera.y, camera.w, camera.h };
 	renderQuad.x = 0;
 	renderQuad.y = 0;
-	SDL_Rect black = {0,0,width_,height_};
-	SDL_SetRenderDrawColor(renderer, 0, 0, 0, 0);
-	SDL_RenderFillRect(renderer, &black);
 	
 	if ( camera.y <= 0 )
 	{
@@ -88,7 +65,7 @@ void Map::renderBackground(SDL_Renderer* renderer, const SDL_Rect& camera, const
 		renderQuad.w -= window_width - (width_ - camera.x);
 	}
 	
-	SDL_RenderCopy( renderer, background_, &cameratemp, &renderQuad);
+	background__.render( renderer, &cameratemp, &renderQuad);
 }
 
 bool Map::cleanUp(unsigned& score)

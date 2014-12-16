@@ -2,6 +2,7 @@
 #define MAP_H
 
 #include "Entity.h"
+#include "Texture.h"
 #include <vector>
 #include <iostream>
 #include <SDL.h>
@@ -40,8 +41,9 @@ class Map
 		std::vector<Projectile*> projectiles_{};
 		std::vector<Wall*> walls_{};
 		std::vector<Spawner*> spawners_{};
-		SDL_Texture* background_{};
 		
+		SDL_Texture* background_{};
+		Texture background__{};
 
 		double width_;
 		double height_;

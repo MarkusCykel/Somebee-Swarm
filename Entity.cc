@@ -7,15 +7,22 @@
 //////////////////////////////
 //	Entity
 //////////////////////////////
+Entity::Entity(int posX, int posY, unsigned width, unsigned height)
+{
+	collisionBox_.x = posX;
+	collisionBox_.y = posY;
+	collisionBox_.w = width;
+	collisionBox_.h = height;
+}
 
 const int& Entity::getX() const
 {
-	return posX_;
+	return collisionBox_.x;
 }
 
 const int& Entity::getY() const
 {
-	return posY_;
+	return collisionBox_.y;
 }
 
 
@@ -25,8 +32,8 @@ const int& Entity::getY() const
 
 void Entity::setPosition(const double& x, const double& y)
 {
-	posX_ = x;
-	posY_ = y;
+	collisionBox_.x = x;
+	collisionBox_.y = y;
 }
 
 bool LiveObject::getAlive()
@@ -314,7 +321,7 @@ void Player::update(Map& map)
 
 void Player::render(SDL_Renderer* renderer, const SDL_Rect & camera)
 {
-	SDL_Rect fillRect = { getX() - camera.x, getY() - camera.y, getHeight(), getWidth()};
+	SDL_Rect fillRect = { getX() - camera.x, getY() - camera.y, getWidth(), getHeight()};
 	SDL_SetRenderDrawColor( renderer, 0x00, 0xFF, 0x00, 0xFF );
 	SDL_RenderFillRect( renderer, &fillRect );
 }
@@ -366,6 +373,14 @@ void Player::fire(Map& map, double targetX, double targetY)
 //	NPC
 //////////////////////////////
 
+Texture NPC::texture_;
+
+
+void NPC::loadTexture(const std::string& path, SDL_Renderer* renderer)
+{
+	texture_.loadFromFile(path, renderer);
+}
+
 void NPC::readInput()
 {
 	auto player = map_->getPlayer();
@@ -399,7 +414,6 @@ void NPC::readInput()
 void NPC::update(Map& map)
 {
 	checkCollisions(map);
-	
 	setPosition(targetPosX_, targetPosY_);
 }
 
@@ -407,11 +421,11 @@ void NPC::update(Map& map)
 void NPC::render(SDL_Renderer* renderer, const SDL_Rect & camera)
 {
 	//Render red filled quad
-	SDL_Rect fillRect = { getX() - camera.x, getY() - camera.y, getHeight(), getWidth()};
-	SDL_SetRenderDrawColor( renderer, 0xFF, 0x00, 0x00, 0xFF );
-	SDL_RenderFillRect( renderer, &fillRect );
+	SDL_Rect fillRect = { getX() - camera.x, getY() - camera.y, getWidth(), getHeight()};
+	texture_.render( renderer, NULL, &fillRect );
+	/*SDL_SetRenderDrawColor( renderer, 0xFF, 0x00, 0x00, 0xFF );
+	SDL_RenderCopy( renderer, texture_, NULL, &fillRect );*/
 }
-
 
 void NPC::checkCollisions(Map& map)
 {
@@ -448,7 +462,7 @@ void Projectile::update(Map& map)
 void Projectile::render(SDL_Renderer* renderer, const SDL_Rect & camera)
 {
 	//Render red filled quad
-	SDL_Rect fillRect = { getX() - int(camera.x + getHeight()/2), getY() - int(camera.y + getWidth()/2) , getHeight(), getWidth()};
+	SDL_Rect fillRect = { getX() - int(camera.x + getHeight()/2), getY() - int(camera.y + getWidth()/2) , getWidth(), getHeight()};
 	SDL_SetRenderDrawColor( renderer, 0xFF, 0xFF, 0x00, 0xFF );
 	SDL_RenderFillRect( renderer, &fillRect );
 }
@@ -499,6 +513,12 @@ void Wall::render(SDL_Renderer* renderer, const SDL_Rect & camera)
 //////////////////////////////
 //	Spawner
 //////////////////////////////
+Texture Spawner::texture_;
+
+void Spawner::loadTexture(const std::string& path, SDL_Renderer* renderer)
+{
+	texture_.loadFromFile(path, renderer);
+}
 
 void Spawner::update(Map& map)
 {
@@ -513,9 +533,8 @@ void Spawner::update(Map& map)
 void Spawner::render(SDL_Renderer* renderer, const SDL_Rect & camera)
 {
 	//Render red filled quad
-	SDL_Rect fillRect = { getX() - camera.x, getY() - camera.y , getHeight(), getWidth()};
-	SDL_SetRenderDrawColor( renderer, 0xFF, 0x00, 0xFF, 0xFF );
-	SDL_RenderFillRect( renderer, &fillRect );
+	SDL_Rect fillRect = { getX() - camera.x, getY() - camera.y, getWidth(), getHeight()};
+	texture_.render( renderer, NULL, &fillRect );
 }
 
 //////////////////////////////
