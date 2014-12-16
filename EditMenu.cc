@@ -39,4 +39,5 @@ void EditMenu::check_input( int x, int y, const SDL_Rect & viewport)
 			butt.setbuttonpressed(false);
 		counter++;
 	}
+	std::cout<<buttons_.at(currentpressed).buttonpressed()<<std::endl;
 }

@@ -35,10 +35,10 @@ void Button::setbuttonpressed(const bool & a)
 	buttonpressed_ = a;
 }
 
-void Button::setxywh(int x, int y, int w, int h)
+void Button::setRect(int x, int y, int width, int height)
 {
 	button_.x = x;
 	button_.y = y;
-	button_.w = w;
-	button_.h = h;
+	button_.w = width;
+	button_.h = height;
 }

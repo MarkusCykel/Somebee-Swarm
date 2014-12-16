@@ -17,8 +17,10 @@ class Button
 		Button(const SDL_Rect & butt, const Uint8 & R = 0xFF, const Uint8 & G = 0x00, const Uint8 & B = 0x00, const Uint8 & A = 0xFF, const bool & press = false, const std::string & str = "Wall");
 		Button(const int & x, const int & y, const int & w, const int & h, const Uint8 & R = 0xFF, const Uint8 & G = 0x00, const Uint8 & B = 0x00, const Uint8 & A = 0xFF, const bool & press = false, const std::string & str = "Wall");
 		void render(SDL_Renderer*);
+		
 		void setbuttonpressed(const bool &);
-		void setxywh(int, int, int, int);
+		void setRect(int x, int y, int width, int height);
+		
 		bool buttonpressed(){return buttonpressed_;};
 		int getx(){return button_.x;};
 		int gety(){return button_.y;};
