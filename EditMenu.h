@@ -8,16 +8,16 @@
 #include <string>
 #include <cmath>
 #include "classes.h"
+#include "Button.h"
 
 class EditMenu
 {
 	public:
-		EditMenu(): buttonpressed_{false}{};
+		EditMenu(){};
 		void check_input(int, int, const SDL_Rect &);
 		void render(SDL_Renderer* renderer, const SDL_Rect &);
-		bool buttonpressed(){return buttonpressed_;};
 	private:
-		bool buttonpressed_;
+		Button a;
 };
 
 #endif

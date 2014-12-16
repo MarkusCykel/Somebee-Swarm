@@ -57,4 +57,7 @@ CameraController.o: CameraController.h CameraController.cc
 		
 EditMenu.o: EditMenu.h EditMenu.cc
 	$(CCC) EditMenu.cc $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) -c
+
+Button.o: Button.h Button.cc
+	$(CCC) Button.cc $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) -c
 	
