@@ -87,6 +87,11 @@ void Map::makeWall(double posX, double posY, unsigned width, unsigned height)
 	walls_.push_back(new Wall{ posX, posY, width, height});
 }
 
+void Map::makeSpawner(double posX, double posY, unsigned width, unsigned height)
+{
+	spawners_.push_back(new Spawner{ posX, posY, width, height});
+}
+
 CameraController* Map::getCameraController()
 {
 	return CameraController_;
@@ -95,4 +100,9 @@ CameraController* Map::getCameraController()
 std::vector<Wall*>& Map::getWalls()
 {
 	return walls_;
+}
+
+std::vector<Spawner*>& Map::getSpawners()
+{
+	return spawners_;
 }

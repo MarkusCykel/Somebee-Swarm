@@ -44,4 +44,12 @@ class Wall : public Entity
 		void render(SDL_Renderer*, const SDL_Rect& camera);
 };
 
+class Spawner : public Entity
+{
+	public:
+		Spawner(int posX, int posY, unsigned width, unsigned height) : Entity{posX, posY, width, height} {};
+		
+		void render(SDL_Renderer*, const SDL_Rect& camera);
+};
+
 #endif

@@ -2,10 +2,12 @@
 
 EditMenu::EditMenu()
 {
-	Button Wallbutton{50,50,50,30,0xFF,0x00,0x00,0xFF,false,"Wall"};
-	Button Spawnerbutton{150,50,50,30,0xFF,0x00,0x00,0xFF,false,"Spawner"};
+	Button Wallbutton{85,50,50,30,0xFF,0x00,0x00,0xFF,false,"Wall"};
+	Button Spawnerbutton{205,50,50,30,0xFF,0x00,0x00,0xFF,false,"Spawner"};
+	Button Quitbutton{85,150,170,30,0xFF,0x00,0x00,0xFF,false,"Quit"};
 	buttons_.push_back(Wallbutton);
 	buttons_.push_back(Spawnerbutton);
+	buttons_.push_back(Quitbutton);
 	currentpressed = 0;
 }
 

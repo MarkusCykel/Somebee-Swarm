@@ -21,6 +21,7 @@ class GameState
 		void readInput(SDL_Event&);
 		void update();
 		void render();
+		bool collision();
 		bool menu();
 		bool outofbounds();
 		
@@ -34,6 +35,8 @@ class GameState
 		Timer capTimer_;
 		EditMenu menu_;
 		
+		SDL_Rect square{0,0,30,30};
+		bool intersectiftrue;
 		bool gameOver_;
 		bool quit_;
 };
