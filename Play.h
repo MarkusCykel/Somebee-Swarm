@@ -10,10 +10,10 @@
 #include "Timer.h"
 #include "Entity.h"
 
-class GameState
+class Play
 {
 	public:
-		GameState(unsigned height, unsigned width, Window& window);
+		Play(unsigned height, unsigned width, Window& window);
 		
 		bool run(SDL_Event&);
 	private:
@@ -28,9 +28,8 @@ class GameState
 		
 		Timer capTimer_;
 		
-		TTF_Font* font_;
+		TTF_Font* font_{};
 		Texture text_;
-		SDL_Rect textBox_ {0,0,0,0};
 		
 		unsigned score_;
 		bool gameOver_;

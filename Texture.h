@@ -14,7 +14,7 @@ class Texture
 		
 		void free();
 		
-		bool loadFromFile( std::string path, SDL_Renderer* );
+		bool loadFromFile( SDL_Renderer*, std::string path  );
 		
 		bool loadFromFileStretched(  SDL_Renderer*, std::string path, unsigned width, unsigned height);
 		
@@ -31,7 +31,7 @@ class Texture
 		int getHeight() { return height_; }
 		
 	private:
-		SDL_Texture* texture_;
+		SDL_Texture* texture_{};
 		
 		int width_;
 		int height_;

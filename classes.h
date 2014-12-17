@@ -1,8 +1,9 @@
 #ifndef CLASSES_H
 #define CLASSES_H
 
-class GameState;
-class MenuState;
+class Game;
+class Play;
+class Menu;
 class Button;
 class Window;
 class Timer;

@@ -9,33 +9,44 @@
 #include <cmath>
 #include "classes.h"
 #include "Texture.h"
+#define BUTTON_WIDTH 200
+#define BUTTON_HEIGHT 50
 
+enum BUTTON_CODE
+{
+	BUTTON_GAME = 0,
+	BUTTON_MAP_EDITOR,
+	BUTTON_SCORE,
+	BUTTON_CREDITS,
+	BUTTON_QUIT,
+	BUTTON_BACK,
+	BUTTON_SPAWNER,
+	BUTTON_PLAYER,
+	BUTTON_TOTAL
+};
 
 class Button
 {
 	public:
-		Button();
-		Button(const SDL_Rect & button, std::string text, const Uint8 & R = 0xFF, const Uint8 & G = 0x00, const Uint8 & B = 0x00, const Uint8 & A = 0xFF, const bool & press = false);
+		Button(SDL_Renderer* renderer, std::string text, const SDL_Point & button, BUTTON_CODE id, const Uint8 & R = 0xFF, const Uint8 & G = 0x00, const Uint8 & B = 0x00, const Uint8 & A = 0xFF);
 		
-		void handleEvent(SDL_Event& e);
+		BUTTON_CODE handleEvent(SDL_Event& e);
 		
 		void render(SDL_Renderer*);
-		void setButtonPressed(const bool &);
-		void setRect(int x, int y, int width, int height);
-		SDL_Rect getRect() { return button_; };
-		bool buttonPressed(){ return buttonPressed_; };
 		
-		int getX(){return button_.x;};
-		int getY(){return button_.y;};
-		int getW(){return button_.w;};
-		int getH(){return button_.h;};
+		void setPosition(int x, int y);
+		
+		SDL_Point getPosition() { return position_; };
+		
+		int getX(){return position_.x;};
+		int getY(){return position_.y;};
 		
 		void setColor(const Uint8 &, const Uint8 &, const Uint8 &, const Uint8 & );
 	private:
 	
-		bool buttonPressed_; // If button is pressed
-		std::string function_;
-		SDL_Rect button_;
+		SDL_Point position_;
+		
+		BUTTON_CODE id_;
 		Texture text_;
 		Uint8 R_,G_,B_,A_; // Color and alpha
 };

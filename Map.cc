@@ -28,7 +28,7 @@ Map::~Map()
 	SDL_DestroyTexture( background_ );
 }
 
-void Map::loadBackground(const std::string& path, SDL_Renderer* renderer)
+void Map::loadBackground( SDL_Renderer* renderer, const std::string& path)
 {
 	background__.loadFromFileStretched( renderer, path, width_, height_ );
 }

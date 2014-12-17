@@ -376,9 +376,9 @@ void Player::fire(Map& map, double targetX, double targetY)
 Texture NPC::texture_;
 
 
-void NPC::loadTexture(const std::string& path, SDL_Renderer* renderer)
+void NPC::loadTexture( SDL_Renderer* renderer, const std::string& path )
 {
-	texture_.loadFromFile(path, renderer);
+	texture_.loadFromFile( renderer, path );
 }
 
 void NPC::readInput()
@@ -515,9 +515,9 @@ void Wall::render(SDL_Renderer* renderer, const SDL_Rect & camera)
 //////////////////////////////
 Texture Spawner::texture_;
 
-void Spawner::loadTexture(const std::string& path, SDL_Renderer* renderer)
+void Spawner::loadTexture( SDL_Renderer* renderer, const std::string& path )
 {
-	texture_.loadFromFile(path, renderer);
+	texture_.loadFromFile( renderer, path );
 }
 
 void Spawner::update(Map& map)

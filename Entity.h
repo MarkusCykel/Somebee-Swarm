@@ -101,7 +101,7 @@ class NPC : public LiveObject
 		void update(Map&);
 		void render(SDL_Renderer*, const SDL_Rect& camera);
 		
-		static void loadTexture(const std::string&, SDL_Renderer*);
+		static void loadTexture(SDL_Renderer* renderer, const std::string& path );
 		
 		void checkCollisions(Map& map);
 	private:
@@ -131,7 +131,7 @@ class Spawner : public LiveObject
 	public:
 		Spawner(int posX, int posY, unsigned width, unsigned height, double speed, double acceleration, Map* map, Uint32 interval) : map_{map}, interval_{interval}, LiveObject{posX, posY, width, height, speed, acceleration} { timer_.start(); };
 		
-		static void loadTexture(const std::string& path, SDL_Renderer* renderer);
+		static void loadTexture( SDL_Renderer* renderer, const std::string& path );
 		
 		void readInput();
 		void update(Map&);

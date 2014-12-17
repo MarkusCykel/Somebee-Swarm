@@ -4,12 +4,11 @@
 #include <iomanip>
 
 #include "classes.h"
-#include "GameState.h"
-#include "MenuState.h"
+#include <SDL.h>
+#include <SDL_image.h>
+#include <SDL_ttf.h>
 #include "Window.h"
-#include "Entity.h"
-#include "Timer.h"
-#include "Map.h"
+#include "Game.h"
 
 #define WINDOW_HEIGHT 1600
 #define WINDOW_WIDTH 900
@@ -26,19 +25,14 @@ int main(int argc, char* argv[])
 	}
 	else
 	{
-		SDL_Event e;
+		//SDL_Event e;
 		
 		Window window{"testing", WINDOW_HEIGHT, WINDOW_WIDTH};
 		bool done{false};
-		while(!done)
-		{
-			MenuState menuState{window};
-			
-			done = menuState.run(e);
-			//GameState gameState{2000,2000,window};
-			
-			//done = gameState.run(e);
-		}
+		Game game{window};
+
+		game.run();
+
 	}
 	
 

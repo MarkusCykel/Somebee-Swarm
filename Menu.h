@@ -7,13 +7,24 @@
 #include "classes.h"
 #include "Window.h"
 #include "Button.h"
+#define BUTTON_WIDTH 200
+#define BUTTON_HEIGHT 50
 
-class MenuState
+enum SELECTION
+{
+	GAME,
+	MAP_EDITOR,
+	SCORE,
+	CREDITS,
+	QUIT
+};
+
+class Menu
 {
 	public:
-		MenuState(Window& window);
-		
-		bool run(SDL_Event&);
+		Menu(Window& window);
+		~Menu();
+		SELECTION run(SDL_Event&);
 	private:
 		void readInput(SDL_Event&);
 		void update();
@@ -21,8 +32,10 @@ class MenuState
 		
 		Window window_;
 		std::vector<Button*> buttons_;
+		Texture background_;
 		
-		bool quit_;
+		SELECTION selection_{GAME};
+		bool selected_{false};
 };
 
 

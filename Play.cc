@@ -1,11 +1,11 @@
-#include "GameState.h"
+#include "Play.h"
 #include <iostream>
 #include <sstream>
 #include <iomanip>
 #define SCREEN_FPS 60
 #define SCREEN_TICKS_PER_FRAME 1000 / SCREEN_FPS + 1
 
-GameState::GameState(unsigned height, unsigned width, Window& window)
+Play::Play(unsigned height, unsigned width, Window& window)
 	: map_{height,width}, camera_{ 0, 0, window.getWidth(), window.getHeight() }, quit_{ false }, gameOver_{false}, window_{window}, score_{0}
 {
 		map_.makePlayer(250, 250, 30, 30, 10, 1, 15);
@@ -19,14 +19,14 @@ GameState::GameState(unsigned height, unsigned width, Window& window)
 		map_.makeWall( 840, 300, 1, 490);
 		map_.makeWall( 540, 300, 500, 1);
 		map_.makeWall( 540, 800, 290, 1);
-		font_ = TTF_OpenFont("CoolFont.ttf", 18);
-		map_.loadBackground("background_tho.jpg", window_.getRenderer());
-		NPC::loadTexture("BeeCool.png", window_.getRenderer());
-		Spawner::loadTexture("OhBeeHive.png", window_.getRenderer());
+		font_ = TTF_OpenFont( "CoolFont.ttf", 28 );
+		map_.loadBackground( window_.getRenderer(),"background_tho.jpg" );
+		NPC::loadTexture( window_.getRenderer(), "BeeCool.png" );
+		Spawner::loadTexture( window_.getRenderer(), "OhBeeHive.png" );
 }
 
 
-bool GameState::run(SDL_Event& e)
+bool Play::run(SDL_Event& e)
 {
 	while(!quit_ && !gameOver_)
 	{
@@ -47,7 +47,7 @@ bool GameState::run(SDL_Event& e)
 }
 	
 	
-void GameState::readInput(SDL_Event& e)
+void Play::readInput(SDL_Event& e)
 {
 	auto player = map_.getPlayer();
 	int x ,y;
@@ -99,7 +99,7 @@ void GameState::readInput(SDL_Event& e)
 }
 
 
-void GameState::update()
+void Play::update()
 {
 	map_.getPlayer()->update(map_);
 
@@ -131,7 +131,7 @@ void GameState::update()
 }
 
 
-void GameState::render()
+void Play::render()
 {
 	//clear and render background
 	SDL_SetRenderDrawColor( window_.getRenderer(), 0x00, 0x00, 0x00, 0x00 );
@@ -174,14 +174,9 @@ void GameState::render()
 	ss << "Score: " << score_;
 	std::string text = ss.str();
 	SDL_Color textColor = { 0xFF, 0xFF, 0xFF};
-	
-	textBox_.w = text_.getWidth();
-	textBox_.h = text_.getHeight();
-	SDL_Rect temp  = textBox_; 
-	temp.x = 0;
-	temp.y = 0;
-	text_.loadFromRenderedText( text, textColor, font_, window_.getRenderer());
-	text_.render(window_.getRenderer(), &temp, &textBox_);
+	text_.loadFromRenderedText( text, textColor, font_, window_.getRenderer() );
+	SDL_Rect renderTarget = { window_.getWidth()/2 - text_.getWidth()/2, 0, text_.getWidth(), text_.getHeight() };
+	text_.render(window_.getRenderer(), NULL, &renderTarget);
 	
 	SDL_RenderPresent( window_.getRenderer() );
 }

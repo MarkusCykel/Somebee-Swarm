@@ -1,6 +1,6 @@
 #OBJS specifies which files to compile as part of the project 
 
-OBJS = GameState.o MenuState.o Window.o Entity.o Map.o Timer.o Texture.o Button.o
+OBJS = Play.o Menu.o Window.o Entity.o Map.o Timer.o Texture.o Button.o Game.o
 
 # Kompilator (gcc) och diagnostikfilter (gccfilter)
 CCC = g++
@@ -26,16 +26,16 @@ STATIC = -static-libgcc -static-libstdc++
 
 #This is the target that compiles our executable
 all : main.cc $(OBJS) Makefile
-	$(CCC) Main.cc $(OBJS) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) -o Main
+	$(CCC) Main.cc $(OBJS) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) -o ZomebeeSwarm
 	
 all-w : main.cc $(OBJS) Makefile
-	$(CCC) Main.cc $(OBJS) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(NOWINDOW) $(LINKER_FLAGS) -o Main
+	$(CCC) Main.cc $(OBJS) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(NOWINDOW) $(LINKER_FLAGS) -o ZombeeSwarm
 
 all-s : main.cc $(OBJS) Makefile
-	$(CCC) Main.cc $(OBJS) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) $(STATIC) -o Main
+	$(CCC) Main.cc $(OBJS) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) $(STATIC) -o ZombeeSwarm
 	
 all-sw : main.cc $(OBJS) Makefile
-	$(CCC) Main.cc $(OBJS) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(NOWINDOW) $(LINKER_FLAGS) $(STATIC) -o Main
+	$(CCC) Main.cc $(OBJS) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(NOWINDOW) $(LINKER_FLAGS) $(STATIC) -o ZomebeeSwarm
 
 Window.o: Window.h Window.cc
 	$(CCC) Window.cc $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) -c 
@@ -49,14 +49,17 @@ Entity.o: Entity.h Entity.cc
 Timer.o: Timer.h Timer.cc
 	$(CCC) Timer.cc $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) -c
 	
-GameState.o: GameState.h GameState.cc
-	$(CCC) Gamestate.cc $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) -c
+Play.o: Play.h Play.cc
+	$(CCC) Play.cc $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) -c
 	
-MenuState.o: MenuState.h MenuState.cc
-	$(CCC) MenuState.cc $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) -c
+Menu.o: Menu.h Menu.cc
+	$(CCC) Menu.cc $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) -c
 
 Texture.o: Texture.h Texture.cc
 	$(CCC) Texture.cc $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) -c
 	
 Button.o: Button.h Button.cc
 	$(CCC) Button.cc $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) -c
+	
+Game.o: Game.h Game.cc
+	$(CCC) Game.cc $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) -c
