@@ -35,6 +35,7 @@ class GameState
 		Timer capTimer_;
 		EditMenu menu_;
 		
+		
 		SDL_Rect square{0,0,30,30};
 		bool intersectiftrue;
 		bool gameOver_;

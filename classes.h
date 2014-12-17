@@ -5,8 +5,6 @@ class Entity;
 class Wall;
 class Spawner;
 class LiveObject;
-class NPC;
-class Player;
 class Projectile;
 class Map;
 class Window;
@@ -15,5 +13,6 @@ class GameState;
 class CameraController;
 class EditMenu;
 class Button;
+class PlayerSpawner;
 
 #endif
