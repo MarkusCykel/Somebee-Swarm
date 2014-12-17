@@ -102,6 +102,15 @@ void GameState::render()
 		i->render( window_.getRenderer(), camera_);
 	}
 	
+	if(!menu())
+	{
+		SDL_SetRenderDrawBlendMode(window_.getRenderer(),SDL_BLENDMODE_BLEND);
+		SDL_Rect heya{ mouseposX - 15, mouseposY - 15, 30, 30 };
+		SDL_SetRenderDrawColor( window_.getRenderer(), 0x00, 0xFF, 0x00, 0x5F );
+		SDL_RenderFillRect( window_.getRenderer(), &heya );
+		SDL_SetRenderDrawBlendMode(window_.getRenderer(),SDL_BLENDMODE_NONE);
+	}
+	
 	//Render menu
 	SDL_RenderSetViewport( window_.getRenderer(), &menuViewport );
 	menu_.render( window_.getRenderer(), menuViewport );
