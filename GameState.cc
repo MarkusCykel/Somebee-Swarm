@@ -68,6 +68,8 @@ void GameState::readInput(SDL_Event& e)
 					map_.makeWall((square.x + square.w/2 ), (square.y + square.h/2), square.w, square.h);
 				else if(menu_.get_button().getname()== "Spawner")
 					map_.makeSpawner((square.x + square.w/2 ), (square.y + square.h/2), square.w, square.h);
+				else if(menu_.get_button().getname()== "PlayerSpawner")
+					map_.makePlayerSpawner((square.x + square.w/2 ), (square.y + square.h/2), square.w, square.h);
 			}
 			if(menu())
 				menu_.check_input(mouseposX, mouseposY, menuViewport);
@@ -83,32 +85,26 @@ void GameState::update()
 {
 	map_.getCameraController()->update(map_);
 	
-	if(!outofbounds())
+	square.x = mouseposX + camera_.x ;
+	square.y = mouseposY + camera_.y ;
+	if(mouseposX + camera_.x - square.w/2 <0)
 	{
-		square.x = mouseposX + camera_.x - square.w/2;
-		square.y = mouseposY + camera_.y - square.h/2;
+		square.x = 0;
 	}
-	else
+	else if(mouseposX + camera_.x + square.w/2 > map_.getWidth())
 	{
-		if(mouseposX + camera_.x - square.w/2 <0)
-		{
-			square.x = 0;
-		}
-		if(mouseposY + camera_.y - square.h/2 < 0)
-		{
-			square.y = 0;
-		}
-		if(mouseposX + camera_.x + square.w/2 > map_.getWidth())
-		{
-			square.x =  map_.getWidth() - square.w;
-		}
-		if(mouseposY + camera_.y + square.h/2 > map_.getHeight())
-		{
-			square.y = map_.getHeight() - square.h;
-		}
+		square.x =  map_.getWidth() - square.w;
 	}
-	square.x = square.x/10*10;
-	square.y = square.y/10*10;
+	if(mouseposY + camera_.y - square.h/2 < 0)
+	{
+		square.y = 0;
+	}
+	else if(mouseposY + camera_.y + square.h/2 > map_.getHeight())
+	{
+		square.y = map_.getHeight() - square.h;
+	}
+	square.x = square.x/30*30;
+	square.y = square.y/30*30;
 	camera_.x = floor(map_.getCameraController()->getX()) - camera_.w/ 2;
     camera_.y = floor(map_.getCameraController()->getY())- camera_.h/ 2;
 	
@@ -137,17 +133,18 @@ void GameState::render()
 		i->render( window_.getRenderer(), camera_);
 	}
 	
+	auto player = map_.getPlayerSpawner();
+	if(player!=nullptr)
+		player->render( window_.getRenderer(), camera_ );
 	
-	if(!menu())
-	{
-		SDL_SetRenderDrawBlendMode(window_.getRenderer(),SDL_BLENDMODE_BLEND);
-		if(intersectiftrue == true) 
-			SDL_SetRenderDrawColor( window_.getRenderer(), 0xFF, 0x00, 0x00, 0x8F );
-		else 
-			SDL_SetRenderDrawColor( window_.getRenderer(), 0x00, 0xFF, 0x00, 0x8F );
-		SDL_RenderFillRect( window_.getRenderer(), &renderquad );
-		SDL_SetRenderDrawBlendMode(window_.getRenderer(),SDL_BLENDMODE_NONE);
-	}
+	SDL_SetRenderDrawBlendMode(window_.getRenderer(),SDL_BLENDMODE_BLEND);
+	if(intersectiftrue == true) 
+		SDL_SetRenderDrawColor( window_.getRenderer(), 0xFF, 0x00, 0x00, 0x8F );
+	else 
+		SDL_SetRenderDrawColor( window_.getRenderer(), 0x00, 0xFF, 0x00, 0x8F );
+	SDL_RenderFillRect( window_.getRenderer(), &renderquad );
+	SDL_SetRenderDrawBlendMode(window_.getRenderer(),SDL_BLENDMODE_NONE);
+	
 	
 	//Render menu
 	SDL_RenderSetViewport( window_.getRenderer(), &menuViewport );
@@ -164,7 +161,7 @@ bool GameState::collision()
 
 	auto walls = map_.getWalls();
 	auto spawners = map_.getSpawners();
-	
+	auto player = map_.getPlayerSpawner();
 	for( auto i : walls )
 	{
 		SDL_Rect tmp{ i->getX(), i->getY(), i->getWidth(), i->getHeight() };
@@ -181,5 +178,14 @@ bool GameState::collision()
 			return true;
 		}
 	}
+	if(player!=nullptr)
+	{
+		SDL_Rect tmp{ player->getX(), player->getY(), player->getWidth(), player->getHeight() };
+		if(SDL_TRUE == SDL_IntersectRect( & tmp, & tmp3, & tmp2 ))
+		{	
+			return true;
+		}
+	}
+	
 	return false;
 }

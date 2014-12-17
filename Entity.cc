@@ -38,3 +38,11 @@ void Spawner::render(SDL_Renderer* renderer, const SDL_Rect & camera)
 	SDL_RenderFillRect( renderer, &fillRect );
 }
 
+void PlayerSpawner::render(SDL_Renderer* renderer, const SDL_Rect & camera)
+{
+	//Render red filled quad
+	SDL_Rect fillRect = { posX_ - int(camera.x + height_/2), posY_ - int(camera.y + width_/2) , height_, width_};
+	SDL_SetRenderDrawColor( renderer, 0x00, 0x00, 0x00, 0xFF );
+	SDL_RenderFillRect( renderer, &fillRect );
+}
+

@@ -52,4 +52,12 @@ class Spawner : public Entity
 		void render(SDL_Renderer*, const SDL_Rect& camera);
 };
 
+class PlayerSpawner : public Entity
+{
+	public:
+		PlayerSpawner(int posX, int posY, unsigned width, unsigned height) : Entity{posX, posY, width, height} {};
+		
+		void render(SDL_Renderer*, const SDL_Rect& camera);
+};
+
 #endif
