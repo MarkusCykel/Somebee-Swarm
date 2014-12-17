@@ -9,7 +9,8 @@
 #include <SDL_image.h>
 #include <stdio.h>
 #include "CameraController.h"
-
+#include <fstream>
+#include <sstream>
 class Map
 {
 	public:

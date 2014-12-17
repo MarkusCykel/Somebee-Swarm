@@ -117,3 +117,30 @@ PlayerSpawner* Map::getPlayerSpawner()
 {
 	return playerspawner_;
 }
+
+void Map::saveMap()
+{
+	std::string filename{"savedmap.txt"};
+	std::ofstream ofs;
+	ofs.open(filename);
+	
+	ofs<<"Playerspawner: "<<std::endl;
+	if(playerspawner_!=nullptr)
+		ofs<<playerspawner_->getX()<<" "<<playerspawner_->getY()<<" "<<playerspawner_->getWidth()<<playerspawner_->getHeight()<<std::endl;
+		
+	ofs<<"Walls: "<<std::endl;
+	for(auto x : walls_)
+	{
+		ofs<<x->getX()<<" "<<x->getY()<<" "<<x->getWidth()<<x->getHeight()<<std::endl;
+	}
+	
+	ofs<<"Spawners: "<<std::endl;
+	for(auto x : spawners_)
+	{
+		ofs<<x->getX()<<" "<<x->getY()<<" "<<x->getWidth()<<x->getHeight()<<std::endl;
+	}
+}
+void Map::loadMap()
+{
+
+}
