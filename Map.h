@@ -43,6 +43,8 @@ class Map
 		PlayerSpawner* playerspawner_{};
 		SDL_Texture* background_{};
 
+		void delete_walls();
+		void delete_spawners();
 		double width_;
 		double height_;
 };

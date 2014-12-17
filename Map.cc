@@ -124,23 +124,76 @@ void Map::saveMap()
 	std::ofstream ofs;
 	ofs.open(filename);
 	
-	ofs<<"Playerspawner: "<<std::endl;
+	ofs<<"Playerspawner:"<<std::endl;
 	if(playerspawner_!=nullptr)
-		ofs<<playerspawner_->getX()<<" "<<playerspawner_->getY()<<" "<<playerspawner_->getWidth()<<playerspawner_->getHeight()<<std::endl;
+		ofs<<playerspawner_->getX()<<" "<<playerspawner_->getY()<<" "<<playerspawner_->getWidth()<<" "<<playerspawner_->getHeight()<<std::endl;
 		
-	ofs<<"Walls: "<<std::endl;
+	ofs<<"Walls:"<<std::endl;
 	for(auto x : walls_)
 	{
-		ofs<<x->getX()<<" "<<x->getY()<<" "<<x->getWidth()<<x->getHeight()<<std::endl;
+		ofs<<x->getX()<<" "<<x->getY()<<" "<<x->getWidth()<<" "<<x->getHeight()<<std::endl;
 	}
 	
-	ofs<<"Spawners: "<<std::endl;
+	ofs<<"Spawners:"<<std::endl;
 	for(auto x : spawners_)
 	{
-		ofs<<x->getX()<<" "<<x->getY()<<" "<<x->getWidth()<<x->getHeight()<<std::endl;
+		ofs<<x->getX()<<" "<<x->getY()<<" "<<x->getWidth()<<" "<<x->getHeight()<<std::endl;
 	}
+	ofs.close();
 }
 void Map::loadMap()
 {
+	delete_walls();
+	delete_spawners();
+	std::string filename{"savedmap.txt"};
+	std::string str;
+	std::string type;
+	double x,y,w,h;
+	std::ifstream ifs;
+	ifs.open(filename);
+	while(getline(ifs,str))
+	{
+		std::stringstream ss(str);
+		std::stringstream ss2(str);
+		if(ss>>x>>y>>w>>h)
+		{
+			if(type == "Playerspawner:")
+			{
+				makePlayerSpawner(x,y,w,h);
+			}
+			else if(type == "Walls:")
+			{
+				makeWall(x,y,w,h);
+			}
+			else if(type == "Spawners:")
+			{
+				makeSpawner(x,y,w,h);
+			}
+		}
+		else
+		{
+			ss2>>type;
+		}
+	}
+	
+	
+	ifs.close();
+}
 
+void Map::delete_walls()
+{
+	for(int i{walls_.size()-1}; i>-1; --i)
+	{
+		delete walls_.at(i);
+		walls_.erase( walls_.begin() + i );
+	}
+}
+
+void Map::delete_spawners()
+{
+	for(int i{spawners_.size()-1}; i>-1; --i)
+	{
+		delete spawners_.at(i);
+		spawners_.erase( spawners_.begin() + i );
+	}
 }

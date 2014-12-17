@@ -74,6 +74,16 @@ void GameState::readInput(SDL_Event& e)
 			if(menu())
 				menu_.check_input(mouseposX, mouseposY, menuViewport);
 		}
+		else if(menu_.get_button().getname()== "Save"&&menu_.get_button().buttonpressed())
+		{
+			map_.saveMap();
+			menu_.get_button().setbuttonpressed(false);
+		}
+		else if(menu_.get_button().getname()== "Load"&&menu_.get_button().buttonpressed())
+		{
+			map_.loadMap();
+			menu_.get_button().setbuttonpressed(false);
+		}
 	}
 
 	
@@ -137,14 +147,16 @@ void GameState::render()
 	if(player!=nullptr)
 		player->render( window_.getRenderer(), camera_ );
 	
-	SDL_SetRenderDrawBlendMode(window_.getRenderer(),SDL_BLENDMODE_BLEND);
-	if(intersectiftrue == true) 
-		SDL_SetRenderDrawColor( window_.getRenderer(), 0xFF, 0x00, 0x00, 0x8F );
-	else 
-		SDL_SetRenderDrawColor( window_.getRenderer(), 0x00, 0xFF, 0x00, 0x8F );
-	SDL_RenderFillRect( window_.getRenderer(), &renderquad );
-	SDL_SetRenderDrawBlendMode(window_.getRenderer(),SDL_BLENDMODE_NONE);
-	
+	if(menu_.get_button().buttonpressed()&&(menu_.get_button().getname()== "PlayerSpawner" ||menu_.get_button().getname()== "Spawner"||menu_.get_button().getname()== "Wall"))
+	{
+		SDL_SetRenderDrawBlendMode(window_.getRenderer(),SDL_BLENDMODE_BLEND);
+		if(intersectiftrue == true) 
+			SDL_SetRenderDrawColor( window_.getRenderer(), 0xFF, 0x00, 0x00, 0x8F );
+		else 
+			SDL_SetRenderDrawColor( window_.getRenderer(), 0x00, 0xFF, 0x00, 0x8F );
+		SDL_RenderFillRect( window_.getRenderer(), &renderquad );
+		SDL_SetRenderDrawBlendMode(window_.getRenderer(),SDL_BLENDMODE_NONE);
+	}
 	
 	//Render menu
 	SDL_RenderSetViewport( window_.getRenderer(), &menuViewport );

@@ -18,7 +18,7 @@ class EditMenu
 		EditMenu();
 		void check_input(int, int, const SDL_Rect &);
 		void render(SDL_Renderer* renderer, const SDL_Rect &);
-		Button get_button(){return buttons_.at(currentpressed);}; 
+		Button & get_button(){return buttons_.at(currentpressed);}; 
 	private:
 		int currentpressed;
 		std::vector<Button>buttons_;
