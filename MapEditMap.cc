@@ -79,7 +79,7 @@ void MapEditMap::makeCameraController(double maxSpeed, double acceleration)
 {
 	if( CameraController_ != nullptr)
 		delete CameraController_;
-	CameraController_ = new MapEditCameraController{maxSpeed, acceleration };
+	CameraController_ = new MapEditCameraController{ maxSpeed, acceleration };
 }
 
 void MapEditMap::makeWall(double posX, double posY, unsigned width, unsigned height)

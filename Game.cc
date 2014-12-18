@@ -2,7 +2,7 @@
 #include "SDL.h"
 #include <iostream>
 
-Game::Game(Window& window) : window_{window}, play_{nullptr}, menu_{nullptr}, submit_{nullptr}
+Game::Game(Window& window) : window_{window}, play_{nullptr}, menu_{nullptr}, submit_{nullptr}, edit_{nullptr}
 {
 	scoreFile_ = "score.txt";
 	mapFile_ = "map.txt";
@@ -55,7 +55,7 @@ void Game::menu()
 
 void Game::play()
 {
-	if( play_ != nullptr)
+	if( play_ != nullptr )
 	{
 		delete play_;
 		play_ = nullptr;
@@ -72,7 +72,15 @@ void Game::play()
 
 void Game::editor()
 {
-	std::cout << "Not yet implemented." << std::endl;
+	if( edit_ != nullptr )
+	{
+		delete edit_;
+		edit_ = nullptr;
+	}
+	
+	edit_ = new Edit{ 3000, 3000, window_ };
+	
+	edit_->run(e);
 }
 
 
@@ -101,28 +109,32 @@ void Game::submit()
 void Game::saveScore(const unsigned & score, const std::string & nick)
 {
 	std::ifstream ifs(scoreFile_);
-
-	std::string str; 
+	std::string str;
 	unsigned un;
 	std::multimap<unsigned, std::string> themap;
 	
 	while(ifs>>str>>un)
 	{
-		std::cout << str << std::endl;
 		themap.insert(std::pair<unsigned, std::string>(un,str));
 	}
 	ifs.close();
-	themap.insert(std::pair<unsigned, std::string>(score,nick));
 	
+	if(nick.size()==0)
+		str="Unknown";
+	else 
+		str=nick;
+	
+	themap.insert(std::pair<unsigned, std::string>(score,str));
+	if(themap.size()>10)
+	{
+		themap.erase(themap.begin());
+	}
 
-	
 	std::ofstream ofs(scoreFile_);
 	for (auto it = themap.rbegin(); it != themap.rend(); ++it)
 	{
-		std::cout<< (*it).first << " " << (*it).second << std::endl;
 		ofs<<(*it).second << " " << (*it).first << std::endl;
 	}
 
 	ofs.close();
-	
 }

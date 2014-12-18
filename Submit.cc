@@ -1,7 +1,3 @@
-<<<<<<< HEAD
-
-=======
->>>>>>> origin/Menu
 #include "Submit.h"
 
 Submit::Submit(Window& window) : window_{window}

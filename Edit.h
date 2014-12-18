@@ -28,6 +28,7 @@ class Edit
 		MapEditMap map_;
 		SDL_Rect camera_;
 		Window window_;
+		SDL_Rect resetViewport{0, 0, window_.getWidth(), window_.getHeight()};
 		SDL_Rect mapViewport{0, 0, window_.getWidth() * 3/4, window_.getHeight()};
 		SDL_Rect menuViewport{window_.getWidth()-window_.getWidth()*1/4, 0, window_.getWidth() * 1/4, window_.getHeight()};
 		int mouseposX;
@@ -38,7 +39,6 @@ class Edit
 		
 		SDL_Rect square{0,0,30,30};
 		bool intersectiftrue;
-		bool gameOver_;
 		bool quit_;
 };
 

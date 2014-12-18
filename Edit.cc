@@ -4,7 +4,7 @@
 #define SCREEN_TICKS_PER_FRAME 1000 / SCREEN_FPS + 1
 
 Edit::Edit(unsigned height, unsigned width, Window& window)
-	: map_{height,width}, camera_{ 0, 0, window.getWidth() *3/4, window.getHeight() }, quit_{ false }, gameOver_{false}, window_{window}, intersectiftrue{false}
+	: map_{height,width}, camera_{ 0, 0, window.getWidth() *3/4, window.getHeight() }, quit_{ false }, window_{window}, intersectiftrue{false}
 {
 		map_.makeCameraController(10, 10);
 		map_.loadBackground("background_tho.jpg", window_.getRenderer());
@@ -30,7 +30,7 @@ bool Edit::outofbounds()
 
 void Edit::run(SDL_Event& e)
 {
-	while(!quit_ && !gameOver_)
+	while(!quit_)
 	{
 		capTimer_.start();
 
@@ -163,6 +163,7 @@ void Edit::render()
 	menu_.render( window_.getRenderer(), menuViewport );
 	
 	SDL_RenderPresent( window_.getRenderer() );
+	SDL_RenderSetViewport( window_.getRenderer(), &resetViewport );
 }
 
 
