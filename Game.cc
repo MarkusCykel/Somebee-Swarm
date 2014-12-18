@@ -88,11 +88,40 @@ void Game::submit()
 	switch( submit_->run(e) )
 	{
 		case BUTTON_SUBMIT:
-			std::cout << submit_->getNick() << " " << play_->getScore() << std::endl;
+			saveScore(play_->getScore(), submit_->getNick());
 			break;
 		
 		case BUTTON_QUIT:
 			quit_ = true;
 			break;
 	}
+}
+
+void Game::saveScore(const unsigned & score, const std::string & nick)
+{
+	std::ifstream ifs(scoreFile_);
+
+	std::string str; 
+	unsigned un;
+	std::multimap<unsigned, std::string> themap;
+	
+	while(ifs>>str>>un)
+	{
+		std::cout << str << std::endl;
+		themap.insert(std::pair<unsigned, std::string>(un,str));
+	}
+	ifs.close();
+	themap.insert(std::pair<unsigned, std::string>(score,nick));
+	
+
+	
+	std::ofstream ofs(scoreFile_);
+	for (auto it = themap.rbegin(); it != themap.rend(); ++it)
+	{
+		std::cout<< (*it).first << " " << (*it).second << std::endl;
+		ofs<<(*it).second << " " << (*it).first << std::endl;
+	}
+
+	ofs.close();
+	
 }

@@ -8,6 +8,8 @@
 #include "Menu.h"
 #include "Play.h"
 #include "Submit.h"
+#include <fstream>
+#include <map>
 
 #define WINDOW_HEIGHT 1600
 #define WINDOW_WIDTH 900
@@ -23,6 +25,7 @@ public:
 	void play();
 	void editor();
 	void submit();
+	void saveScore(const unsigned & score, const std::string & nick );
 	
 private:
 	Play* play_;
