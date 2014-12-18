@@ -1,13 +1,13 @@
-#include "EditMenu.h"
+#include "MapEditMenu.h"
 
-EditMenu::EditMenu()
+MapEditMenu::MapEditMenu()
 {
-	Button Wallbutton{85,50,50,30,0xFF,0x00,0x00,0xFF,false,"Wall"};
-	Button Spawnerbutton{205,50,50,30,0xFF,0x00,0x00,0xFF,false,"Spawner"};
-	Button PlayerSpawnerbutton{160,100,20,10,0xFF,0x00,0x00,0xFF,false,"PlayerSpawner"};
-	Button Savebutton{75,10,70,30,0xFF,0x00,0x00,0xFF,false,"Save"};
-	Button Loadbutton{195,10,70,30,0xFF,0x00,0x00,0xFF,false,"Load"};
-	Button Quitbutton{85,150,170,30,0xFF,0x00,0x00,0xFF,false,"Quit"};
+	MapEditButton Wallbutton{85,50,50,30,0xFF,0x00,0x00,0xFF,false,"Wall"};
+	MapEditButton Spawnerbutton{205,50,50,30,0xFF,0x00,0x00,0xFF,false,"Spawner"};
+	MapEditButton PlayerSpawnerbutton{160,100,20,10,0xFF,0x00,0x00,0xFF,false,"PlayerSpawner"};
+	MapEditButton Savebutton{75,10,70,30,0xFF,0x00,0x00,0xFF,false,"Save"};
+	MapEditButton Loadbutton{195,10,70,30,0xFF,0x00,0x00,0xFF,false,"Load"};
+	MapEditButton Quitbutton{85,150,170,30,0xFF,0x00,0x00,0xFF,false,"Quit"};
 	buttons_.push_back(Wallbutton);
 	buttons_.push_back(Spawnerbutton);
 	buttons_.push_back(PlayerSpawnerbutton);
@@ -17,7 +17,7 @@ EditMenu::EditMenu()
 	currentpressed = 0;
 }
 
-void EditMenu::render(SDL_Renderer* renderer, const SDL_Rect & viewport)
+void MapEditMenu::render(SDL_Renderer* renderer, const SDL_Rect & viewport)
 {
 	for(auto & butt : buttons_)
 	{
@@ -31,7 +31,7 @@ void EditMenu::render(SDL_Renderer* renderer, const SDL_Rect & viewport)
 	}
 }
 
-void EditMenu::check_input( int x, int y, const SDL_Rect & viewport)
+void MapEditMenu::check_input( int x, int y, const SDL_Rect & viewport)
 {
 	int counter{0};
 	x = x - viewport.x;

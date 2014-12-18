@@ -1,6 +1,6 @@
-#include "Timer.h"
+#include "MapEditTimer.h"
 
-void Timer::start()
+void MapEditTimer::start()
 {
 	//Start the timer
 	mStarted = true;
@@ -13,7 +13,7 @@ void Timer::start()
 	mPausedTicks = 0;
 }
 
-void Timer::stop()
+void MapEditTimer::stop()
 {
 	//Stop the timer
 	mStarted = false;
@@ -26,7 +26,7 @@ void Timer::stop()
 	mPausedTicks = 0;
 }
 
-void Timer::pause()
+void MapEditTimer::pause()
 {
 	if( mStarted && !mPaused )
 	{
@@ -37,7 +37,7 @@ void Timer::pause()
 	}
 }
 
-Uint32 Timer::getTicks()
+Uint32 MapEditTimer::getTicks()
 {
 	Uint32 time = 0;
 	
@@ -56,12 +56,12 @@ Uint32 Timer::getTicks()
 	return time;
 }
 
-bool Timer::isStarted()
+bool MapEditTimer::isStarted()
 {
 	return mStarted;
 }
 
-bool Timer::isPaused()
+bool MapEditTimer::isPaused()
 {
 	return mPaused && mStarted;
 }

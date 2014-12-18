@@ -1,28 +1,28 @@
-#include "Entity.h"
+#include "MapEditEntity.h"
 #include <iostream>
 #include <iomanip>
 
 #define PI 3.14159265
 
 //////////////////////////////
-//	Entity
+//	MapEditEntity
 //////////////////////////////
 
-double Entity::getX()
+double MapEditEntity::getX()
 {
 	return posX_;
 }
 
-double Entity::getY()
+double MapEditEntity::getY()
 {
 	return posY_;
 }
 
 //////////////////////////////
-//	Wall
+//	MapEditWall
 //////////////////////////////
 
-void Wall::render(SDL_Renderer* renderer, const SDL_Rect & camera)
+void MapEditWall::render(SDL_Renderer* renderer, const SDL_Rect & camera)
 {
 	//Render red filled quad
 	SDL_Rect fillRect = { posX_ - int(camera.x + height_/2), posY_ - int(camera.y + width_/2) , height_, width_};
@@ -30,7 +30,7 @@ void Wall::render(SDL_Renderer* renderer, const SDL_Rect & camera)
 	SDL_RenderFillRect( renderer, &fillRect );
 }
 
-void Spawner::render(SDL_Renderer* renderer, const SDL_Rect & camera)
+void MapEditSpawner::render(SDL_Renderer* renderer, const SDL_Rect & camera)
 {
 	//Render red filled quad
 	SDL_Rect fillRect = { posX_ - int(camera.x + height_/2), posY_ - int(camera.y + width_/2) , height_, width_};
@@ -38,7 +38,7 @@ void Spawner::render(SDL_Renderer* renderer, const SDL_Rect & camera)
 	SDL_RenderFillRect( renderer, &fillRect );
 }
 
-void PlayerSpawner::render(SDL_Renderer* renderer, const SDL_Rect & camera)
+void MapEditPlayerSpawner::render(SDL_Renderer* renderer, const SDL_Rect & camera)
 {
 	//Render red filled quad
 	SDL_Rect fillRect = { posX_ - int(camera.x + height_/2), posY_ - int(camera.y + width_/2) , height_, width_};

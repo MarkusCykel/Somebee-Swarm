@@ -1,12 +1,12 @@
-#ifndef TIMER_H
-#define TIMER_H
+#ifndef MAPEDITTIMER_H
+#define MAPEDITTIMER_H
 
 #include <SDL.h>
 
-class Timer
+class MapEditTimer
 {
 	public:
-		Timer() : mStartTicks{0}, mPausedTicks{0}, mPaused{false}, mStarted{false} {};
+		MapEditTimer() : mStartTicks{0}, mPausedTicks{0}, mPaused{false}, mStarted{false} {};
 		
 		void start();
 		void stop();

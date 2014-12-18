@@ -1,11 +1,11 @@
-#ifndef WINDOW_H
-#define WINDOW_H
+#ifndef MAPEDITWINDOW_H
+#define MAPEDITWINDOW_H
 
-class Window
+class MapEditWindow
 {
 	public:
-		Window(char* window_title, const unsigned & window_width, const unsigned & window_height);
-		~Window() {	SDL_DestroyWindow(window_); };
+		MapEditWindow(char* window_title, const unsigned & window_width, const unsigned & window_height);
+		~MapEditWindow() {	SDL_DestroyWindow(window_); };
 		
 		int getWidth();
 		int getHeight();

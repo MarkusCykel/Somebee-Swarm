@@ -3,12 +3,12 @@
 #include <sstream>
 #include <iomanip>
 
-#include "classes.h"
-#include "Window.h"
-#include "Entity.h"
-#include "Timer.h"
-#include "GameState.h"
-#include "Map.h"
+#include "MapEditclasses.h"
+#include "MapEditWindow.h"
+#include "MapEditEntity.h"
+#include "MapEditTimer.h"
+#include "MapEditGameState.h"
+#include "MapEditMap.h"
 
 #define WINDOW_HEIGHT 1280
 #define WINDOW_WIDTH 720
@@ -22,9 +22,8 @@ int main(int argc, char* argv[])
 	else
 	{
 		SDL_Event e;
-		
-		Window window{"testing", WINDOW_HEIGHT, WINDOW_WIDTH};
-		GameState gameState{2000,2000,window};
+		MapEditWindow window{"testing", WINDOW_HEIGHT, WINDOW_WIDTH};
+		MapEditGameState gameState{2000,2000,window};
 		
 		gameState.run(e);
 	}

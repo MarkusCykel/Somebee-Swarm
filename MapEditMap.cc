@@ -1,7 +1,7 @@
-#include "Map.h"
+#include "MapEditMap.h"
 #include <map>
 
-void Map::loadBackground(const std::string& path, SDL_Renderer* renderer)
+void MapEditMap::loadBackground(const std::string& path, SDL_Renderer* renderer)
 {
 	SDL_Surface* loadedSurface = IMG_Load( path.c_str() );
 	SDL_Surface* stretchedSurface = SDL_CreateRGBSurface(0,width_, height_,32,0,0,0,0);
@@ -26,19 +26,19 @@ void Map::loadBackground(const std::string& path, SDL_Renderer* renderer)
     }
 }
 
-double Map::getWidth()
+double MapEditMap::getWidth()
 {
 	return width_;
 }
 
 
-double Map::getHeight()
+double MapEditMap::getHeight()
 {
 	return height_;
 }
 
 
-void Map::renderBackground(SDL_Renderer* renderer, const SDL_Rect& camera, const int& window_width, const int& window_height)
+void MapEditMap::renderBackground(SDL_Renderer* renderer, const SDL_Rect& camera, const int& window_width, const int& window_height)
 {
 	SDL_Rect renderQuad = { 0, 0, window_width, window_height };
 	SDL_Rect cameratemp = { camera.x, camera.y, camera.w, camera.h };
@@ -75,50 +75,50 @@ void Map::renderBackground(SDL_Renderer* renderer, const SDL_Rect& camera, const
 	SDL_RenderCopy( renderer, background_, &cameratemp, &renderQuad);
 }
 
-void Map::makeCameraController(double maxSpeed, double acceleration)
+void MapEditMap::makeCameraController(double maxSpeed, double acceleration)
 {
 	if( CameraController_ != nullptr)
 		delete CameraController_;
-	CameraController_ = new CameraController{maxSpeed, acceleration };
+	CameraController_ = new MapEditCameraController{maxSpeed, acceleration };
 }
 
-void Map::makeWall(double posX, double posY, unsigned width, unsigned height)
+void MapEditMap::makeWall(double posX, double posY, unsigned width, unsigned height)
 {
-	walls_.push_back(new Wall{ posX, posY, width, height});
+	walls_.push_back(new MapEditWall{ posX, posY, width, height});
 }
 
-void Map::makeSpawner(double posX, double posY, unsigned width, unsigned height)
+void MapEditMap::makeSpawner(double posX, double posY, unsigned width, unsigned height)
 {
-	spawners_.push_back(new Spawner{ posX, posY, width, height});
+	spawners_.push_back(new MapEditSpawner{ posX, posY, width, height});
 }
 
-void Map::makePlayerSpawner(double posX, double posY, unsigned width, unsigned height)
+void MapEditMap::makePlayerSpawner(double posX, double posY, unsigned width, unsigned height)
 {
 	delete playerspawner_;
-	playerspawner_=(new PlayerSpawner{ posX, posY, width, height});
+	playerspawner_=(new MapEditPlayerSpawner{ posX, posY, width, height});
 }
 
-CameraController* Map::getCameraController()
+MapEditCameraController* MapEditMap::getCameraController()
 {
 	return CameraController_;
 }
 
-std::vector<Wall*>& Map::getWalls()
+std::vector<MapEditWall*>& MapEditMap::getWalls()
 {
 	return walls_;
 }
 
-std::vector<Spawner*>& Map::getSpawners()
+std::vector<MapEditSpawner*>& MapEditMap::getSpawners()
 {
 	return spawners_;
 }
 
-PlayerSpawner* Map::getPlayerSpawner()
+MapEditPlayerSpawner* MapEditMap::getPlayerSpawner()
 {
 	return playerspawner_;
 }
 
-void Map::saveMap()
+void MapEditMap::saveMap()
 {
 	std::string filename{"savedmap.txt"};
 	std::ofstream ofs;
@@ -141,7 +141,7 @@ void Map::saveMap()
 	}
 	ofs.close();
 }
-void Map::loadMap()
+void MapEditMap::loadMap()
 {
 	delete_walls();
 	delete_spawners();
@@ -180,7 +180,7 @@ void Map::loadMap()
 	ifs.close();
 }
 
-void Map::delete_walls()
+void MapEditMap::delete_walls()
 {
 	for(int i{walls_.size()-1}; i>-1; --i)
 	{
@@ -189,7 +189,7 @@ void Map::delete_walls()
 	}
 }
 
-void Map::delete_spawners()
+void MapEditMap::delete_spawners()
 {
 	for(int i{spawners_.size()-1}; i>-1; --i)
 	{

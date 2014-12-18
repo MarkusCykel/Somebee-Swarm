@@ -1,6 +1,6 @@
 #OBJS specifies which files to compile as part of the project 
 
-OBJS = Window.o Entity.o Map.o Timer.o GameState.o CameraController.o EditMenu.o Button.o
+OBJS = MapEditWindow.o MapEditEntity.o MapEditMap.o MapEditTimer.o MapEditGameState.o MapEditCameraController.o MapEditMenu.o MapEditButton.o
 
 # Kompilator (gcc) och diagnostikfilter (gccfilter)
 CCC = g++
@@ -25,39 +25,39 @@ STATIC = -static-libgcc -static-libstdc++
 
 
 #This is the target that compiles our executable
-all : main.cc $(OBJS) Makefile
-	$(CCC) Main.cc $(OBJS) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) -o Main
+all : MapEditmain.cc $(OBJS) Makefile
+	$(CCC) MapEditMain.cc $(OBJS) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) -o Main
 	
-all-w : main.cc $(OBJS) Makefile
-	$(CCC) Main.cc $(OBJS) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(NOWINDOW) $(LINKER_FLAGS) -o Main
+all-w : MapEditmain.cc $(OBJS) Makefile
+	$(CCC) MapEditMain.cc $(OBJS) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(NOWINDOW) $(LINKER_FLAGS) -o Main
 
-all-s : main.cc $(OBJS) Makefile
-	$(CCC) Main.cc $(OBJS) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) $(STATIC) -o Main
+all-s : MapEditmain.cc $(OBJS) Makefile
+	$(CCC) MapEditMain.cc $(OBJS) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) $(STATIC) -o Main
 	
-all-sw : main.cc $(OBJS) Makefile
-	$(CCC) Main.cc $(OBJS) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(NOWINDOW) $(LINKER_FLAGS) $(STATIC) -o Main
+all-sw : MapEditmain.cc $(OBJS) Makefile
+	$(CCC) MapEditMain.cc $(OBJS) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(NOWINDOW) $(LINKER_FLAGS) $(STATIC) -o Main
 
-Window.o: Window.h Window.cc
-	$(CCC) Window.cc $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) -c 
+MapEditWindow.o: MapEditWindow.h MapEditWindow.cc
+	$(CCC) MapEditWindow.cc $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) -c 
 
-Map.o: Map.h Map.cc
-	$(CCC) Map.cc $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) -c
+MapEditMap.o: MapEditMap.h MapEditMap.cc
+	$(CCC) MapEditMap.cc $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) -c
 
-Entity.o: Entity.h Entity.cc
-	$(CCC) Entity.cc $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) -c
+MapEditEntity.o: MapEditEntity.h MapEditEntity.cc
+	$(CCC) MapEditEntity.cc $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) -c
 	
-Timer.o: Timer.h Timer.cc
-	$(CCC) Timer.cc $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) -c
+MapEditTimer.o: MapEditTimer.h MapEditTimer.cc
+	$(CCC) MapEditTimer.cc $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) -c
 	
-GameState.o: GameState.h GameState.cc
-	$(CCC) Gamestate.cc $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) -c
+MapEditGameState.o: MapEditGameState.h MapEditGameState.cc
+	$(CCC) MapEditGamestate.cc $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) -c
 	
-CameraController.o: CameraController.h CameraController.cc
-	$(CCC) CameraController.cc $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) -c
+MapEditCameraController.o: MapEditCameraController.h MapEditCameraController.cc
+	$(CCC) MapEditCameraController.cc $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) -c
 		
-EditMenu.o: EditMenu.h EditMenu.cc
-	$(CCC) EditMenu.cc $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) -c
+MapEditMenu.o: MapEditMenu.h MapEditMenu.cc
+	$(CCC) MapEditMenu.cc $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) -c
 
-Button.o: Button.h Button.cc
-	$(CCC) Button.cc $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) -c
+MapEditButton.o: MapEditButton.h MapEditButton.cc
+	$(CCC) MapEditButton.cc $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) -c
 	

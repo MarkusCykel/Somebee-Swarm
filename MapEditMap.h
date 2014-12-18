@@ -1,20 +1,20 @@
-#ifndef MAP_H
-#define MAP_H
+#ifndef MAPEDITMAP_H
+#define MAPEDITMAP_H
 
-#include "classes.h"
-#include "Entity.h"
+#include "MapEditclasses.h"
+#include "MapEditEntity.h"
 #include <vector>
 #include <iostream>
 #include <SDL.h>
 #include <SDL_image.h>
 #include <stdio.h>
-#include "CameraController.h"
+#include "MapEditCameraController.h"
 #include <fstream>
 #include <sstream>
-class Map
+class MapEditMap
 {
 	public:
-		Map(unsigned width, unsigned height) 
+		MapEditMap(unsigned width, unsigned height) 
 			: width_{width}, height_{height}, playerspawner_{NULL} {}
 			
 		double getWidth();
@@ -31,16 +31,16 @@ class Map
 		void saveMap();
 		void loadMap();
 		
-		CameraController* getCameraController();
-		std::vector<Wall*>& getWalls();
-		std::vector<Spawner*>& getSpawners();
-		PlayerSpawner* getPlayerSpawner();
+		MapEditCameraController* getCameraController();
+		std::vector<MapEditWall*>& getWalls();
+		std::vector<MapEditSpawner*>& getSpawners();
+		MapEditPlayerSpawner* getPlayerSpawner();
 		
 	private:
-		CameraController* CameraController_{};
-		std::vector<Wall*> walls_{};
-		std::vector<Spawner*> spawners_{};
-		PlayerSpawner* playerspawner_{};
+		MapEditCameraController* CameraController_{};
+		std::vector<MapEditWall*> walls_{};
+		std::vector<MapEditSpawner*> spawners_{};
+		MapEditPlayerSpawner* playerspawner_{};
 		SDL_Texture* background_{};
 
 		void delete_walls();

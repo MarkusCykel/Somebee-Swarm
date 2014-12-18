@@ -1,5 +1,5 @@
-#ifndef BUTTON_H
-#define BUTTON_H
+#ifndef MAPEDITBUTTON_H
+#define MAPEDITBUTTON_H
 
 #include <SDL.h>
 #include <SDL_image.h>
@@ -7,15 +7,15 @@
 #include <stdio.h>
 #include <string>
 #include <cmath>
-#include "classes.h"
+#include "MapEditclasses.h"
 
 
-class Button
+class MapEditButton
 {
 	public:
-		Button();
-		Button(const SDL_Rect & butt, const Uint8 & R = 0xFF, const Uint8 & G = 0x00, const Uint8 & B = 0x00, const Uint8 & A = 0xFF, const bool & press = false, const std::string & str = "Wall");
-		Button(const int & x, const int & y, const int & w, const int & h, const Uint8 & R = 0xFF, const Uint8 & G = 0x00, const Uint8 & B = 0x00, const Uint8 & A = 0xFF, const bool & press = false, const std::string & str = "Wall");
+		MapEditButton();
+		MapEditButton(const SDL_Rect & butt, const Uint8 & R = 0xFF, const Uint8 & G = 0x00, const Uint8 & B = 0x00, const Uint8 & A = 0xFF, const bool & press = false, const std::string & str = "Wall");
+		MapEditButton(const int & x, const int & y, const int & w, const int & h, const Uint8 & R = 0xFF, const Uint8 & G = 0x00, const Uint8 & B = 0x00, const Uint8 & A = 0xFF, const bool & press = false, const std::string & str = "Wall");
 		void render(SDL_Renderer*);
 		
 		void setbuttonpressed(const bool &);

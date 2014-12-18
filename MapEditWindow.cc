@@ -1,9 +1,9 @@
 #include <SDL.h>
 #include <iostream>
 
-#include "Window.h"
+#include "MapEditWindow.h"
 
-Window::Window(char* window_title, const unsigned & window_width, const unsigned & window_height)
+MapEditWindow::MapEditWindow(char* window_title, const unsigned & window_width, const unsigned & window_height)
 {	
 	window_ = SDL_CreateWindow(	window_title,
 								SDL_WINDOWPOS_UNDEFINED,
@@ -26,22 +26,22 @@ Window::Window(char* window_title, const unsigned & window_width, const unsigned
 	}
 }
 
-int Window::getWidth()
+int MapEditWindow::getWidth()
 {
 	return SDL_GetWindowSurface(window_)->w;
 }
 
-int Window::getHeight()
+int MapEditWindow::getHeight()
 {
 	return SDL_GetWindowSurface(window_)->h;
 }
 
-SDL_Surface* Window::getSurface()
+SDL_Surface* MapEditWindow::getSurface()
 {
 	return SDL_GetWindowSurface(window_);
 }
 
-void Window::update()
+void MapEditWindow::update()
 {
 	SDL_RenderPresent( renderer_ );
 }

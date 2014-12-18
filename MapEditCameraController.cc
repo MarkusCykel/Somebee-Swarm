@@ -1,32 +1,32 @@
-#include "CameraController.h"
+#include "MapEditCameraController.h"
 
-void CameraController::setPosition(double x, double y)
+void MapEditCameraController::setPosition(double x, double y)
 {
 	posX_ = x;
 	posY_ = y;
 }
 
-double CameraController::getTargetX()
+double MapEditCameraController::getTargetX()
 {
 	return targetPosX_;
 }
 
-double CameraController::getTargetY()
+double MapEditCameraController::getTargetY()
 {
 	return targetPosY_;
 }
 
-double CameraController::getX()
+double MapEditCameraController::getX()
 {
 	return posX_;
 }
 
-double CameraController::getY()
+double MapEditCameraController::getY()
 {
 	return posY_;
 }
 /* Read input and change parameters depending on it */
-void CameraController::readInput()
+void MapEditCameraController::readInput()
 {
 	const Uint8* currentKeyStates = SDL_GetKeyboardState( NULL );
 	
@@ -80,7 +80,7 @@ void CameraController::readInput()
 
 
 /* Update position depending on speed */
-void CameraController::update(Map& map)
+void MapEditCameraController::update(MapEditMap& map)
 {
 	if( targetPosX_ > map.getWidth())
 	{
