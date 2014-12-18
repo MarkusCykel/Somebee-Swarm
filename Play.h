@@ -16,6 +16,7 @@ class Play
 		Play(unsigned height, unsigned width, Window& window);
 		
 		bool run(SDL_Event&);
+		unsigned getScore() { return score_; }
 	private:
 		void pause() = delete;
 		void readInput(SDL_Event&);

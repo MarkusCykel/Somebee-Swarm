@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 
+=======
+>>>>>>> origin/Menu
 #include "Submit.h"
 
 Submit::Submit(Window& window) : window_{window}
@@ -28,7 +31,7 @@ Submit::~Submit()
 	}
 }
 
-bool Submit::run( SDL_Event& e )
+BUTTON_CODE Submit::run( SDL_Event& e )
 {
 	render();
 	
@@ -39,6 +42,8 @@ bool Submit::run( SDL_Event& e )
 		done = readInput(e);
 		render();
 	}
+	
+	return selection_;
 }
 
 bool Submit::readInput(SDL_Event& e)
@@ -53,27 +58,27 @@ bool Submit::readInput(SDL_Event& e)
 	{
 		if( e.type == SDL_QUIT )
 		{
-			quit = true;
+			selection_ = BUTTON_QUIT;
+			return true;
 		}
 		else if( e.type == SDL_KEYDOWN )
 		{
-			if( e.key.keysym.sym == SDLK_BACKSPACE && text_.length() > 0 )
+			if( e.key.keysym.sym == SDLK_BACKSPACE && nick_.length() > 0 )
 			{
-
-				text_.pop_back();
+				nick_.pop_back();
 				renderText = true;
 			}
 			else if( e.key.keysym.sym == SDLK_v && SDL_GetModState() & KMOD_CTRL )
 			{
-				text_ = SDL_GetClipboardText();
+				nick_ = SDL_GetClipboardText();
 				renderText = true;
 			}
 		}
-		else if( e.type == SDL_TEXTINPUT && text_.length() < 16 )
+		else if( e.type == SDL_TEXTINPUT && nick_.length() < 16 )
 		{
 			if( !(( e.text.text[ 0 ] == 'v' || e.text.text[ 0 ] == 'V' ) && SDL_GetModState() & KMOD_CTRL ) )
 			{
-				text_ += e.text.text;
+				nick_ += e.text.text;
 				renderText = true;
 			}
 		}
@@ -84,9 +89,12 @@ bool Submit::readInput(SDL_Event& e)
 				switch ( i->handleEvent(e) )
 				{
 					case BUTTON_SUBMIT:
+						//submitScore();
+						selection_ = BUTTON_SUBMIT;
 						return true;
 						
 					case BUTTON_CANCEL:
+						selection_ = BUTTON_CANCEL;
 						return true;
 						
 					default:
@@ -104,9 +112,9 @@ bool Submit::readInput(SDL_Event& e)
 		SDL_Color textColor = { 0x00, 0x00, 0x00};
 		
 		//Text is not empty
-		if( text_ != "" )
+		if( nick_ != "" )
 		{
-			textTexture_.loadFromRenderedText( text_, textColor, font, window_.getRenderer());
+			textTexture_.loadFromRenderedText( nick_, textColor, font, window_.getRenderer());
 		}
 		//Text is empty
 		else

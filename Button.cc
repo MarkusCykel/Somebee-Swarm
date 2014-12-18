@@ -8,6 +8,7 @@ Button::Button(SDL_Renderer* renderer, std::string text, const SDL_Point & butto
 	font = TTF_OpenFont("CoolFont.ttf", 24);
 	SDL_Color textColor = { 0xFF, 0xFF, 0xFF};
 	text_.loadFromRenderedText( text, textColor, font, renderer);
+	TTF_CloseFont(font);
 }
  
 BUTTON_CODE Button::handleEvent(SDL_Event& e)

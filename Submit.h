@@ -13,7 +13,10 @@ class Submit
 		Submit(Window& window);
 		~Submit();
 		
-		bool run(SDL_Event&);
+		BUTTON_CODE run(SDL_Event&);
+		
+		std::string getNick() { return nick_; }
+		
 	private:
 		bool readInput(SDL_Event&);
 		void render(); 
@@ -21,7 +24,9 @@ class Submit
 		Window window_;
 		std::vector<Button*> buttons_;
 		Texture textTexture_;
-		std::string text_;
+		
+		std::string nick_;
+		
 		BUTTON_CODE selection_{};
 };
 
