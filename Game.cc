@@ -100,28 +100,30 @@ void Game::submit()
 void Game::saveScore(const unsigned & score, const std::string & nick)
 {
 	std::ifstream ifs(scoreFile_);
-
-	std::string str; 
+	std::string str;
 	unsigned un;
 	std::multimap<unsigned, std::string> themap;
-	
 	while(ifs>>str>>un)
 	{
-		std::cout << str << std::endl;
 		themap.insert(std::pair<unsigned, std::string>(un,str));
 	}
 	ifs.close();
-	themap.insert(std::pair<unsigned, std::string>(score,nick));
+	if(nick.size()==0)
+		str="Unknown";
+	else 
+		str=nick;
+	themap.insert(std::pair<unsigned, std::string>(score,str));
 	
-
+	if(themap.size()>10)
+	{
+		themap.erase(themap.begin());
+	}
 	
 	std::ofstream ofs(scoreFile_);
 	for (auto it = themap.rbegin(); it != themap.rend(); ++it)
 	{
-		std::cout<< (*it).first << " " << (*it).second << std::endl;
 		ofs<<(*it).second << " " << (*it).first << std::endl;
 	}
 
 	ofs.close();
-	
 }
