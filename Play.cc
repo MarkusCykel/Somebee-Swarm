@@ -39,6 +39,9 @@ Play::Play(unsigned height, unsigned width, Window& window)
 		{
 			ss2>>type;
 		}
+		
+		if( map_.getPlayer() == nullptr )
+			map_.makePlayer(0,0,30,30,10,1,20);
 	}
 	
 	
@@ -53,14 +56,13 @@ Play::Play(unsigned height, unsigned width, Window& window)
 
 bool Play::run(SDL_Event& e)
 {
-	while(!quit_ && !gameOver_)
+	while((!quit_) && (!gameOver_))
 	{
 		capTimer_.start();
 		
 		readInput(e);
 		update();
 		render();
-		
 		int frameTicks = capTimer_.getTicks();
 		if( frameTicks < SCREEN_TICKS_PER_FRAME )
 		{
@@ -83,6 +85,13 @@ void Play::readInput(SDL_Event& e)
 		if(e.type == SDL_QUIT)
 		{
 			quit_ = true;
+		}
+		else if ( e.type == SDL_KEYDOWN )
+		{
+			if( e.key.keysym.sym == SDLK_ESCAPE )
+			{
+				gameOver_ = true;
+			}
 		}
 		else if( e.type == SDL_MOUSEBUTTONDOWN  && e.button.button == SDL_BUTTON_LEFT )
 		{
@@ -152,7 +161,10 @@ void Play::update()
 		i->update(map_);
 	}
 	
-	gameOver_ = map_.cleanUp(score_);
+	if(map_.cleanUp(score_))
+	{
+		gameOver_ = true;
+	}
 }
 
 
