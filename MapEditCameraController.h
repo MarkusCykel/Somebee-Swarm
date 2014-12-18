@@ -12,7 +12,7 @@ class MapEditCameraController
 {
 	public:
 		MapEditCameraController(double maxSpeed, double acceleration)
-			: move_vector_{std::make_pair(0,0)}, posX_{100}, posY_{100}, targetPosX_{100}, targetPosY_{100}, maxSpeed_{maxSpeed}, acceleration_{acceleration} {};
+			: move_vector_{std::make_pair(0,0)}, posX_{0}, posY_{0}, targetPosX_{0}, targetPosY_{0}, speedX_{0}, speedY_{0}, speed_{0}, maxSpeed_{maxSpeed}, acceleration_{acceleration} {};
 		
 		void setPosition(double x, double y);
 		double getTargetX();

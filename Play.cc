@@ -1,28 +1,53 @@
 #include "Play.h"
 #include <iostream>
+#include <fstream>
 #include <sstream>
 #include <iomanip>
 #define SCREEN_FPS 60
 #define SCREEN_TICKS_PER_FRAME 1000 / SCREEN_FPS + 1
 
+
 Play::Play(unsigned height, unsigned width, Window& window)
 	: map_{height,width}, camera_{ 0, 0, window.getWidth(), window.getHeight() }, quit_{ false }, gameOver_{false}, window_{window}, score_{0}
 {
-		map_.makePlayer(250, 250, 30, 30, 10, 1, 15);
-		map_.makeSpawner( 0, 0, 70, 70, 8, 1);
-		map_.makeSpawner( height-35, width-35, 70, 70, 8, 1);
-		map_.makeSpawner( height-35, 0, 70, 70, 8, 1);
-		map_.makeSpawner( 0, width-35, 70, 70, 8, 1);
-		map_.makeSpawner( 0, width/2, 70, 70, 8, 1);
-		map_.makeSpawner( height/2, 0, 70, 70, 8, 1);
-		map_.makeWall( 1040, 300, 1, 500);
-		map_.makeWall( 840, 300, 1, 490);
-		map_.makeWall( 540, 300, 500, 1);
-		map_.makeWall( 540, 800, 290, 1);
-		font_ = TTF_OpenFont( "CoolFont.ttf", 28 );
-		map_.loadBackground( window_.getRenderer(),"background_tho.jpg" );
-		NPC::loadTexture( window_.getRenderer(), "BeeCool.png" );
-		Spawner::loadTexture( window_.getRenderer(), "OhBeeHive.png" );
+	std::string filename{"savedmap.txt"};
+	std::string str;
+	std::string type;
+	double x,y,w,h;
+	std::ifstream ifs;
+	ifs.open(filename);
+	while(getline(ifs,str))
+	{
+		std::stringstream ss(str);
+		std::stringstream ss2(str);
+		if(ss>>x>>y>>w>>h)
+		{
+			if(type == "Playerspawner:")
+			{
+				map_.makePlayer(x,y,w,h,10,1,20);
+			}
+			else if(type == "Walls:")
+			{
+				map_.makeWall(x,y,w,h);
+			}
+			else if(type == "Spawners:")
+			{
+				map_.makeSpawner(x,y,w,h,10,1);
+			}
+		}
+		else
+		{
+			ss2>>type;
+		}
+	}
+	
+	
+	ifs.close();
+	
+	font_ = TTF_OpenFont( "CoolFont.ttf", 28 );
+	map_.loadBackground( window_.getRenderer(),"background_tho.jpg" );
+	NPC::loadTexture( window_.getRenderer(), "BeeCool.png" );
+	Spawner::loadTexture( window_.getRenderer(), "OhBeeHive.png" );
 }
 
 
