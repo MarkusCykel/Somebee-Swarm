@@ -4,7 +4,7 @@ Menu::Menu(Window& window) : window_{window}
 {
 	SDL_Point button = {window_.getWidth()/2 - BUTTON_WIDTH/2, window_.getHeight()/2 };
 
-	buttons_.push_back(new Button{ window.getRenderer(), "PLAY", button, BUTTON_GAME });
+	buttons_.push_back(new Button{ window.getRenderer(), "PLAY", button, BUTTON_PLAY });
 	button.y += 60;
 	
 	buttons_.push_back(new Button{ window.getRenderer(), "MAP EDITOR", button, BUTTON_MAP_EDITOR });
@@ -33,68 +33,61 @@ Menu::~Menu()
 	}
 }
 
-SELECTION Menu::run(SDL_Event& e)
+BUTTON_CODE Menu::run(SDL_Event& e)
 {
-	while(!selected_)
+	render();
+	bool done {false};
+	
+	while( !done )
 	{
-		readInput(e);
-		update();
-		render();
+		done = readInput(e);
 	}
 	
 	return selection_;
 }
 
-void Menu::readInput(SDL_Event& e)
+bool Menu::readInput(SDL_Event& e)
 {
 	int x ,y;
-
+	
 	while(SDL_PollEvent(&e) != 0)
 	{
 		if(e.type == SDL_QUIT)
 		{
-			selection_ = QUIT;
-			selected_ = true;
+			selection_ = BUTTON_QUIT;
+			return true;
 		}
 		for( auto i : buttons_ )
 		{
 			switch ( i->handleEvent(e) )
 			{
-				case BUTTON_GAME:
-					selection_ = GAME;
-					selected_ = true;
-					break;
+				case BUTTON_PLAY:
+					selection_ = BUTTON_PLAY;
+					return true;
 					
 				case BUTTON_MAP_EDITOR:
-					selection_ = MAP_EDITOR;
-					selected_ = true;
-					break;
+					selection_ = BUTTON_MAP_EDITOR;
+					return true;
 					
 				case BUTTON_SCORE:
-					selection_ = SCORE;
-					selected_ = true;
-					break;
+					selection_ = BUTTON_SCORE;
+					return true;
 					
 				case BUTTON_CREDITS:
-					selection_ = CREDITS;
-					selected_ = true;
-					break;
+					selection_ = BUTTON_CREDITS;
+					return true;
 					
 				case BUTTON_QUIT:
-					selection_ = QUIT;
-					selected_ = true;
-					break;
+					selection_ = BUTTON_QUIT;
+					return true;
 					
 				default:
 					break;
 			}
 		}
 	}
-}
-
-void Menu::update()
-{
 	
+	return false;
 }
 
 void Menu::render()

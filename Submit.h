@@ -1,31 +1,30 @@
-#ifndef MENUSTATE_H
-#define MENUSTATE_H
+#ifndef SUBMIT_H
+#define SUBMIT_H
 
 #include <SDL.h>
 #include <vector>
 
-#include "classes.h"
 #include "Window.h"
 #include "Button.h"
-#define BUTTON_WIDTH 200
-#define BUTTON_HEIGHT 50
 
-class Menu
+class Submit
 {
 	public:
-		Menu(Window& window);
-		~Menu();
+		Submit(Window& window);
+		~Submit();
+		
 		BUTTON_CODE run(SDL_Event&);
+		
+		std::string getNick() { return nick_; }
 	private:
 		bool readInput(SDL_Event&);
 		void render(); 
 		
 		Window window_;
 		std::vector<Button*> buttons_;
-		Texture background_;
-		
-		BUTTON_CODE selection_{ BUTTON_PLAY };
+		Texture textTexture_;
+		std::string nick_;
+		BUTTON_CODE selection_{};
 };
-
 
 #endif

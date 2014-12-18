@@ -7,6 +7,7 @@
 #include "Window.h"
 #include "Menu.h"
 #include "Play.h"
+#include "Submit.h"
 
 #define WINDOW_HEIGHT 1600
 #define WINDOW_WIDTH 900
@@ -18,10 +19,18 @@ public:
 	Game(Window&);
 	
 	bool run();
+	void menu();
+	void play();
+	void editor();
+	void submit();
 	
 private:
 	Play* play_;
 	Menu* menu_;
+	Submit* submit_;
+	
+	std::string scoreFile_;
+	std::string mapFile_;
 	
 	SDL_Event e;
 	Window window_;

@@ -1,6 +1,6 @@
 #OBJS specifies which files to compile as part of the project 
 
-OBJS = Play.o Menu.o Window.o Entity.o Map.o Timer.o Texture.o Button.o Game.o
+OBJS = Play.o Menu.o Window.o Entity.o Map.o Timer.o Texture.o Button.o Game.o Submit.o
 
 # Kompilator (gcc) och diagnostikfilter (gccfilter)
 CCC = g++
@@ -26,7 +26,7 @@ STATIC = -static-libgcc -static-libstdc++
 
 #This is the target that compiles our executable
 all : main.cc $(OBJS) Makefile
-	$(CCC) Main.cc $(OBJS) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) -o ZomebeeSwarm
+	$(CCC) Main.cc $(OBJS) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) -o ZombeeSwarm
 	
 all-w : main.cc $(OBJS) Makefile
 	$(CCC) Main.cc $(OBJS) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(NOWINDOW) $(LINKER_FLAGS) -o ZombeeSwarm
@@ -35,7 +35,7 @@ all-s : main.cc $(OBJS) Makefile
 	$(CCC) Main.cc $(OBJS) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) $(STATIC) -o ZombeeSwarm
 	
 all-sw : main.cc $(OBJS) Makefile
-	$(CCC) Main.cc $(OBJS) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(NOWINDOW) $(LINKER_FLAGS) $(STATIC) -o ZomebeeSwarm
+	$(CCC) Main.cc $(OBJS) $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(NOWINDOW) $(LINKER_FLAGS) $(STATIC) -o ZombeeSwarm
 
 Window.o: Window.h Window.cc
 	$(CCC) Window.cc $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) -c 
@@ -63,3 +63,6 @@ Button.o: Button.h Button.cc
 	
 Game.o: Game.h Game.cc
 	$(CCC) Game.cc $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) -c
+	
+Submit.o: Submit.h Submit.cc
+	$(CCC) Submit.cc $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) -c
