@@ -16,11 +16,11 @@ bool Game::run()
 		
 		menu_ = new Menu{window_};
 
-		SELECTION choice = menu_->run(e);
+		BUTTON_CODE choice = menu_->run(e);
 		
 		switch( choice )
 		{
-			case GAME:
+			case BUTTON_PLAY:
 				if( play_ != nullptr)
 				{
 					delete play_;
@@ -29,14 +29,28 @@ bool Game::run()
 				
 				play_ = new Play{3000,3000,window_};
 				quit_ = play_->run(e);
+				
+				if( submit_ != nullptr )
+				{
+					delete submit_;
+					submit_ = nullptr;
+				}
+				
+				submit_= new Submit{ window_ };
+				
+				submit_->run(e);
 				break;
-			case MAP_EDITOR:
+				
+			case BUTTON_MAP_EDITOR:
 				break;
-			case SCORE:
+				
+			case BUTTON_SCORE:
 				break;
-			case CREDITS:
+				
+			case BUTTON_CREDITS:
 				break;
-			case QUIT:
+				
+			case BUTTON_QUIT:
 				quit_ = true;
 				break;
 				

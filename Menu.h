@@ -10,32 +10,21 @@
 #define BUTTON_WIDTH 200
 #define BUTTON_HEIGHT 50
 
-enum SELECTION
-{
-	GAME,
-	MAP_EDITOR,
-	SCORE,
-	CREDITS,
-	QUIT
-};
-
 class Menu
 {
 	public:
 		Menu(Window& window);
 		~Menu();
-		SELECTION run(SDL_Event&);
+		BUTTON_CODE run(SDL_Event&);
 	private:
-		void readInput(SDL_Event&);
-		void update();
+		bool readInput(SDL_Event&);
 		void render(); 
 		
 		Window window_;
 		std::vector<Button*> buttons_;
 		Texture background_;
 		
-		SELECTION selection_{GAME};
-		bool selected_{false};
+		BUTTON_CODE selection_{ BUTTON_PLAY };
 };
 
 
