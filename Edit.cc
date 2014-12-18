@@ -1,16 +1,16 @@
-#include "MapEditGameState.h"
+#include "Edit.h"
 #include <iostream>
 #define SCREEN_FPS 60
 #define SCREEN_TICKS_PER_FRAME 1000 / SCREEN_FPS + 1
 
-MapEditGameState::MapEditGameState(unsigned height, unsigned width, MapEditWindow& window)
-	: map_{height,width}, camera_{ 0, 0, window.getWidth() *3/4, window.getHeight() }, quit_{ false }, gameOver_{false}, window_{window},intersectiftrue{false}
+Edit::Edit(unsigned height, unsigned width, Window& window)
+	: map_{height,width}, camera_{ 0, 0, window.getWidth() *3/4, window.getHeight() }, quit_{ false }, gameOver_{false}, window_{window}, intersectiftrue{false}
 {
 		map_.makeCameraController(10, 10);
 		map_.loadBackground("background_tho.jpg", window_.getRenderer());
 }
 
-bool MapEditGameState::menu()
+bool Edit::menu()
 {
 	if( mouseposX >= window_.getWidth()-window_.getWidth()*1/4 ) 
 		return true;
@@ -18,7 +18,7 @@ bool MapEditGameState::menu()
 		return false;
 }
 
-bool MapEditGameState::outofbounds()
+bool Edit::outofbounds()
 {
 	if(mouseposX + camera_.x + square.w/2 > map_.getWidth() || mouseposX + camera_.x - square.w/2 < 0 || mouseposY + camera_.y + square.h/2 > map_.getHeight() || mouseposY + camera_.y - square.h/2 < 0)
 	{
@@ -28,7 +28,7 @@ bool MapEditGameState::outofbounds()
 		return false;
 }
 
-void MapEditGameState::run(SDL_Event& e)
+void Edit::run(SDL_Event& e)
 {
 	while(!quit_ && !gameOver_)
 	{
@@ -47,7 +47,7 @@ void MapEditGameState::run(SDL_Event& e)
 }
 	
 	
-void MapEditGameState::readInput(SDL_Event& e)
+void Edit::readInput(SDL_Event& e)
 {
 	auto MapEditCameraController = map_.getCameraController();
 	
@@ -91,7 +91,7 @@ void MapEditGameState::readInput(SDL_Event& e)
 }
 
 
-void MapEditGameState::update()
+void Edit::update()
 {
 	map_.getCameraController()->update(map_);
 	
@@ -121,7 +121,7 @@ void MapEditGameState::update()
 	intersectiftrue = collision();
 }
 
-void MapEditGameState::render()
+void Edit::render()
 {
 	SDL_SetRenderDrawColor( window_.getRenderer(), 0xFF, 0xFF, 0xFF, 0xFF );
 	SDL_RenderClear( window_.getRenderer() );
@@ -166,7 +166,7 @@ void MapEditGameState::render()
 }
 
 
-bool MapEditGameState::collision()
+bool Edit::collision()
 {
 	SDL_Rect tmp2;
 	SDL_Rect tmp3 = {square.x + square.w/2, square.y + square.h/2, square.w, square.h};

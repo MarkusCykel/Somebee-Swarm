@@ -4,10 +4,13 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <SDL_ttf.h>
-#include <stdio.h>
 #include <string>
 #include <cmath>
 #include "MapEditclasses.h"
+#include "classes.h"
+#include "Texture.h"
+#define BUTTON_WIDTH 200
+#define BUTTON_HEIGHT 50
 
 
 class MapEditButton
@@ -32,6 +35,7 @@ class MapEditButton
 	private:
 		bool buttonpressed_; // If button is pressed
 		std::string name;
+		Texture text_;
 		SDL_Rect button_;
 		Uint8 R_,G_,B_,A_; // Color and alpha
 };

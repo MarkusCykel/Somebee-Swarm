@@ -2,7 +2,7 @@
 #include "SDL.h"
 #include <iostream>
 
-Game::Game(Window& window) : window_{window}, play_{nullptr}, menu_{nullptr} {}
+Game::Game(Window& window) : window_{window}, play_{nullptr}, menu_{nullptr}, edit_{nullptr} {}
 
 bool Game::run()
 {
@@ -42,6 +42,15 @@ bool Game::run()
 				break;
 				
 			case BUTTON_MAP_EDITOR:
+				if( edit_ != nullptr)
+				{
+					delete edit_;
+					edit_ = nullptr;
+				}
+				
+				edit_ = new Edit{ 3000, 3000, window_ };
+				
+				edit_->run(e);
 				break;
 				
 			case BUTTON_SCORE:

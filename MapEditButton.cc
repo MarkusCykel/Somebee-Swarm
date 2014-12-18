@@ -11,15 +11,31 @@ R_{R},G_{G},B_{B},A_{A},buttonpressed_{press},name{str}
 };
 
 MapEditButton::MapEditButton(const int & x, const int & y, const int & w, const int & h, const Uint8 & R, const Uint8 & G , const Uint8 & B , const Uint8 & A , const bool & press,const std::string& str):
-button_{x,y,w,h}, R_{R},G_{G},B_{B},A_{A},buttonpressed_{press},name{str}{};
+button_{x,y,w,h}, R_{R},G_{G},B_{B},A_{A},buttonpressed_{press},name{str}
+{};
 
 MapEditButton::MapEditButton(): button_{50,50,50,30}, R_{0xFF},G_{0x00},B_{0x00},A_{0xFF},buttonpressed_{false},name{"Wall"}{};
 
 
 void MapEditButton::render(SDL_Renderer* renderer)
 {
+	TTF_Font* font;
+	font = TTF_OpenFont("CoolFont.ttf", 18);
+	SDL_Color textColor = { 0xFF, 0xFF, 0xFF};
+	text_.loadFromRenderedText( name, textColor, font, renderer);
+	TTF_CloseFont(font);
+	
+	SDL_Rect renderTarget = { button_.x, button_.y, button_.w, button_.h };
 	SDL_SetRenderDrawColor( renderer, R_, G_, B_, A_ );
-	SDL_RenderFillRect( renderer, &button_ );
+	SDL_RenderFillRect( renderer, &renderTarget );
+	SDL_Rect text = { 0, 0, text_.getWidth(), text_.getHeight()};
+	
+	renderTarget.x += renderTarget.w/2 - text.w/2;
+	renderTarget.y += renderTarget.h/2 - text.h/2;
+	renderTarget.w = text.w;
+	renderTarget.h = text.h;
+	
+	text_.render(renderer, &text, &renderTarget);
 }
 
 void MapEditButton::setcolor(const Uint8 & R, const Uint8 & G, const Uint8 & B, const Uint8 & A )

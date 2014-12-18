@@ -1,3 +1,4 @@
+
 #include "Submit.h"
 
 Submit::Submit(Window& window) : window_{window}
@@ -83,7 +84,6 @@ bool Submit::readInput(SDL_Event& e)
 				switch ( i->handleEvent(e) )
 				{
 					case BUTTON_SUBMIT:
-						submitScore();
 						return true;
 						
 					case BUTTON_CANCEL:

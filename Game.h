@@ -8,6 +8,7 @@
 #include "Menu.h"
 #include "Play.h"
 #include "Submit.h"
+#include "Edit.h"
 
 #define WINDOW_HEIGHT 1600
 #define WINDOW_WIDTH 900
@@ -21,9 +22,10 @@ public:
 	bool run();
 	
 private:
-	Play* play_;
 	Menu* menu_;
+	Edit* edit_;
 	Submit* submit_;
+	Play* play_;
 	
 	SDL_Event e;
 	Window window_;

@@ -1,20 +1,20 @@
-#ifndef MAPEDITGAMESTATE_H
-#define MAPEDITGAMESTATE_H
+#ifndef EDIT_H
+#define EDIT_H
 
 #include <SDL.h>
 
 #include "MapEditclasses.h"
-#include "MapEditWindow.h"
+#include "Window.h"
 #include "MapEditMap.h"
 #include "MapEditTimer.h"
 #include "MapEditEntity.h"
 #include "MapEditCameraController.h"
 #include "MapEditMenu.h"
 
-class MapEditGameState
+class Edit
 {
 	public:
-		MapEditGameState(unsigned height, unsigned width, MapEditWindow& window);
+		Edit(unsigned height, unsigned width, Window& window);
 		void run(SDL_Event&);
 	private:
 		void pause() = delete;
@@ -27,7 +27,7 @@ class MapEditGameState
 		
 		MapEditMap map_;
 		SDL_Rect camera_;
-		MapEditWindow window_;
+		Window window_;
 		SDL_Rect mapViewport{0, 0, window_.getWidth() * 3/4, window_.getHeight()};
 		SDL_Rect menuViewport{window_.getWidth()-window_.getWidth()*1/4, 0, window_.getWidth() * 1/4, window_.getHeight()};
 		int mouseposX;

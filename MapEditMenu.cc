@@ -2,12 +2,25 @@
 
 MapEditMenu::MapEditMenu()
 {
-	MapEditButton Savebutton{75,260,70,30,0xFF,0x00,0x00,0xFF,false,"Save"};
-	MapEditButton Loadbutton{195,260,70,30,0xFF,0x00,0x00,0xFF,false,"Load"};
-	MapEditButton Wallbutton{85,310,50,30,0xFF,0x00,0x00,0xFF,false,"Wall"};
-	MapEditButton Spawnerbutton{205,310,50,30,0xFF,0x00,0x00,0xFF,false,"Spawner"};
-	MapEditButton PlayerSpawnerbutton{160,350,20,10,0xFF,0x00,0x00,0xFF,false,"PlayerSpawner"};
-	MapEditButton Quitbutton{85,400,170,30,0xFF,0x00,0x00,0xFF,false,"Quit"};
+	int x, y, w, h;
+	
+	x = 85;
+	y = 100;
+	w = 170;
+	h = 30;
+	
+	MapEditButton Wallbutton{x,y,w,h,0xFF,0x00,0x00,0xFF,false,"Wall"};
+	y += 40;
+	MapEditButton Spawnerbutton{x,y,w,h,0xFF,0x00,0x00,0xFF,false,"Spawner"};
+	y += 40;
+	MapEditButton PlayerSpawnerbutton{x,y,w,h,0xFF,0x00,0x00,0xFF,false,"PlayerSpawner"};
+	y += 40;
+	MapEditButton Loadbutton{x,y,w,h,0xFF,0x00,0x00,0xFF,false,"Load"};
+	y += 40;
+	MapEditButton Savebutton{x,y,w,h,0xFF,0x00,0x00,0xFF,false,"Save"};
+	y += 40;
+	MapEditButton Quitbutton{x,y,w,h,0xFF,0x00,0x00,0xFF,false,"Quit"};
+	
 	buttons_.push_back(Wallbutton);
 	buttons_.push_back(Spawnerbutton);
 	buttons_.push_back(PlayerSpawnerbutton);
