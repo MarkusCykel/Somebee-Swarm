@@ -1,4 +1,5 @@
 #include <SDL.h>
+#include <SDL_image.h>
 #include <iostream>
 
 #include "MapEditWindow.h"
@@ -17,7 +18,7 @@ MapEditWindow::MapEditWindow(char* window_title, const unsigned & window_width, 
 	}
 	else
 	{
-		renderer_ = SDL_CreateRenderer( window_, -1, SDL_RENDERER_ACCELERATED);
+		renderer_ = SDL_CreateRenderer( window_, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
 		
 		if( renderer_ == NULL)
 		{
@@ -26,7 +27,22 @@ MapEditWindow::MapEditWindow(char* window_title, const unsigned & window_width, 
 	}
 }
 
+<<<<<<< HEAD:MapEditWindow.cc
 int MapEditWindow::getWidth()
+=======
+void Window::free()
+{
+	//Destroy window	
+	SDL_DestroyRenderer( renderer_ );
+	SDL_DestroyWindow( window_ );
+	
+	//Quit SDL subsystems
+	IMG_Quit();
+	SDL_Quit();
+}
+
+int Window::getWidth()
+>>>>>>> origin/Menu:Window.cc
 {
 	return SDL_GetWindowSurface(window_)->w;
 }
