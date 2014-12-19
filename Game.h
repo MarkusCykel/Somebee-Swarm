@@ -41,7 +41,7 @@ private:
 	SDL_Event e;
 	Window window_;
 
-	bool quit_ {false};
+	bool exitGame_ {false};
 };
 
 #endif

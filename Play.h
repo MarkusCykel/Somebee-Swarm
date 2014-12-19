@@ -10,12 +10,20 @@
 #include "Timer.h"
 #include "Entity.h"
 
+enum ACTION
+{
+	QUIT_GAME,
+	GAME_OVER,
+	EXIT_GAME,
+	NONE
+};
+
 class Play
 {
 	public:
 		Play(unsigned height, unsigned width, Window& window);
 		
-		bool run(SDL_Event&);
+		ACTION run(SDL_Event&);
 		unsigned getScore() { return score_; }
 	private:
 		void pause() = delete;
@@ -33,8 +41,9 @@ class Play
 		Texture text_;
 		
 		unsigned score_;
+		ACTION action_;
 		bool gameOver_;
-		bool quit_;
+		bool exitGame_;
 };
 
 

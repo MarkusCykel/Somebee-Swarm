@@ -10,7 +10,7 @@ Game::Game(Window& window) : window_{window}, play_{nullptr}, menu_{nullptr}, su
 
 bool Game::run()
 {
-	while( !quit_ )
+	while( !exitGame_ )
 	{
 		menu();
 	}
@@ -45,7 +45,7 @@ void Game::menu()
 			break;
 			
 		case BUTTON_QUIT:
-			quit_ = true;
+			exitGame_ = true;
 			break;
 			
 		default:
@@ -62,11 +62,19 @@ void Game::play()
 	}
 
 	play_ = new Play{3000,3000,window_};
-	quit_ = play_->run(e);
 	
-	if( !quit_ )
+	switch ( play_->run(e) )
 	{
-		submit();
+		case GAME_OVER:
+			submit();
+			break;
+			
+		case EXIT_GAME:
+			exitGame_ = true;
+			break;
+			
+		default:
+			break;
 	}
 }
 
@@ -101,7 +109,7 @@ void Game::submit()
 			break;
 		
 		case BUTTON_QUIT:
-			quit_ = true;
+			exitGame_ = true;
 			break;
 	}
 }

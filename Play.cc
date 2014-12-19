@@ -8,7 +8,7 @@
 
 
 Play::Play(unsigned height, unsigned width, Window& window)
-	: map_{height,width}, camera_{ 0, 0, window.getWidth(), window.getHeight() }, quit_{ false }, gameOver_{false}, window_{window}, score_{0}
+	: map_{height,width}, camera_{ 0, 0, window.getWidth(), window.getHeight() }, exitGame_{ false }, gameOver_{false}, window_{window}, score_{0}, action_{NONE}
 {
 	std::string filename{"savedmap.txt"};
 	std::string str;
@@ -54,9 +54,9 @@ Play::Play(unsigned height, unsigned width, Window& window)
 }
 
 
-bool Play::run(SDL_Event& e)
+ACTION Play::run(SDL_Event& e)
 {
-	while((!quit_) && (!gameOver_))
+	while(action_ == NONE)
 	{
 		capTimer_.start();
 		
@@ -70,7 +70,7 @@ bool Play::run(SDL_Event& e)
 		}
 	}
 	
-	return quit_;
+	return action_;
 }
 	
 	
@@ -84,13 +84,13 @@ void Play::readInput(SDL_Event& e)
 	{
 		if(e.type == SDL_QUIT)
 		{
-			quit_ = true;
+			action_ = EXIT_GAME;
 		}
 		else if ( e.type == SDL_KEYDOWN )
 		{
 			if( e.key.keysym.sym == SDLK_ESCAPE )
 			{
-				gameOver_ = true;
+				action_ = QUIT_GAME;
 			}
 		}
 		else if( e.type == SDL_MOUSEBUTTONDOWN  && e.button.button == SDL_BUTTON_LEFT )
@@ -163,7 +163,7 @@ void Play::update()
 	
 	if(map_.cleanUp(score_))
 	{
-		gameOver_ = true;
+		action_ = GAME_OVER;
 	}
 }
 
