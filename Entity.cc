@@ -388,8 +388,10 @@ void NPC::readInput()
 	auto targetY = player->getY();
 	auto targetX = player->getX();
 	
+	//vector that will be used to determine how the npc will move
 	std::pair<double,double> move_vector{ std::make_pair(targetX - getX(), targetY - getY()) };
 	
+	//calculate vector length
 	double vector_length = sqrt(pow(move_vector.first,2) + pow(move_vector.second, 2));
 	
 	if(vector_length != 0)

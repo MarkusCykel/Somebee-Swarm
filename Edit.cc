@@ -65,11 +65,20 @@ void Edit::readInput(SDL_Event& e)
 			if(!menu()&& menu_.get_button().buttonpressed()&& !intersectiftrue)
 			{
 				if(menu_.get_button().getname()== "Wall")
-					map_.makeWall((square.x + square.w/2 ), (square.y + square.h/2), square.w, square.h);
+				{
+					map_.makeWall(square.x, square.y, square.w, square.h);
+					std::cout<<"Making Wall: "<< square.x <<" "<< square.y << std::endl;
+				}
 				else if(menu_.get_button().getname()== "Spawner")
-					map_.makeSpawner((square.x + square.w/2 ), (square.y + square.h/2), square.w, square.h);
+				{
+					map_.makeSpawner(square.x, square.y, square.w, square.h);
+					std::cout<<"Making Spawner: "<< square.x <<" "<< square.y  << std::endl;
+				}
 				else if(menu_.get_button().getname()== "PlayerSpawner")
-					map_.makePlayerSpawner((square.x + square.w/2 ), (square.y + square.h/2), square.w, square.h);
+				{
+					map_.makePlayerSpawner(square.x, square.y, square.w, square.h);
+					std::cout<<"Making PlayerSpawner: "<< square.x <<" "<< square.y << std::endl;
+				}
 			}
 			if(menu())
 				menu_.check_input(mouseposX, mouseposY, menuViewport);
@@ -170,7 +179,7 @@ void Edit::render()
 bool Edit::collision()
 {
 	SDL_Rect tmp2;
-	SDL_Rect tmp3 = {square.x + square.w/2, square.y + square.h/2, square.w, square.h};
+	SDL_Rect tmp3 = {square.x, square.y, square.w, square.h};
 
 	auto walls = map_.getWalls();
 	auto spawners = map_.getSpawners();
