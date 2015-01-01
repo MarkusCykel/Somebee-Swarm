@@ -26,7 +26,7 @@ void MapEditMap::loadBackground(const std::string& path, SDL_Renderer* renderer)
     }
 }
 
-/*MapEditMap::~MapEditMap()
+MapEditMap::~MapEditMap()
 {
 	delete CameraController_;
 	delete playerspawner_;
@@ -41,7 +41,7 @@ void MapEditMap::loadBackground(const std::string& path, SDL_Renderer* renderer)
 		delete i;
 	}
 	SDL_DestroyTexture( background_ );
-}*/
+}
 
 double MapEditMap::getWidth()
 {

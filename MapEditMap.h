@@ -17,23 +17,7 @@ class MapEditMap
 		MapEditMap(unsigned width, unsigned height) 
 			: width_{width}, height_{height}, playerspawner_{NULL},CameraController_{NULL} {}
 		
-		~MapEditMap()
-		{
-			std::cout<<"HEy"<<std::endl;
-			delete CameraController_;
-			delete playerspawner_;
-	
-			for(auto& i : walls_)
-			{
-				delete i;
-			}
-			
-			for(auto& i : spawners_)
-			{
-				delete i;
-			}
-			SDL_DestroyTexture( background_ );
-		}
+		~MapEditMap();
 		
 		double getWidth();
 		double getHeight();
