@@ -17,5 +17,6 @@ class Character;
 class NPC;
 class Player;
 class Projectile;
+class Edit;
 
 #endif

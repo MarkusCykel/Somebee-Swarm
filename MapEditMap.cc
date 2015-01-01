@@ -26,6 +26,23 @@ void MapEditMap::loadBackground(const std::string& path, SDL_Renderer* renderer)
     }
 }
 
+/*MapEditMap::~MapEditMap()
+{
+	delete CameraController_;
+	delete playerspawner_;
+	
+	for(auto& i : walls_)
+	{
+		delete i;
+	}
+	
+	for(auto& i : spawners_)
+	{
+		delete i;
+	}
+	SDL_DestroyTexture( background_ );
+}*/
+
 double MapEditMap::getWidth()
 {
 	return width_;

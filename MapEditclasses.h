@@ -4,7 +4,6 @@
 class MapEditEntity;
 class MapEditWall;
 class MapEditSpawner;
-class MapEditProjectile;
 class MapEditMap;
 class Window;
 class MapEditTimer;

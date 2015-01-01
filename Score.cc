@@ -81,6 +81,8 @@ void Score::render()
 	}
 	
 	SDL_RenderPresent( window_.getRenderer() );
+	
+	TTF_CloseFont( font );
 }
 
 bool Score::readInput(SDL_Event& e)
