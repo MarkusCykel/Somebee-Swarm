@@ -9,6 +9,7 @@
 #include "Play.h"
 #include "Submit.h"
 #include "Edit.h"
+#include "Score.h"
 #include <fstream>
 #include <map>
 
@@ -26,14 +27,15 @@ public:
 	void play();
 	void editor();
 	void submit();
-	void saveScore(const unsigned & score, const std::string & nick );
+	void score();
+	void saveScore(const unsigned & scores, const std::string & nick );
 	
 private:
 	Menu* menu_;
 	Edit* edit_;
 	Submit* submit_;
 	Play* play_;
-
+	Score* score_;
 	
 	std::string scoreFile_;
 	std::string mapFile_;

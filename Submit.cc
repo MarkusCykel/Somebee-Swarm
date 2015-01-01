@@ -4,10 +4,10 @@ Submit::Submit(Window& window) : window_{window}
 {
 	SDL_Point button = {window_.getWidth()/2 - BUTTON_WIDTH - 5, window_.getHeight()/2 + 50 };
 
-	buttons_.push_back(new Button{ window.getRenderer(), "SUBMIT", button, BUTTON_SUBMIT });
+	buttons_.push_back(new Button{ window_.getRenderer(), "SUBMIT", button, BUTTON_SUBMIT });
 	button.x += BUTTON_WIDTH + 10;
 	
-	buttons_.push_back(new Button{ window.getRenderer(), "CANCEL", button, BUTTON_CANCEL });
+	buttons_.push_back(new Button{ window_.getRenderer(), "CANCEL", button, BUTTON_CANCEL });
 	
 	
 	std::string text = "<input nickname>";

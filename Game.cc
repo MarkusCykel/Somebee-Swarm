@@ -2,7 +2,7 @@
 #include "SDL.h"
 #include <iostream>
 
-Game::Game(Window& window) : window_{window}, play_{nullptr}, menu_{nullptr}, submit_{nullptr}, edit_{nullptr}
+Game::Game(Window& window) : window_{window}, play_{nullptr}, menu_{nullptr}, submit_{nullptr}, edit_{nullptr}, score_{nullptr}
 {
 	scoreFile_ = "score.txt";
 	mapFile_ = "map.txt";
@@ -39,6 +39,7 @@ void Game::menu()
 			break;
 			
 		case BUTTON_SCORE:
+			score();
 			break;
 			
 		case BUTTON_CREDITS:
@@ -91,6 +92,21 @@ void Game::editor()
 	edit_->run(e);
 }
 
+void Game::score()
+{
+	if( score_ != nullptr )
+	{
+		delete score_;
+		score_ = nullptr;
+	}
+	score_= new Score{ window_ };
+	
+	switch( score_->run(e) )
+	{
+		case BUTTON_BACK:
+			break;
+	}
+}
 
 void Game::submit()
 {
@@ -114,7 +130,7 @@ void Game::submit()
 	}
 }
 
-void Game::saveScore(const unsigned & score, const std::string & nick)
+void Game::saveScore(const unsigned & scores, const std::string & nick)
 {
 	std::ifstream ifs(scoreFile_);
 	std::string str;
@@ -132,7 +148,7 @@ void Game::saveScore(const unsigned & score, const std::string & nick)
 	else 
 		str=nick;
 	
-	themap.insert(std::pair<unsigned, std::string>(score,str));
+	themap.insert(std::pair<unsigned, std::string>(scores,str));
 	if(themap.size()>10)
 	{
 		themap.erase(themap.begin());
