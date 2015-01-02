@@ -61,7 +61,15 @@ void Score::render()
     TTF_Font* font;
 	font = TTF_OpenFont("CoolFont.ttf", 30);
 	SDL_Color textColor = { 0x00, 0x00, 0x00};
+
+	int scoreboardstart = text_.getHeight()*2;
 	
+	std::string header{"Position Name Score"};
+	text_.loadFromRenderedText( header, textColor, font, window_.getRenderer());
+	SDL_Rect renderTarget = { window_.getWidth()/2 - text_.getWidth()/2, scoreboardstart, text_.getWidth(), text_.getHeight()};
+	text_.render( window_.getRenderer(), NULL, &renderTarget );
+	
+	scoreboardstart += text_.getHeight();
 	
 	unsigned a{1};
 
@@ -71,10 +79,9 @@ void Score::render()
 		std::string tmp {(*it).second};
 		tmp.resize(10,' ');
 		ss << std::setw(2) << a <<". " << std::left << tmp << " " << (*it).first;
-		std::string str;
-		std::getline (ss,str);
+		std::string str = ss.str();
 		text_.loadFromRenderedText( str, textColor, font, window_.getRenderer());
-		SDL_Rect renderTarget = { window_.getWidth()/2, text_.getHeight()* a, text_.getWidth(), text_.getHeight()};
+		SDL_Rect renderTarget = { window_.getWidth()/2 - text_.getWidth()/2, scoreboardstart + text_.getHeight()* a, text_.getWidth(), text_.getHeight()};
 		text_.render( window_.getRenderer(), NULL, &renderTarget );
 		
 		++a;
