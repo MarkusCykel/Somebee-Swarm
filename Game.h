@@ -10,6 +10,7 @@
 #include "Submit.h"
 #include "Edit.h"
 #include "Score.h"
+#include "Credit.h"
 #include <fstream>
 #include <map>
 
@@ -26,6 +27,7 @@ public:
 	void menu();
 	void play();
 	void editor();
+	void creditor();//:DDDD
 	void submit();
 	void score();
 	void saveScore(const unsigned & scores, const std::string & nick );
@@ -36,7 +38,7 @@ private:
 	Submit* submit_;
 	Play* play_;
 	Score* score_;
-	
+	Credit* credit_;
 	std::string scoreFile_;
 	std::string mapFile_;
 	

@@ -2,7 +2,7 @@
 #include "SDL.h"
 #include <iostream>
 
-Game::Game(Window& window) : window_{window}, play_{nullptr}, menu_{nullptr}, submit_{nullptr}, edit_{nullptr}, score_{nullptr}
+Game::Game(Window& window) : window_{window}, play_{nullptr}, menu_{nullptr}, submit_{nullptr}, edit_{nullptr}, score_{nullptr}, credit_{nullptr}
 {
 	scoreFile_ = "score.txt";
 	mapFile_ = "map.txt";
@@ -43,6 +43,7 @@ void Game::menu()
 			break;
 			
 		case BUTTON_CREDITS:
+			creditor();
 			break;
 			
 		case BUTTON_QUIT:
@@ -102,6 +103,22 @@ void Game::score()
 	score_= new Score{ window_ };
 	
 	switch( score_->run(e) )
+	{
+		case BUTTON_BACK:
+			break;
+	}
+}
+
+void Game::creditor()
+{
+	if( credit_ != nullptr )
+	{
+		delete credit_;
+		credit_ = nullptr;
+	}
+	credit_= new Credit{ window_ };
+	
+	switch( credit_->run(e) )
 	{
 		case BUTTON_BACK:
 			break;

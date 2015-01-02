@@ -1,6 +1,6 @@
 #OBJS specifies which files to compile as part of the project 
 
-OBJS = Play.o Menu.o Window.o Entity.o Map.o Timer.o Texture.o Button.o Game.o Submit.o Score.o
+OBJS = Play.o Menu.o Window.o Entity.o Map.o Timer.o Texture.o Button.o Game.o Submit.o Score.o Credit.o
 OBJS-ME = MapEditEntity.o MapEditMap.o MapEditTimer.o Edit.o MapEditCameraController.o MapEditMenu.o MapEditButton.o
 
 # Kompilator (gcc) och diagnostikfilter (gccfilter)
@@ -91,3 +91,6 @@ MapEditButton.o: MapEditButton.h MapEditButton.cc
 	
 Score.o: Score.h Score.cc
 	$(CCC) Score.cc $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) -c
+	
+Credit.o: Credit.h Credit.cc
+	$(CCC) Credit.cc $(INCLUDE_PATHS) $(LIBRARY_PATHS) $(CCFLAGS) $(LINKER_FLAGS) -c
