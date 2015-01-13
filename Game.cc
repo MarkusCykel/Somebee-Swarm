@@ -57,12 +57,6 @@ void Game::menu()
 
 void Game::play()
 {
-	if( play_ != nullptr )
-	{
-		delete play_;
-		play_ = nullptr;
-	}
-
 	play_ = new Play{3000,3000,window_};
 	
 	switch ( play_->run(e) )
@@ -78,28 +72,31 @@ void Game::play()
 		default:
 			break;
 	}
+	
+	if( play_ != nullptr )
+	{
+		delete play_;
+		play_ = nullptr;
+	}
+	
 }
 
 void Game::editor()
 {
+	edit_ = new Edit{ 3000, 3000, window_ };
+	
+	edit_->run(e);
+	
 	if( edit_ != nullptr )
 	{
 		delete edit_;
 		edit_ = nullptr;
 	}
 	
-	edit_ = new Edit{ 3000, 3000, window_ };
-	
-	edit_->run(e);
 }
 
 void Game::score()
 {
-	if( score_ != nullptr )
-	{
-		delete score_;
-		score_ = nullptr;
-	}
 	score_= new Score{ window_ };
 	
 	switch( score_->run(e) )
@@ -107,15 +104,16 @@ void Game::score()
 		case BUTTON_BACK:
 			break;
 	}
+	
+	if( score_ != nullptr )
+	{
+		delete score_;
+		score_ = nullptr;
+	}
 }
 
 void Game::creditor()
 {
-	if( credit_ != nullptr )
-	{
-		delete credit_;
-		credit_ = nullptr;
-	}
 	credit_= new Credit{ window_ };
 	
 	switch( credit_->run(e) )
@@ -123,16 +121,16 @@ void Game::creditor()
 		case BUTTON_BACK:
 			break;
 	}
+	
+	if( credit_ != nullptr )
+	{
+		delete credit_;
+		credit_ = nullptr;
+	}
 }
 
 void Game::submit()
 {
-	if( submit_ != nullptr )
-	{
-		delete submit_;
-		submit_ = nullptr;
-	}
-
 	submit_= new Submit{ window_ };
 
 	switch( submit_->run(e) )
@@ -144,6 +142,12 @@ void Game::submit()
 		case BUTTON_QUIT:
 			exitGame_ = true;
 			break;
+	}
+	
+	if( submit_ != nullptr )
+	{
+		delete submit_;
+		submit_ = nullptr;
 	}
 }
 

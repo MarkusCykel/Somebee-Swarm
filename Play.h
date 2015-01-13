@@ -22,7 +22,7 @@ class Play
 {
 	public:
 		Play(unsigned height, unsigned width, Window& window);
-		
+		~Play();
 		ACTION run(SDL_Event&);
 		unsigned getScore() { return score_; }
 	private:

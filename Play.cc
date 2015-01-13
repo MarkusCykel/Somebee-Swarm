@@ -53,6 +53,11 @@ Play::Play(unsigned height, unsigned width, Window& window)
 	Spawner::loadTexture( window_.getRenderer(), "OhBeeHive.png" );
 }
 
+Play::~Play()
+{
+	TTF_CloseFont( font_ );
+}
+
 
 ACTION Play::run(SDL_Event& e)
 {

@@ -55,7 +55,7 @@ void Credit::render()
 	text_.loadFromRenderedText( header, textColor, font, window_.getRenderer());
 	SDL_Rect renderTarget = { window_.getWidth()/2 - text_.getWidth()/2, text_.getHeight(), text_.getWidth(), text_.getHeight()};
 	text_.render( window_.getRenderer(), NULL, &renderTarget );
-	
+	TTF_CloseFont( font );
 	int headerheight{text_.getHeight()};
 	
 	font = TTF_OpenFont("CoolFont.ttf", 30);
